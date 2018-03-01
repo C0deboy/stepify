@@ -1,0 +1,24 @@
+
+  <div class="card-header" routerLink="goal/{{ goal.id }}">
+    {{ goal.name }}
+  </div>
+  <div class="card-body">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="material-icons">🚀</i></span>
+      </div>
+      <input type="text" class="form-control" value="{{ goal.levels[0].name }}" readonly>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">🔥</span>
+      </div>
+      <input type="text" class="form-control" value="{{ goal.levels[1].name }}" readonly>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="material-icons">💎</i></span>
+      </div>
+      <input type="text" class="form-control" value="{{ goal.levels[2].name }}"  readonly>
+    </div>
+  </div>

@@ -1,0 +1,42 @@
+<div class="container">
+
+  <div class="row d-flex justify-content-center">
+
+    <h1 class="text-center col-md-8 col-sm-10">Log in.</h1>
+
+    <div class="mainbox col-md-6 col-sm-8  ">
+      <div class="panel panel-info" >
+        <div style="padding-top:30px" class="panel-body" >
+
+          <form ngForm="loginForm">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="material-icons">perm_identity</i></span>
+              </div>
+              <input type="text" class="form-control" placeholder="Username" aria-label="Username">
+            </div>
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="material-icons">vpn_key</i></span>
+              </div>
+              <input type="text" class="form-control" placeholder="Password" aria-label="Password">
+            </div>
+
+            <div class="form-check">
+                <label>
+                  <input type="checkbox" class="form-check-input" name="rememberMe"> Remember me
+                </label>
+            </div>
+
+            <div style="margin-top:10px" class="form-group float-right">
+              <div class="col-sm-12 controls">
+                <button id="btn-login" class="btn btn-success">Login</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
