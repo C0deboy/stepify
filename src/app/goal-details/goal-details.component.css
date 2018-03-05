@@ -1,0 +1,33 @@
+/*input[type=checkbox] { display:none; } !* to hide the checkbox itself *!*/
+/*input[type=checkbox] + label:before {*/
+  /*font-family: FontAwesome, sans-serif;*/
+  /*display: inline-block;*/
+/*}*/
+
+/*input[type=checkbox] + label:before { content: "\f096"; } !* unchecked icon *!*/
+/*input[type=checkbox] + label:before { letter-spacing: 13.5px; } !* space between checkbox and label *!*/
+
+/*input[type=checkbox]:checked + label:before { content: "\f00c"; } !* checked icon *!*/
+/*input[type=checkbox]:checked + label:before { letter-spacing: 10px; }*/
+
+.form-group input[type="checkbox"] {
+  display: none;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span {
+  width: 20px;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span:first-child {
+  display: none;
+}
+.form-group input[type="checkbox"] + .btn-group > label span:last-child {
+  display: inline-block;
+}
+
+.form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+  display: inline-block;
+}
+.form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+  display: none;
+}

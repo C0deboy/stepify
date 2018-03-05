@@ -1,24 +1,66 @@
+<div class="modal fade" id="goal-{{goalId}}" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ goal.name }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
 
-  <div class="card-header" routerLink="goal/{{ goal.id }}">
-    {{ goal.name }}
+        <div class="d-flex flex-wrap">
+
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+
+              <div class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
+                <input type="checkbox" id="item-{{i}}" [checked]="item.checked"/>
+                <div class="btn-group">
+                  <label [for]="'item-'+i" [ngClass]="(item.checked)?'btn btn-success':'btn btn-light'">
+                    <span class="fa fa-check"></span>
+                    <span class="fa fa-square-o"></span>
+                  </label>
+                  <input type="text" class="btn btn-light active" value="{{ item.value }}" disabled/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="card d-block col-12 p-0">
+        <div class="card-header">
+          Level progress
+        </div>
+
+        <div class="card-body">
+
+          <div class="input-group mb-3" *ngFor="let level of goal.levels">
+            <div class="input-group-prepend">
+              <span class="input-group-text">{{ level.icon }}</span>
+            </div>
+            <input type="text" class="form-control" value="{{ level.name }}" disabled>
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="material-icons">🏆</i></span>
+            </div>
+            <input type="text" class="form-control" value="{{ level.reward }}" readonly>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
-  <div class="card-body">
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text"><i class="material-icons">🚀</i></span>
-      </div>
-      <input type="text" class="form-control" value="{{ goal.levels[0].name }}" readonly>
-    </div>
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text">🔥</span>
-      </div>
-      <input type="text" class="form-control" value="{{ goal.levels[1].name }}" readonly>
-    </div>
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text"><i class="material-icons">💎</i></span>
-      </div>
-      <input type="text" class="form-control" value="{{ goal.levels[2].name }}"  readonly>
-    </div>
-  </div>
+</div>
+

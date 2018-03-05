@@ -1,27 +1,15 @@
 <div class="d-flex flex-wrap">
-
-  <div class="card m-3" *ngFor="let goal of goals">
-    <div class="card-header" routerLink="/goal/{{ goal.id }}">
+  <div class="goal card m-3" *ngFor="let goal of goals">
+    <div class="card-header" data-toggle="modal" [attr.data-target]="'#goal-' + goal.id">
       {{ goal.name }}
     </div>
+    <app-goal-details [goalId]="goal.id"></app-goal-details>
     <div class="card-body">
-      <div class="input-group mb-3">
+      <div class="input-group mb-3" *ngFor="let level of goal.levels">
         <div class="input-group-prepend">
-          <span class="input-group-text"><i class="material-icons">🚀</i></span>
+          <span class="input-group-text">{{ level.icon }}</span>
         </div>
-        <input type="text" class="form-control" value="{{ goal.levels[0].name }}" readonly>
-      </div>
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">🔥</span>
-        </div>
-        <input type="text" class="form-control" value="{{ goal.levels[1].name }}" readonly>
-      </div>
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text"><i class="material-icons">💎</i></span>
-        </div>
-        <input type="text" class="form-control" value="{{ goal.levels[2].name }}"  readonly>
+        <input type="text" class="form-control" value="{{ level.name }}" readonly>
       </div>
     </div>
   </div>

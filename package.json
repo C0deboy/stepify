@@ -48,5 +48,16 @@
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
     "typescript": "~2.5.3"
-  }
+  },
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.2.",
+  "main": "karma.conf.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/C0deboy/three-levels.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/C0deboy/three-levels/issues"
+  },
+  "homepage": "https://github.com/C0deboy/three-levels#readme"
 }

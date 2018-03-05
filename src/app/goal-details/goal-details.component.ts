@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {GoalsService} from '../goals/goals.service';
 import {Goal} from '../goals/Goal';
@@ -10,6 +10,8 @@ import {Location} from '@angular/common';
   styleUrls: ['./goal-details.component.css']
 })
 export class GoalDetailsComponent implements OnInit {
+  @Input()
+  public goalId: number;
   public goal: Goal;
 
   constructor(
@@ -19,17 +21,15 @@ export class GoalDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getHero();
+    this.getGoal();
   }
 
-  getHero(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.goalsService.getGoal(id)
+  getGoal(): void {
+    this.goalsService.getGoal(this.goalId)
       .subscribe(goal => this.goal = goal[0]);
   }
 
   goBack(): void {
     this.location.back();
   }
-
 }
