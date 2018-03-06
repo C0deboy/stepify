@@ -10,6 +10,11 @@ import { LoginComponent } from './login/login.component';
 import { GoalsComponent } from './goals/goals.component';
 import { GoalsService } from './goals/goals.service';
 import { GoalDetailsComponent } from './goal-details/goal-details.component';
+import {FormsModule} from '@angular/forms';
+import { ActivatableInputDirective } from './directives/activatable-input.directive';
+import { AutoHeightDirective } from './directives/auto-height.directive';
+import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -18,11 +23,19 @@ import { GoalDetailsComponent } from './goal-details/goal-details.component';
     HomeComponent,
     LoginComponent,
     GoalsComponent,
-    GoalDetailsComponent
+    GoalDetailsComponent,
+    ActivatableInputDirective,
+    AutoHeightDirective
   ],
   imports: [
+    MatInputModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatCheckboxModule,
   ],
   providers: [GoalsService],
   bootstrap: [AppComponent]

@@ -29,6 +29,13 @@ export class GoalDetailsComponent implements OnInit {
       .subscribe(goal => this.goal = goal[0]);
   }
 
+  updateGoal(goal) {
+    console.log(goal);
+    this.goalsService.updateGoal(goal).subscribe(
+      updatedGoal => this.goal = updatedGoal
+    );
+  }
+
   goBack(): void {
     this.location.back();
   }

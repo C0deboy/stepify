@@ -12,7 +12,19 @@ const mockLevels = [
   new Level('Third', 'Cheat day', '💎')
 ];
 
-const mockChecklist = new CheckList('Checklist', [
+const mockLevels2 = [
+  new Level('First level', 'Apple', '🚀'),
+  new Level('Second level', 'Car', '🔥'),
+  new Level('Third level', 'Plane', '💎')
+];
+
+const mockLevels3 = [
+  new Level('1', 'Bread', '🚀'),
+  new Level('2', 'Ham', '🔥'),
+  new Level('3', 'Pepsi', '💎')
+];
+
+const mockChecklist = new CheckList('Checklist', 'Description of checklist', [
     {value: 'item', checked: false},
     {value: 'item 2', checked: true},
     {value: 'item 3', checked: true},
@@ -21,12 +33,23 @@ const mockChecklist = new CheckList('Checklist', [
     {value: 'item 6', checked: false}
   ]);
 
+const mockChecklist2 = new CheckList('Checklist 2', 'Description of checklist 2', [
+  {value: 'item', checked: false},
+  {value: 'item 2', checked: true},
+  {value: 'item 3', checked: true},
+  {value: 'item 4', checked: false},
+]);
+
+const mockChecklist3 = new CheckList('Checklist 3', 'Description of checklist 3', [
+  {value: 'item', checked: false},
+  {value: 'item 2', checked: true},
+  {value: 'item 3', checked: true},
+]);
+
 export const GOALS: Goal[] = [
-  {id: 1, name: 'Mr. Nice', levels: mockLevels, checklist: mockChecklist},
-  {id: 2, name: 'Narco', levels: mockLevels, checklist: mockChecklist},
-  {id: 3, name: 'Bombasto', levels: mockLevels, checklist: mockChecklist},
-  {id: 4, name: 'Win', levels: mockLevels, checklist: mockChecklist},
-  {id: 5, name: 'Test', levels: mockLevels, checklist: mockChecklist},
+  {id: 1, name: 'Goal 1', levels: mockLevels, checklist: mockChecklist},
+  {id: 2, name: 'Goal 2', levels: mockLevels2, checklist: mockChecklist2},
+  {id: 3, name: 'Goal 3', levels: mockLevels3, checklist: mockChecklist3},
 ];
 
 @Injectable()
@@ -40,6 +63,10 @@ export class GoalsService {
   }
 
   getGoal(id: number) {
-    return of(GOALS.filter(g => g.id = id));
+    return of(GOALS.filter(g => g.id === id));
+  }
+
+  updateGoal(goal: Goal) {
+    return of(GOALS[goal.id] = goal);
   }
 }

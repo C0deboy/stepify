@@ -1,15 +1,15 @@
-/*input[type=checkbox] { display:none; } !* to hide the checkbox itself *!*/
-/*input[type=checkbox] + label:before {*/
-  /*font-family: FontAwesome, sans-serif;*/
-  /*display: inline-block;*/
-/*}*/
+.checklist textarea {
+  resize: none;
+  overflow-y: hidden;
+}
 
-/*input[type=checkbox] + label:before { content: "\f096"; } !* unchecked icon *!*/
-/*input[type=checkbox] + label:before { letter-spacing: 13.5px; } !* space between checkbox and label *!*/
+.checklist label {
+  margin: 0;
+}
 
-/*input[type=checkbox]:checked + label:before { content: "\f00c"; } !* checked icon *!*/
-/*input[type=checkbox]:checked + label:before { letter-spacing: 10px; }*/
-
+ul.form-group {
+  padding: 0;
+}
 .form-group input[type="checkbox"] {
   display: none;
 }
