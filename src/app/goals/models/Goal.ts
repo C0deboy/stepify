@@ -7,4 +7,9 @@ export class Goal {
   name: string;
   levels: Level[];
   checklist: CheckList;
+
+  constructor(name: string, levels: Level[]) {
+    this.name = name;
+    this.levels = levels;
+  }
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {GoalsService} from './goals.service';
-import {Goal} from './Goal';
+import {Goal} from './models/Goal';
+import {Level} from './models/Level';
 
 @Component({
   selector: 'app-goals',
@@ -9,6 +10,8 @@ import {Goal} from './Goal';
 })
 export class GoalsComponent implements OnInit {
   public goals: Goal[];
+  @Output()
+  showGoalDetailsEvent = new EventEmitter<Goal>();
 
   constructor(private goalsService: GoalsService) { }
 
@@ -24,4 +27,7 @@ export class GoalsComponent implements OnInit {
       );
   }
 
+  showGoalDetails(goal: Goal) {
+    this.showGoalDetailsEvent.emit(goal);
+  }
 }

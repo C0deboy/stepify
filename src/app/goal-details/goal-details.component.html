@@ -10,25 +10,26 @@
       <div class="modal-body">
 
         <div class="d-flex flex-wrap">
-
-          <div class="card" style="width: 18rem;">
-            <div class="card-body checklist">
-              <input class="card-title form-control" name="listTitle" [(ngModel)]="goal.checklist.name" appActivatableInput/>
-              <textarea class="card-text form-control mb-3" name="listDetails" [(ngModel)]="goal.checklist.details" appActivatableInput appAutoHeight></textarea>
-
-              <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
-                <input type="checkbox" id="item-{{i}}" name="item-checked-{{i}}" [(ngModel)]="item.checked"/>
-                <li class="btn-group">
-                  <label [for]="'item-'+i" [ngClass]="(item.checked)?'btn btn-success':'btn btn-light'">
-                    <span class="fa fa-check"></span>
-                    <span class="fa fa-square-o"></span>
-                  </label>
-                  <input class="btn btn-light" name="item-name-{{i}}" [(ngModel)]="item.value" appActivatableInput/>
-                </li>
-              </ul>
+          <ng-container *ngIf="goal.checklist != null">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body checklist">
+                <input class="card-title form-control" name="listTitle" [(ngModel)]="goal.checklist.name"
+                       appActivatableInput/>
+                <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
+                  <input type="checkbox" id="goal-{{goalId}}-step-{{i}}" name="item-checked-{{i}}"
+                         [(ngModel)]="item.checked" (change)="checkIfLevelAchieved(item)"/>
+                  <li class="btn-group">
+                    <label [for]="'goal-'+goalId+'-step-'+i"
+                           [ngClass]="(item.checked)?'btn btn-success':'btn btn-light'">
+                      <span class="fa fa-check"></span>
+                      <span class="fa fa-square-o"></span>
+                    </label>
+                    <input class="btn btn-light" name="item-name-{{i}}" [(ngModel)]="item.value" appActivatableInput/>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-
+          </ng-container>
         </div>
 
       </div>
@@ -42,7 +43,7 @@
 
           <div class="input-group mb-3" *ngFor="let level of goal.levels; let i = index;">
             <div class="input-group-prepend">
-              <span class="input-group-text">{{ level.icon }}</span>
+              <span class="input-group-text" [ngClass]="{'bg-success' : level.achieved}">Poziom {{ i + 1 }}</span>
             </div>
             <input class="form-control" name="level-name-{{i}}" [(ngModel)]="level.name">
             <div class="input-group-prepend">
@@ -62,3 +63,4 @@
   </div>
 </div>
 
+<app-reward-notification></app-reward-notification>

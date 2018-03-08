@@ -1,16 +1,22 @@
 <div class="d-flex flex-wrap">
-  <div class="goal card m-3" *ngFor="let goal of goals">
-    <div class="goal-header card-header" data-toggle="modal" [attr.data-target]="'#goal-' + goal.id">
-      {{ goal.name }}
-    </div>
-    <app-goal-details [goalId]="goal.id"></app-goal-details>
-    <div class="card-body">
-      <div class="input-group mb-3" *ngFor="let level of goal.levels">
-        <div class="input-group-prepend">
-          <span class="input-group-text">{{ level.icon }}</span>
+  <div class="col-lg-4 col-md-6" *ngFor="let goal of goals">
+    <div class="goal card mt-3" >
+      <div class="goal-header card-header" data-toggle="modal" [attr.data-target]="'#goal-' + goal.id">
+        {{ goal.name }}
+      </div>
+      <div class="card-body">
+        <div class="input-group mb-3" *ngFor="let level of goal.levels; let i = index">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Poziom {{i + 1}}</span>
+          </div>
+          <input type="text" class="form-control" value="{{ level.name }}" readonly>
         </div>
-        <input type="text" class="form-control" value="{{ level.name }}" readonly>
       </div>
     </div>
   </div>
 </div>
+
+<app-goal-details [goalId]="goal.id"></app-goal-details>
+
+
+

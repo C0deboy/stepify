@@ -15,6 +15,7 @@ import { ActivatableInputDirective } from './directives/activatable-input.direct
 import { AutoHeightDirective } from './directives/auto-height.directive';
 import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { RewardNotificationComponent } from './goal-details/reward-notification/reward-notification.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     GoalsComponent,
     GoalDetailsComponent,
     ActivatableInputDirective,
-    AutoHeightDirective
+    AutoHeightDirective,
+    RewardNotificationComponent
   ],
   imports: [
     MatInputModule,

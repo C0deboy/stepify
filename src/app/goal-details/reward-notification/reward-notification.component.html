@@ -1,0 +1,27 @@
+<div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rewardModalLabel">Gratulacje!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body bg-dark text-white text-center">
+        Osiągnąłeś poziom {{ level }}! <br>
+        Nagroda:
+
+        <div class="input-group mt-3 justify-content-center">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="material-icons">🏆</i></span>
+          </div>
+          <span class="input-group-text"><i class="material-icons">{{ levelReward }}</i></span>
+        </div>
+      </div>
+      <div class="modal-footer bg-dark text-white">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Later</button>
+        <button type="button" class="btn btn-success">Get reward</button>
+      </div>
+    </div>
+  </div>
+</div>
