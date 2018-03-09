@@ -1,11 +1,12 @@
 export class Level {
-  id: number;
+  level: number;
   name: string;
   reward: string;
   achieved: boolean;
 
-  constructor(name: string, reward: string) {
+  constructor(level: number, name: string, reward: string) {
     this.name = name;
     this.reward = reward;
+    this.level = level;
   }
 }

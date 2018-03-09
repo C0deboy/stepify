@@ -7,22 +7,22 @@ import {CheckList} from './models/CheckList';
 import {ListItem} from './models/ListItem';
 
 const mockLevels = [
-  new Level('Ważę 90 kg', 'Wino'),
-  new Level('Ważę 87 kg', 'Kolacja'),
-  new Level('Ważę 87 kg przez rok', 'Obraz')
+  new Level(1,'Ważę 90 kg', 'Wino'),
+  new Level(2, 'Ważę 87 kg', 'Kolacja'),
+  new Level(3,'Ważę 87 kg przez rok', 'Obraz')
 ];
 
 const mockLevels2 = [
-  new Level('Przebiegłem 100Km del Passatore', 'Wino 2'),
-  new Level('Przebiegłem 100 Miles Around the isle of Mors', 'Kolacja 2'),
-  new Level('Przebiegłem Badwater Ultramarathon', 'Obraz 2')
+  new Level(1,'Przebiegłem 100Km del Passatore', 'Wino 2'),
+  new Level(2,'Przebiegłem 100 Miles Around the isle of Mors', 'Kolacja 2'),
+  new Level(3,'Przebiegłem Badwater Ultramarathon', 'Obraz 2')
 ];
 
 const mockLevels3 = [
-  new Level('Video blog ciągle przez 30 dni', 'Wino 3', ),
-  new Level('Video blog ciągle przez 120 dni', 'Kolacja 3'),
-  new Level('Video blog ciągle przez 365 dni', 'Obraz 3'),
-  new Level('Video blog ciągle przez 1000 dni', 'Obraz 3'),
+  new Level(1,'Video blog ciągle przez 30 dni', 'Wino 3', ),
+  new Level(2,'Video blog ciągle przez 120 dni', 'Kolacja 3'),
+  new Level(3,'Video blog ciągle przez 365 dni', 'Obraz 3'),
+  new Level(4,'Video blog ciągle przez 1000 dni', 'Obraz 3'),
 ];
 
 const mockChecklist = new CheckList('Progress', [

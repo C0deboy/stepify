@@ -12,37 +12,19 @@ declare var $: any;
   templateUrl: './goal-details.component.html',
   styleUrls: ['./goal-details.component.css']
 })
-export class GoalDetailsComponent implements OnInit {
+export class GoalDetailsComponent {
+
   @Input()
-  public goalId: number;
-  public goal: Goal;
+  public goal: Goal = new Goal('', []);
+
   @Output()
   levelRewardEvent = new EventEmitter<Level>();
 
-  constructor(
-    private route: ActivatedRoute,
-    private goalsService: GoalsService,
-    private location: Location
-  ) {}
+  constructor() {}
 
-  ngOnInit() {
-    this.getGoal();
-  }
-
-  getGoal(): void {
-    this.goalsService.getGoal(this.goalId)
-      .subscribe(goal => this.goal = goal[0]);
-  }
-
-  updateGoal(goal) {
-    console.log(goal);
-    this.goalsService.updateGoal(goal).subscribe(
-      updatedGoal => this.goal = updatedGoal
-    );
-  }
-
-  goBack(): void {
-    this.location.back();
+  showLevelReward(level: Level) {
+    this.levelRewardEvent.emit(level);
+    $('#rewardModal').modal('show');
   }
 
   checkIfLevelAchieved(item: ListItem) {
@@ -51,8 +33,7 @@ export class GoalDetailsComponent implements OnInit {
       if (level.name.match(stepRegexp)) {
         if (item.checked) {
           level.achieved = true;
-          $('#goal-' + this.goalId).modal('toggle');
-          $('#rewardModal').modal('show');
+          this.showLevelReward(level);
         } else {
           level.achieved = false;
         }

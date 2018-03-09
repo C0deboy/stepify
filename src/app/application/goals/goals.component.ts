@@ -19,7 +19,7 @@ export class GoalsComponent implements OnInit {
     this.getGoals();
   }
 
-  getGoals(){
+  getGoals() {
     this.goalsService.getGoals().subscribe(
       (goals: Goal[]) => this.goals = goals,
       error => console.log(error),

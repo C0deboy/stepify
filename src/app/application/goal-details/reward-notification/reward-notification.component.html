@@ -8,14 +8,14 @@
         </button>
       </div>
       <div class="modal-body bg-dark text-white text-center">
-        Osiągnąłeś poziom {{ level }}! <br>
+        Osiągnąłeś poziom {{ level.level }} : {{ level.name }}!<br>
         Nagroda:
 
         <div class="input-group mt-3 justify-content-center">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="material-icons">🏆</i></span>
           </div>
-          <span class="input-group-text"><i class="material-icons">{{ levelReward }}</i></span>
+          <span class="input-group-text"><i class="material-icons">{{ level.reward }}</i></span>
         </div>
       </div>
       <div class="modal-footer bg-dark text-white">

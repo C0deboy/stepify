@@ -1,4 +1,4 @@
-<div class="modal fade goal" id="goal-{{goalId}}" tabindex="-1" role="dialog">
+<div class="modal fade goal" id="goal-{{goal.id}}" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <form class="modal-content" #GoalForm="ngForm">
       <div class="modal-header">
@@ -16,10 +16,10 @@
                 <input class="card-title form-control" name="listTitle" [(ngModel)]="goal.checklist.name"
                        appActivatableInput/>
                 <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
-                  <input type="checkbox" id="goal-{{goalId}}-step-{{i}}" name="item-checked-{{i}}"
+                  <input type="checkbox" id="goal-{{goal.id}}-step-{{i}}" name="item-checked-{{i}}"
                          [(ngModel)]="item.checked" (change)="checkIfLevelAchieved(item)"/>
                   <li class="btn-group">
-                    <label [for]="'goal-'+goalId+'-step-'+i"
+                    <label [for]="'goal-'+goal.id+'-step-'+i"
                            [ngClass]="(item.checked)?'btn btn-success':'btn btn-light'">
                       <span class="fa fa-check"></span>
                       <span class="fa fa-square-o"></span>
@@ -63,4 +63,3 @@
   </div>
 </div>
 
-<app-reward-notification></app-reward-notification>

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Level} from '../../goals/models/Level';
+declare var $: any;
 
 @Component({
   selector: 'app-reward-notification',
@@ -6,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reward-notification.component.css']
 })
 export class RewardNotificationComponent implements OnInit {
+
+  @Input()
+  public level: Level;
 
   constructor() { }
 

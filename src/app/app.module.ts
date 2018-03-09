@@ -7,15 +7,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { GoalsComponent } from './goals/goals.component';
-import { GoalsService } from './goals/goals.service';
-import { GoalDetailsComponent } from './goal-details/goal-details.component';
+import { GoalsComponent } from './application/goals/goals.component';
+import { GoalsService } from './application/goals/goals.service';
+import { GoalDetailsComponent } from './application/goal-details/goal-details.component';
 import {FormsModule} from '@angular/forms';
 import { ActivatableInputDirective } from './directives/activatable-input.directive';
 import { AutoHeightDirective } from './directives/auto-height.directive';
 import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { RewardNotificationComponent } from './goal-details/reward-notification/reward-notification.component';
+import { RewardNotificationComponent } from './application/goal-details/reward-notification/reward-notification.component';
+import { ApplicationComponent } from './application/application.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { RewardNotificationComponent } from './goal-details/reward-notification/
     GoalDetailsComponent,
     ActivatableInputDirective,
     AutoHeightDirective,
-    RewardNotificationComponent
+    RewardNotificationComponent,
+    ApplicationComponent
   ],
   imports: [
     MatInputModule,

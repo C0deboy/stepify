@@ -1,7 +1,7 @@
 <div class="d-flex flex-wrap">
   <div class="col-lg-4 col-md-6" *ngFor="let goal of goals">
     <div class="goal card mt-3" >
-      <div class="goal-header card-header" data-toggle="modal" [attr.data-target]="'#goal-' + goal.id">
+      <div class="goal-header card-header" data-toggle="modal" [attr.data-target]="'#goal-' + goal.id" (click)="showGoalDetails(goal)">
         {{ goal.name }}
       </div>
       <div class="card-body">
@@ -16,7 +16,6 @@
   </div>
 </div>
 
-<app-goal-details [goalId]="goal.id"></app-goal-details>
 
 
 
