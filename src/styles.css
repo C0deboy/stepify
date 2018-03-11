@@ -8,3 +8,12 @@
   border-color: transparent;
   background: inherit;
 }
+
+input.text-white:focus {
+  background-color: #001d26;
+}
+
+input.text-white {
+  background-color: #001d26;
+}
+

@@ -5,6 +5,7 @@ import {Goal} from '../goals/models/Goal';
 import {Location} from '@angular/common';
 import {ListItem} from '../goals/models/ListItem';
 import {Level} from '../goals/models/Level';
+import {MessageService} from '../../messages/message.service';
 declare var $: any;
 
 @Component({
@@ -15,12 +16,12 @@ declare var $: any;
 export class GoalDetailsComponent {
 
   @Input()
-  public goal: Goal = new Goal('', []);
+  public goal: Goal;
 
   @Output()
   levelRewardEvent = new EventEmitter<Level>();
 
-  constructor() {}
+  constructor(private messageService: MessageService) {}
 
   showLevelReward(level: Level) {
     this.levelRewardEvent.emit(level);
@@ -39,5 +40,9 @@ export class GoalDetailsComponent {
         }
       }
     });
+  }
+
+  confirmSave() {
+    this.messageService.showSuccessMessage('Saved.');
   }
 }

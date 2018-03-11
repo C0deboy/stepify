@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div *ngFor="let message of messages | async" class="col-12" [@flyInOut]="'in'">
+      <div class="alert"
+           [ngClass]="{
+            'alert-info':     message.type == MessageType.INFO,
+            'alert-success':     message.type == MessageType.SUCCESS,
+            'alert-warning':     message.type == MessageType.WARNING,
+            'alert-error':     message.type == MessageType.ERROR
+         }">
+        {{message.text}}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+:host {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  max-height: 500px;
+  z-index: 1080 !important;
+}

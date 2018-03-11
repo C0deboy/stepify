@@ -1,3 +1,6 @@
+<app-navbar></app-navbar>
 <app-goals (showGoalDetailsEvent)="setActiveGoal($event)"></app-goals>
 <app-goal-details [goal]="activeGoal" (levelRewardEvent)="setRewardEventLevel($event)"></app-goal-details>
 <app-reward-notification [level]="rewardEventLevel"></app-reward-notification>
+<app-messages></app-messages>
+<app-new-goal-wizard></app-new-goal-wizard>

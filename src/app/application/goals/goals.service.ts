@@ -7,26 +7,26 @@ import {CheckList} from './models/CheckList';
 import {ListItem} from './models/ListItem';
 
 const mockLevels = [
-  new Level(1,'Ważę 90 kg', 'Wino'),
+  new Level(1, 'Ważę 90 kg', 'Wino', true),
   new Level(2, 'Ważę 87 kg', 'Kolacja'),
-  new Level(3,'Ważę 87 kg przez rok', 'Obraz')
+  new Level(3, 'Ważę 87 kg przez rok', 'Obraz')
 ];
 
 const mockLevels2 = [
-  new Level(1,'Przebiegłem 100Km del Passatore', 'Wino 2'),
-  new Level(2,'Przebiegłem 100 Miles Around the isle of Mors', 'Kolacja 2'),
-  new Level(3,'Przebiegłem Badwater Ultramarathon', 'Obraz 2')
+  new Level(1, 'Przebiegłem 100Km del Passatore', 'Wino 2'),
+  new Level(2, 'Przebiegłem 100 Miles Around the isle of Mors', 'Kolacja 2'),
+  new Level(3, 'Przebiegłem Badwater Ultramarathon', 'Obraz 2')
 ];
 
 const mockLevels3 = [
-  new Level(1,'Video blog ciągle przez 30 dni', 'Wino 3', ),
-  new Level(2,'Video blog ciągle przez 120 dni', 'Kolacja 3'),
-  new Level(3,'Video blog ciągle przez 365 dni', 'Obraz 3'),
-  new Level(4,'Video blog ciągle przez 1000 dni', 'Obraz 3'),
+  new Level(1, 'Video blog ciągle przez 30 dni', 'Wino 3', ),
+  new Level(2, 'Video blog ciągle przez 120 dni', 'Kolacja 3'),
+  new Level(3, 'Video blog ciągle przez 365 dni', 'Obraz 3'),
+  new Level(4, 'Video blog ciągle przez 1000 dni', 'Obraz 3'),
 ];
 
 const mockChecklist = new CheckList('Progress', [
-    {value: '92 kg', checked: false},
+    {value: '92 kg', checked: true},
     {value: '91 kg', checked: true},
     {value: '90 kg', checked: true},
     {value: '89 kg', checked: false},
@@ -69,5 +69,9 @@ export class GoalsService {
 
   updateGoal(goal: Goal) {
     return of(GOALS[goal.id] = goal);
+  }
+
+  addGoal(goal: Goal) {
+    GOALS.push(goal);
   }
 }

@@ -15,8 +15,12 @@ import { ActivatableInputDirective } from './directives/activatable-input.direct
 import { AutoHeightDirective } from './directives/auto-height.directive';
 import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { RewardNotificationComponent } from './application/goal-details/reward-notification/reward-notification.component';
+import { RewardNotificationComponent } from './application/reward-notification/reward-notification.component';
 import { ApplicationComponent } from './application/application.component';
+import { MessagesComponent } from './messages/messages.component';
+import {MessageService} from './messages/message.service';
+import { NavbarComponent } from './application/navbar/navbar.component';
+import { NewGoalWizardComponent } from './application/new-goal-wizard/new-goal-wizard.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,10 @@ import { ApplicationComponent } from './application/application.component';
     ActivatableInputDirective,
     AutoHeightDirective,
     RewardNotificationComponent,
-    ApplicationComponent
+    ApplicationComponent,
+    MessagesComponent,
+    NavbarComponent,
+    NewGoalWizardComponent
   ],
   imports: [
     MatInputModule,
@@ -41,7 +48,7 @@ import { ApplicationComponent } from './application/application.component';
     MatButtonModule,
     MatCheckboxModule,
   ],
-  providers: [GoalsService],
+  providers: [GoalsService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

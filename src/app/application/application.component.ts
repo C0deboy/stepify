@@ -8,8 +8,8 @@ import {Level} from './goals/models/Level';
   styleUrls: ['./application.component.css']
 })
 export class ApplicationComponent implements OnInit {
-  activeGoal: Goal;
-  rewardEventLevel: Level;
+  activeGoal: Goal = new Goal('', []);
+  rewardEventLevel: Level = new Level(0, '' , '');
 
   setActiveGoal(event: Goal) {
     this.activeGoal = event;

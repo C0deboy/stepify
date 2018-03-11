@@ -1,13 +1,13 @@
 <div class="d-flex flex-wrap">
   <div class="col-lg-4 col-md-6" *ngFor="let goal of goals">
     <div class="goal card mt-3" >
-      <div class="goal-header card-header" data-toggle="modal" [attr.data-target]="'#goal-' + goal.id" (click)="showGoalDetails(goal)">
+      <div class="goal-header card-header" data-toggle="modal" data-target="#goal-details" (click)="showGoalDetails(goal)">
         {{ goal.name }}
       </div>
       <div class="card-body">
-        <div class="input-group mb-3" *ngFor="let level of goal.levels; let i = index">
+        <div class="input-group mb-3" *ngFor="let level of goal.levels">
           <div class="input-group-prepend">
-            <span class="input-group-text">Poziom {{i + 1}}</span>
+            <span class="input-group-text"  [ngClass]="{'bg-success' : level.achieved}">Poziom {{level.level}}</span>
           </div>
           <input type="text" class="form-control" value="{{ level.name }}" readonly>
         </div>

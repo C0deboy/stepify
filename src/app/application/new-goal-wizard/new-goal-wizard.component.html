@@ -1,0 +1,74 @@
+<div class="modal fade goal" id="new-goal-wizard" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <form class="modal-content" (submit)="addGoal()" #newGoalForm="ngForm">
+      <div class="modal-header bg-dark">
+        <input class="modal-title form-control text-white" name="name" placeholder="Twój cel" [(ngModel)]="goal.name" />
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="d-flex flex-wrap">
+          <ng-container *ngIf="goal.checklist != null">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body checklist">
+                <input class="card-title form-control" name="listTitle" placeholder="Lista todo" [(ngModel)]="goal.checklist.name"
+                       />
+                <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
+                  <li class="btn-group">
+                    <input class="btn btn-light" name="item-name-{{i}}" [(ngModel)]="item.value" />
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+      </div>
+
+      <div class="card d-block col-12 p-0">
+        <div class="card-header">
+          Dodaj poziomy
+        </div>
+
+        <div class="card-body">
+
+          <div class="input-group mb-3" *ngFor="let level of goal.levels; let i = index;">
+            <div class="input-group-prepend">
+              <span class="input-group-text" [ngClass]="{'bg-success' : level.achieved}">Poziom {{ level.level }}</span>
+            </div>
+            <input class="form-control" name="level-name-{{i}}" [(ngModel)]="level.name">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="material-icons">🏆</i></span>
+            </div>
+            <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
+          </div>
+
+          <hr>
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" >Poziom {{ goal.levels.length + 1 }}</span>
+            </div>
+            <input class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="newLevel.name" placeholder="Krok do celu">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="material-icons">🏆</i></span>
+            </div>
+            <input class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="newLevel.reward" placeholder="Nagroda">
+
+            <button type="button" class="btn btn-success" (click)="addLevel(goal.levels.length + 1)"><i class="fa fa-plus-square"></i></button>
+          </div>
+
+
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary">Dodaj cel</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+      </div>
+    </form>
+  </div>
+</div>
+

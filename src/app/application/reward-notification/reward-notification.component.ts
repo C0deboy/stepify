@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Level} from '../../goals/models/Level';
+import {Level} from '../goals/models/Level';
+import {MessageService} from '../../messages/message.service';
 declare var $: any;
 
 @Component({
@@ -12,9 +13,13 @@ export class RewardNotificationComponent implements OnInit {
   @Input()
   public level: Level;
 
-  constructor() { }
+  constructor(private messageServcie: MessageService) { }
 
   ngOnInit() {
   }
 
+  recieveReward(reward: string) {
+    this.messageServcie.showSuccessMessage(reward + ' has been added to reward list');
+    $('#rewardModal').modal('toggle');
+  }
 }
