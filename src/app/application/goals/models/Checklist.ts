@@ -8,4 +8,8 @@ export class CheckList {
     this.name = name;
     this.list = checklist;
   }
+
+  static empty() {
+    return new CheckList('', []);
+  }
 }

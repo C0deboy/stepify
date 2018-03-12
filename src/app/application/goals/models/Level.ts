@@ -10,4 +10,8 @@ export class Level {
     this.level = level;
     this.achieved = achieved;
   }
+
+  static empty() {
+    return new Level(0, '' , '');
+  }
 }

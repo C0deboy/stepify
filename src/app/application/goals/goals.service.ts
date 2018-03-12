@@ -3,7 +3,7 @@ import {Goal} from './models/Goal';
 import {of} from 'rxjs/observable/of';
 import {Observable} from 'rxjs/Observable';
 import {Level} from './models/Level';
-import {CheckList} from './models/CheckList';
+import {CheckList} from './models/Checklist';
 import {ListItem} from './models/ListItem';
 
 const mockLevels = [
@@ -46,11 +46,11 @@ const mockChecklist3 = new CheckList('Progress 3', [
   {value: '960 dni', checked: false},
   {value: '1000 dni', checked: false},
 ]);
-
+let id = 1;
 export const GOALS: Goal[] = [
-  {id: 1, name: 'Waga', levels: mockLevels, checklist: mockChecklist},
-  {id: 2, name: 'Biegi', levels: mockLevels2, checklist: null},
-  {id: 3, name: 'Codzienny YouTuber', levels: mockLevels3, checklist: mockChecklist3},
+  {id: id++, name: 'Waga', levels: mockLevels, checklist: mockChecklist},
+  {id: id++, name: 'Biegi', levels: mockLevels2, checklist: null},
+  {id: id++, name: 'Codzienny YouTuber', levels: mockLevels3, checklist: mockChecklist3},
 ];
 
 @Injectable()
@@ -72,6 +72,7 @@ export class GoalsService {
   }
 
   addGoal(goal: Goal) {
+    goal.id = id++;
     GOALS.push(goal);
   }
 }

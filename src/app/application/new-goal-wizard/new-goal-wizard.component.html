@@ -9,22 +9,34 @@
       </div>
       <div class="modal-body">
 
-        <div class="d-flex flex-wrap">
-          <ng-container *ngIf="goal.checklist != null">
+        <div class="d-flex flex-wrap flex-column">
+          <mat-slide-toggle class="mb-3" (click)="toggleChecklist()">Z todo-listą</mat-slide-toggle>
+          <ng-container *ngIf="withChecklist">
             <div class="card" style="width: 18rem;">
               <div class="card-body checklist">
-                <input class="card-title form-control" name="listTitle" placeholder="Lista todo" [(ngModel)]="goal.checklist.name"
-                       />
+                <input class="card-title form-control" name="listTitle" placeholder="Nazwa listy" [(ngModel)]="goal.checklist.name"/>
                 <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
+                  <input type="checkbox" id="newgoal-step-{{i}}" name="item-checked-{{i}}" [(ngModel)]="item.checked"/>
                   <li class="btn-group">
-                    <input class="btn btn-light" name="item-name-{{i}}" [(ngModel)]="item.value" />
+                    <label [for]="'newgoal-step-'+i"
+                           [ngClass]="(item.checked)?'btn btn-success':'btn btn-light'">
+                      <span class="fa fa-check"></span>
+                      <span class="fa fa-square-o"></span>
+                    </label>
+                    <input class="btn btn-light" name="item-name-{{i}}" [(ngModel)]="item.value" appActivatableInput/>
                   </li>
                 </ul>
+
+                <div class="input-group mb-3">
+                  <input class="form-control"  placeholder="Element listy" [ngModelOptions]="{standalone: true}" [(ngModel)]="newListItem.value" />
+                  <div class="input-group-prepend">
+                    <button type="button" class="btn btn-success" (click)="addListItem()"><i class="fa fa-plus-square"></i></button>
+                  </div>
+                </div>
               </div>
             </div>
           </ng-container>
         </div>
-
       </div>
 
       <div class="card d-block col-12 p-0">

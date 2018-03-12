@@ -13,7 +13,10 @@ import { GoalDetailsComponent } from './application/goal-details/goal-details.co
 import {FormsModule} from '@angular/forms';
 import { ActivatableInputDirective } from './directives/activatable-input.directive';
 import { AutoHeightDirective } from './directives/auto-height.directive';
-import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import {
+  MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule,
+  MatSlideToggleModule
+} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RewardNotificationComponent } from './application/reward-notification/reward-notification.component';
 import { ApplicationComponent } from './application/application.component';
@@ -47,6 +50,7 @@ import { NewGoalWizardComponent } from './application/new-goal-wizard/new-goal-w
     MatFormFieldModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatSlideToggleModule,
   ],
   providers: [GoalsService, MessageService],
   bootstrap: [AppComponent]

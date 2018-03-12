@@ -7,4 +7,8 @@ export class ListItem {
     this.value = value;
     this.checked = checked;
   }
+
+  static empty() {
+    return new ListItem('', false);
+  }
 }
