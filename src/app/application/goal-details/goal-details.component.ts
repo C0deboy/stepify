@@ -21,16 +21,20 @@ export class GoalDetailsComponent {
   @Output()
   levelRewardEvent = new EventEmitter<Level>();
 
-  constructor(private messageService: MessageService) {}
+  constructor(private goalsService: GoalsService, private messageService: MessageService) {}
 
   showLevelReward(level: Level) {
-    this.levelRewardEvent.emit(level);
-    $('#rewardModal').modal('show');
+    if(level.achieved) {
+      this.levelRewardEvent.emit(level);
+      $('#rewardModal').modal('show');
+    }
   }
 
   checkIfLevelAchieved(item: ListItem) {
-    this.goal.levels.forEach((level) => {
-      const stepRegexp = new RegExp('(^|\\s)' + item.value + '(\\s|$)', 'g');
+
+    const stepRegexp = new RegExp('(^|\\s)' + item.value + '(\\s|$)', 'g');
+
+    for (const level of this.goal.levels) {
       if (level.name.match(stepRegexp)) {
         if (item.checked) {
           level.achieved = true;
@@ -38,11 +42,23 @@ export class GoalDetailsComponent {
         } else {
           level.achieved = false;
         }
+        break;
       }
-    });
+    }
   }
 
-  confirmSave() {
-    this.messageService.showSuccessMessage('Saved.');
+  updateGoal() {
+    this.goalsService.updateGoal(this.goal).subscribe(value => this.messageService.showSuccessMessage('Zapisano.'),
+      error2 => console.log(error2));
+
+  }
+
+  deleteGoal() {
+    this.goalsService.deleteGoal(this.goal.id).subscribe(value => {
+        this.messageService.showSuccessMessage('Cel został usunięty.');
+        $('#goal-details').modal('hide');
+      },
+        error2 => console.log(error2)
+    );
   }
 }

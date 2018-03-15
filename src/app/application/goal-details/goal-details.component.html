@@ -9,42 +9,53 @@
       </div>
       <div class="modal-body">
 
-        <div class="d-flex flex-wrap">
-          <ng-container *ngIf="goal.checklist != null">
-            <div class="card" style="width: 18rem;">
-              <div class="card-body checklist">
-                <input class="card-title form-control" name="listTitle" [(ngModel)]="goal.checklist.name"
-                       appActivatableInput/>
-                <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
-                  <input type="checkbox" id="goal-{{goal.id}}-step-{{i}}" name="item-checked-{{i}}"
-                         [(ngModel)]="item.checked" (change)="checkIfLevelAchieved(item)"/>
-                  <li class="btn-group">
-                    <label [for]="'goal-'+goal.id+'-step-'+i"
-                           [ngClass]="(item.checked)?'btn btn-success':'btn btn-light'">
-                      <span class="fa fa-check"></span>
-                      <span class="fa fa-square-o"></span>
-                    </label>
-                    <input class="btn btn-light" name="item-name-{{i}}" [(ngModel)]="item.value" appActivatableInput/>
-                  </li>
-                </ul>
+        <div class="row">
+          <div class="col-6">
+            <ng-container *ngIf="goal.checklist != null">
+              <div class="card" style="width: 18rem;">
+                <div class="card-body checklist">
+                  <input class="card-title form-control" name="listTitle" [(ngModel)]="goal.checklist.name"
+                         appActivatableInput/>
+                  <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
+                    <input type="checkbox" id="goal-{{goal.id}}-step-{{i}}" name="item-checked-{{i}}"
+                           [(ngModel)]="item.checked" (change)="checkIfLevelAchieved(item)"/>
+                    <li class="btn-group">
+                      <label [for]="'goal-'+goal.id+'-step-'+i"
+                             [ngClass]="(item.checked)?'btn btn-success':'btn btn-light'">
+                        <span class="fa fa-check"></span>
+                        <span class="fa fa-square-o"></span>
+                      </label>
+                      <input class="btn btn-light" name="item-name-{{i}}" [(ngModel)]="item.value" appActivatableInput/>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
-          </ng-container>
-        </div>
+            </ng-container>
+          </div>
 
+          <div class="col-6">
+            <ng-container *ngIf="goal.dailyHabit != null">
+              <app-daily-habit-calendar  *ngIf="goal.dailyHabit != null" [dailyHabit]="goal.dailyHabit"></app-daily-habit-calendar>
+            </ng-container>
+          </div>
+        </div>
       </div>
 
       <div class="card d-block col-12 p-0">
         <div class="card-header">
-          Level progress
+          Poziomy dla twojego celu:
         </div>
 
         <div class="card-body">
 
           <div class="input-group mb-3" *ngFor="let level of goal.levels; let i = index;">
-            <div class="input-group-prepend">
-              <span class="input-group-text" [ngClass]="{'bg-success' : level.achieved}">Poziom {{ i + 1 }}</span>
-            </div>
+            <input class="d-none" type="checkbox" id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
+                   [(ngModel)]="level.achieved" (change)="showLevelReward(level)" />
+              <div class="input-group-prepend">
+                <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
+                  <span class="btn input-group-text" [ngClass]="{'bg-success' : level.achieved}">Poziom {{ i + 1 }}</span>
+                </label>
+              </div>
             <input class="form-control" name="level-name-{{i}}" [(ngModel)]="level.name">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="material-icons">🏆</i></span>
@@ -56,8 +67,9 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="confirmSave()">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger mr-auto" (click)="deleteGoal()">Usuń</button>
+        <button type="button" class="btn btn-primary" (click)="updateGoal()">Zapisz zmiany</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
       </div>
     </form>
   </div>
