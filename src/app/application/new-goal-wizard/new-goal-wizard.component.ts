@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Goal} from '../goals/models/Goal';
 import {Level} from '../goals/models/Level';
 import {GoalsService} from '../goals/goals.service';
@@ -6,6 +6,9 @@ import {MessageService} from '../../messages/message.service';
 import {CheckList} from '../goals/models/Checklist';
 import {ListItem} from '../goals/models/ListItem';
 import {GoalsComponent} from '../goals/goals.component';
+import * as moment from 'moment';
+
+moment.locale('pl-PL');
 
 @Component({
   selector: 'app-new-goal-wizard',
@@ -19,10 +22,12 @@ export class NewGoalWizardComponent implements OnInit {
   public newListItem: ListItem = ListItem.empty();
   public withChecklist = false;
   public withDailyHabit = false;
+  public weekdaysShorts = moment().localeData().weekdaysShort();
 
   constructor(private goalsService: GoalsService,
               private goalsComponent: GoalsComponent,
-              private messageService: MessageService) { }
+              private messageService: MessageService) {
+  }
 
   ngOnInit() {
   }
@@ -44,11 +49,63 @@ export class NewGoalWizardComponent implements OnInit {
     }
     if (!this.withDailyHabit) {
       this.goal.dailyHabit = null;
+    } else {
+      this.goal.dailyHabit.dailyChecklist = new Array(this.getDaysDifference()).fill(0);
     }
-    this.goalsService.addGoal(this.goal).subscribe((goal: Goal) => console.log(goal + 'push : todo'),
+
+    this.goalsService.addGoal(this.goal).subscribe((goal: Goal) => console.log(goal + 'todo push '),
       error2 => console.log(error2),
       () => console.log('always'));
     this.messageService.showSuccessMessage('Twój cel ' + this.goal.name + ' został dodany.');
+    console.log(this.goal);
     this.goal = Goal.empty();
+  }
+
+  private getDaysDifference(): number {
+    let diff = this.goal.dailyHabit.to.diff(this.goal.dailyHabit.from, 'days');
+    if (this.goal.dailyHabit.everyNDays) {
+      diff = diff / this.goal.dailyHabit.everyNDays;
+    } else {
+      const from = moment(this.goal.dailyHabit.from);
+      const to = moment(this.goal.dailyHabit.to);
+
+      while (from <= to) {
+        from.add(1, 'days');
+        if (this.goal.dailyHabit.specificDays.includes(from.day())) {
+          diff--;
+        }
+      }
+    }
+    return diff;
+  }
+
+  private addSpecificDay(dayNum: number) {
+    this.goal.dailyHabit.specificDays.push(dayNum);
+  }
+
+  private removeSpecificDay(index: number) {
+    this.goal.dailyHabit.specificDays.splice(index, 1);
+  }
+
+  toggleSpecificDay(dayNum: number) {
+
+    const i = this.goal.dailyHabit.specificDays.indexOf(dayNum);
+    if (i === -1) {
+      this.addSpecificDay(dayNum);
+    } else {
+      this.removeSpecificDay(i);
+    }
+    console.log(this.goal.dailyHabit.everyNDays);
+    console.log(this.goal.dailyHabit.specificDays);
+  }
+
+  areSpecificDaysDefined(): boolean {
+    if (this.goal.dailyHabit.specificDays.length > 0) {
+      this.goal.dailyHabit.everyNDays = null;
+      this.goal.dailyHabit.everyday = false;
+      return true;
+    } else {
+      return false;
+    }
   }
 }

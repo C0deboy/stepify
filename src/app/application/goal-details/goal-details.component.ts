@@ -6,6 +6,7 @@ import {Location} from '@angular/common';
 import {ListItem} from '../goals/models/ListItem';
 import {Level} from '../goals/models/Level';
 import {MessageService} from '../../messages/message.service';
+import {DailyHabit} from '../goals/models/DailyHabit';
 declare var $: any;
 
 @Component({
@@ -20,6 +21,9 @@ export class GoalDetailsComponent {
 
   @Output()
   levelRewardEvent = new EventEmitter<Level>();
+
+  public withChecklist = false;
+  public withDailyHabit = false;
 
   constructor(private goalsService: GoalsService, private messageService: MessageService) {}
 
@@ -60,5 +64,13 @@ export class GoalDetailsComponent {
       },
         error2 => console.log(error2)
     );
+  }
+
+  newDailyHabit() {
+    this.goal.dailyHabit = DailyHabit.empty();
+  }
+
+  addDailyHabit() {
+    this.withDailyHabit = false;
   }
 }

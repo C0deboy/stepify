@@ -14,6 +14,7 @@ import {FormsModule} from '@angular/forms';
 import { ActivatableInputDirective } from './directives/activatable-input.directive';
 import { AutoHeightDirective } from './directives/auto-height.directive';
 import {
+  MAT_DATE_LOCALE,
   MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule,
   MatSlideToggleModule
 } from '@angular/material';
@@ -27,6 +28,7 @@ import { NewGoalWizardComponent } from './application/new-goal-wizard/new-goal-w
 import {HttpClientModule} from '@angular/common/http';
 import {SmallInputNumberDirective} from './directives/small-input-number.directive';
 import { DailyHabitCalendarComponent } from './application/goal-details/daily-habit-calendar/daily-habit-calendar.component';
+import {MatMomentDateModule} from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
@@ -58,9 +60,9 @@ import { DailyHabitCalendarComponent } from './application/goal-details/daily-ha
     MatCheckboxModule,
     MatSlideToggleModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MatMomentDateModule,
   ],
-  providers: [GoalsService, MessageService, GoalsComponent],
+  providers: [GoalsService, MessageService, GoalsComponent, {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

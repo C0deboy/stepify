@@ -28,6 +28,7 @@ export class GoalsService {
   }
 
   addGoal(goal: Goal) {
+    console.log(goal);
     return this.httpClient.post(this.baseURL + '/goals', goal);
   }
 

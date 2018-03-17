@@ -1,1 +1,20 @@
-<button class="btn btn-circle btn-secondary" *ngFor="let date of datesInRange">{{ date.getDate() }}</button>
+
+<div class="card" style="width: 18rem;">
+
+  <div class="card-header d-flex justify-content-between">
+    <button class="btn fa fa-arrow-left"(click)="previousMonth()">
+    </button>
+    {{ calendar[currentMonth][0].format('MMMM')}}
+    <button class="btn fa fa-arrow-right" (click)="nextMonth()">
+    </button>
+  </div>
+
+  <div class="card-body">
+    <button class="btn btn-circle btn-secondary " *ngFor="let date of calendar[currentMonth]; let i = index"
+            [ngClass]="{'bg-success btn-outline-success text-white' : checkIfDone(i)}" (click)="toggleDone(i)"
+            [disabled]="checkIfFuture(date)">
+      {{ date.format('D') }}
+    </button>
+  </div>
+</div>
+
