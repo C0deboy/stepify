@@ -6,7 +6,7 @@ import {Location} from '@angular/common';
 import {ListItem} from '../goals/models/ListItem';
 import {Level} from '../goals/models/Level';
 import {MessageService} from '../../messages/message.service';
-import {DailyHabit} from '../goals/models/DailyHabit';
+import {DailyHabit} from '../goals/models/daily-habit';
 declare var $: any;
 
 @Component({

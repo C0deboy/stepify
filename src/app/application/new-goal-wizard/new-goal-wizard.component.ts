@@ -50,33 +50,15 @@ export class NewGoalWizardComponent implements OnInit {
     if (!this.withDailyHabit) {
       this.goal.dailyHabit = null;
     } else {
-      this.goal.dailyHabit.dailyChecklist = new Array(this.getDaysDifference()).fill(0);
+      this.goal.dailyHabit.dailyChecklist = new Array(this.goal.dailyHabit.getDaysDifference()).fill(0);
     }
 
     this.goalsService.addGoal(this.goal).subscribe((goal: Goal) => console.log(goal + 'todo push '),
       error2 => console.log(error2),
       () => console.log('always'));
     this.messageService.showSuccessMessage('Twój cel ' + this.goal.name + ' został dodany.');
-    console.log(this.goal);
+
     this.goal = Goal.empty();
-  }
-
-  private getDaysDifference(): number {
-    let diff = this.goal.dailyHabit.to.diff(this.goal.dailyHabit.from, 'days');
-    if (this.goal.dailyHabit.everyNDays) {
-      diff = diff / this.goal.dailyHabit.everyNDays;
-    } else {
-      const from = moment(this.goal.dailyHabit.from);
-      const to = moment(this.goal.dailyHabit.to);
-
-      while (from <= to) {
-        from.add(1, 'days');
-        if (this.goal.dailyHabit.specificDays.includes(from.day())) {
-          diff--;
-        }
-      }
-    }
-    return diff;
   }
 
   private addSpecificDay(dayNum: number) {

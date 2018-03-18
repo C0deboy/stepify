@@ -18,4 +18,24 @@ export class DailyHabit {
   static empty() {
     return new DailyHabit(moment(), moment());
   }
+
+
+  getDaysDifference(): number {
+    let diff = this.to.diff(this.from, 'days') + 1;
+    if (this.everyNDays) {
+      diff = Math.ceil(diff / this.everyNDays);
+    } else {
+      const from = moment(this.from);
+      const to = moment(this.to);
+
+      while (from <= to) {
+        from.add(1, 'days');
+        if (this.specificDays.includes(from.day())) {
+          diff--;
+        }
+      }
+    }
+    console.log(diff);
+    return diff;
+  }
 }

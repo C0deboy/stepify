@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {DailyHabit} from '../../goals/models/DailyHabit';
+import {DailyHabit} from '../../goals/models/daily-habit';
 import * as moment from 'moment';
 import {Moment} from 'moment';
 
@@ -19,17 +19,23 @@ export class DailyHabitCalendarComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.buildCalendar();
+  }
+
+  public buildCalendar() {
     this.calendar = [[]];
     this.currentMonth = 0;
 
     const from = moment(this.dailyHabit.from);
     const to = moment(this.dailyHabit.to);
 
+    let lastMonth = from.month();
+
     while (from <= to) {
-      const lastMonth = from.month();
+      this.checkIfNextMonth(from, lastMonth);
+      lastMonth = from.month();
 
       if (this.dailyHabit.everyNDays) {
-        this.checkIfNextMonth(from, lastMonth);
         this.addToCalendar(from);
         from.add(this.dailyHabit.everyNDays, 'days');
       } else {
@@ -37,7 +43,6 @@ export class DailyHabitCalendarComponent implements OnChanges {
           from.add(1, 'days');
         }
         if (this.dailyHabit.specificDays.includes(from.day())) {
-          this.checkIfNextMonth(from, lastMonth);
           this.addToCalendar(from);
           from.add(1, 'days');
         }
