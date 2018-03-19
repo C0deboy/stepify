@@ -5,10 +5,10 @@ import {DailyHabit} from './daily-habit';
 
 export class Goal {
   id: number;
-  name: string;
-  levels: Level[];
+  name = '';
+  levels: Level[] = [];
   checklist: CheckList;
-  dailyHabit: DailyHabit;
+  dailyHabit: DailyHabit = DailyHabit.empty();
 
   constructor(name: string, levels: Level[]) {
     this.name = name;

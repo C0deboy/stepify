@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {Goal} from '../goals/models/Goal';
-import {Level} from '../goals/models/Level';
-import {GoalsService} from '../goals/goals.service';
-import {MessageService} from '../../messages/message.service';
-import {CheckList} from '../goals/models/Checklist';
-import {ListItem} from '../goals/models/ListItem';
-import {GoalsComponent} from '../goals/goals.component';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Goal} from '../models/Goal';
+import {Level} from '../models/Level';
+import {GoalsService} from '../goals.service';
+import {MessageService} from '../../../messages/message.service';
+import {CheckList} from '../models/Checklist';
+import {ListItem} from '../models/ListItem';
+import {GoalsComponent} from '../goals.component';
 import * as moment from 'moment';
+declare var $: any;
 
 moment.locale('pl-PL');
 
@@ -23,6 +24,9 @@ export class NewGoalWizardComponent implements OnInit {
   public withChecklist = false;
   public withDailyHabit = false;
   public weekdaysShorts = moment().localeData().weekdaysShort();
+
+  @Output()
+  newGoalEvent = new EventEmitter<Goal>();
 
   constructor(private goalsService: GoalsService,
               private goalsComponent: GoalsComponent,
@@ -53,12 +57,15 @@ export class NewGoalWizardComponent implements OnInit {
       this.goal.dailyHabit.dailyChecklist = new Array(this.goal.dailyHabit.getDaysDifference()).fill(0);
     }
 
-    this.goalsService.addGoal(this.goal).subscribe((goal: Goal) => console.log(goal + 'todo push '),
-      error2 => console.log(error2),
-      () => console.log('always'));
-    this.messageService.showSuccessMessage('Twój cel ' + this.goal.name + ' został dodany.');
-
-    this.goal = Goal.empty();
+    this.goalsService.addGoal(this.goal).subscribe((goal: Goal) => {
+        console.log(goal);
+        this.newGoalEvent.emit(goal);
+        $('#new-goal-wizard').modal('hide');
+        this.messageService.showSuccessMessage('Twój cel ' + this.goal.name + ' został dodany.');
+        this.goal = Goal.empty();
+      },
+      error2 => console.log(error2)
+    );
   }
 
   private addSpecificDay(dayNum: number) {
@@ -70,15 +77,12 @@ export class NewGoalWizardComponent implements OnInit {
   }
 
   toggleSpecificDay(dayNum: number) {
-
     const i = this.goal.dailyHabit.specificDays.indexOf(dayNum);
     if (i === -1) {
       this.addSpecificDay(dayNum);
     } else {
       this.removeSpecificDay(i);
     }
-    console.log(this.goal.dailyHabit.everyNDays);
-    console.log(this.goal.dailyHabit.specificDays);
   }
 
   areSpecificDaysDefined(): boolean {

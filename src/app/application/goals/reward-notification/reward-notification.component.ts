@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Level} from '../goals/models/Level';
-import {MessageService} from '../../messages/message.service';
+import {Level} from '../models/Level';
+import {MessageService} from '../../../messages/message.service';
 declare var $: any;
 
 @Component({

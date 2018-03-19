@@ -10,8 +10,9 @@ import {Level} from './models/Level';
 })
 export class GoalsComponent implements OnInit {
   public goals: Goal[];
-  @Output()
-  showGoalDetailsEvent = new EventEmitter<Goal>();
+
+  public activeGoal: Goal = Goal.empty();
+  public rewardLevel: Level = Level.empty();
 
   constructor(private goalsService: GoalsService) { }
 
@@ -28,6 +29,19 @@ export class GoalsComponent implements OnInit {
   }
 
   showGoalDetails(goal: Goal) {
-    this.showGoalDetailsEvent.emit(goal);
+    this.activeGoal = goal;
+  }
+
+  showAddedGoal($event: Goal) {
+    this.goals.push($event);
+  }
+
+  removeGoal($event: number) {
+    const index: number = this.goals.findIndex(e => e.id === $event);
+    this.goals.splice(index, 1);
+  }
+
+  showRewardLevel($event: Level) {
+    this.rewardLevel = $event;
   }
 }

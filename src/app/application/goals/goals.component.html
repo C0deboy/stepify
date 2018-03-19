@@ -16,6 +16,12 @@
   </div>
 </div>
 
+<app-goal-details (deleteGoalEvent)="removeGoal($event)" [goal]="activeGoal" (levelRewardEvent)="showRewardLevel($event)"></app-goal-details>
+
+<app-reward-notification [level]="rewardLevel"></app-reward-notification>
+
+<app-new-goal-wizard (newGoalEvent)="showAddedGoal($event)"></app-new-goal-wizard>
+
 
 
 

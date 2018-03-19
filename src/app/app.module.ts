@@ -19,12 +19,12 @@ import {
   MatSlideToggleModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { RewardNotificationComponent } from './application/reward-notification/reward-notification.component';
+import { RewardNotificationComponent } from './application/goals/reward-notification/reward-notification.component';
 import { ApplicationComponent } from './application/application.component';
 import { MessagesComponent } from './messages/messages.component';
 import {MessageService} from './messages/message.service';
 import { NavbarComponent } from './application/navbar/navbar.component';
-import { NewGoalWizardComponent } from './application/new-goal-wizard/new-goal-wizard.component';
+import { NewGoalWizardComponent } from './application/goals/new-goal-wizard/new-goal-wizard.component';
 import {HttpClientModule} from '@angular/common/http';
 import {SmallInputNumberDirective} from './directives/small-input-number.directive';
 import { DailyHabitCalendarComponent } from './application/goal-details/daily-habit-calendar/daily-habit-calendar.component';
