@@ -29,13 +29,14 @@ export class DailyHabit {
       const to = moment(this.to);
 
       while (from <= to) {
-        from.add(1, 'days');
-        if (this.specificDays.includes(from.day())) {
+        console.log(from.format('dddd, DD MMMM YYYY'));
+        if (!this.specificDays.includes(from.day())) {
           diff--;
         }
+
+        from.add(1, 'days');
       }
     }
-    console.log(diff);
     return diff;
   }
 }

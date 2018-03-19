@@ -38,7 +38,7 @@
               <app-daily-habit-calendar  *ngIf="goal.dailyHabit != null && withDailyHabit != true" [dailyHabit]="goal.dailyHabit"></app-daily-habit-calendar>
             </ng-container>
 
-            <mat-slide-toggle class="mb-3" *ngIf="goal.dailyHabit.dailyChecklist.length === 0" [(ngModel)]="withDailyHabit" name="withDailyHabit" (click)="newDailyHabit()">Dodaj codzienne zadania</mat-slide-toggle>
+            <mat-slide-toggle class="mb-3" [(ngModel)]="withDailyHabit" name="withDailyHabit" (click)="newDailyHabit()">Dodaj codzienne zadania</mat-slide-toggle>
             <ng-container *ngIf="withDailyHabit">
               <div class="card" style="width: 18rem;">
                 <div class="card-body checklist">
@@ -84,7 +84,9 @@
                    [(ngModel)]="level.achieved" (change)="showLevelReward(level)" />
               <div class="input-group-prepend">
                 <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
-                  <span class="btn input-group-text" [ngClass]="{'bg-success' : level.achieved}">Poziom {{ i + 1 }}</span>
+                  <span class="btn input-group-text" [ngClass]="{'bg-success' : level.achieved}">
+                    Poziom {{ i + 1 }}
+                  </span>
                 </label>
               </div>
             <input class="form-control" name="level-name-{{i}}" [(ngModel)]="level.name">

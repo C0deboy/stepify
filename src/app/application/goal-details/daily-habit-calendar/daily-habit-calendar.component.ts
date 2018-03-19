@@ -30,7 +30,6 @@ export class DailyHabitCalendarComponent implements OnChanges {
     const to = moment(this.dailyHabit.to);
 
     let lastMonth = from.month();
-
     while (from <= to) {
       this.checkIfNextMonth(from, lastMonth);
       lastMonth = from.month();
@@ -39,13 +38,13 @@ export class DailyHabitCalendarComponent implements OnChanges {
         this.addToCalendar(from);
         from.add(this.dailyHabit.everyNDays, 'days');
       } else {
-        while (!this.dailyHabit.specificDays.includes(from.day())) {
-          from.add(1, 'days');
-        }
         if (this.dailyHabit.specificDays.includes(from.day())) {
           this.addToCalendar(from);
+        }
+        do {
           from.add(1, 'days');
         }
+        while (!this.dailyHabit.specificDays.includes(from.day()));
       }
     }
   }

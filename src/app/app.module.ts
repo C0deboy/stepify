@@ -16,7 +16,7 @@ import { AutoHeightDirective } from './directives/auto-height.directive';
 import {
   MAT_DATE_LOCALE,
   MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule,
-  MatSlideToggleModule
+  MatSlideToggleModule, MatTooltipModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RewardNotificationComponent } from './application/goals/reward-notification/reward-notification.component';
@@ -61,6 +61,7 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     MatSlideToggleModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatTooltipModule
   ],
   providers: [GoalsService, MessageService, GoalsComponent, {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'}],
   bootstrap: [AppComponent]

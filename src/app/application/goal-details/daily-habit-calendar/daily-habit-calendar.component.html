@@ -10,11 +10,14 @@
   </div>
 
   <div class="card-body">
-    <button class="btn btn-circle btn-secondary " *ngFor="let date of calendar[currentMonth]; let i = index"
-            [ngClass]="{'bg-success btn-outline-success text-white' : checkIfDone(i)}" (click)="toggleDone(i)"
-            [disabled]="checkIfFuture(date)">
+    <span *ngFor="let date of calendar[currentMonth]; let i = index"
+          [matTooltip]="date.format('dddd, DD MMMM YYYY')" [matTooltipPosition]="'above'">
+      <button class="btn btn-circle btn-secondary "
+              [ngClass]="{'bg-success btn-outline-success text-white' : checkIfDone(i)}" (click)="toggleDone(i)"
+              [disabled]="checkIfFuture(date)" >
       {{ date.format('D') }}
     </button>
+    </span>
   </div>
 </div>
 
