@@ -34,6 +34,12 @@ export class GoalDetailsComponent {
     if(level.achieved) {
       this.levelRewardEvent.emit(level);
       $('#rewardModal').modal('show');
+
+      if (this.goal.levels.indexOf(level) === this.goal.levels.length - 1) {
+        this.goal.achieved = true;
+      }
+    } else {
+      this.goal.achieved = false;
     }
   }
 

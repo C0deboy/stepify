@@ -9,6 +9,7 @@ export class Goal {
   levels: Level[] = [];
   checklist: CheckList;
   dailyHabit: DailyHabit = DailyHabit.empty();
+  achieved = false;
 
   constructor(name: string, levels: Level[]) {
     this.name = name;
