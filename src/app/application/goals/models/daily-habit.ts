@@ -19,7 +19,6 @@ export class DailyHabit {
     return new DailyHabit(moment(), moment());
   }
 
-
   getDaysDifference(): number {
     let diff = this.to.diff(this.from, 'days') + 1;
     if (this.everyNDays) {

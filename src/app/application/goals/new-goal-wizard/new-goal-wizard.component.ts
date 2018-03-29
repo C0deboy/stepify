@@ -23,6 +23,7 @@ export class NewGoalWizardComponent implements OnInit {
   public newListItem: ListItem = ListItem.empty();
   public withChecklist = false;
   public withDailyHabit = false;
+  public addMultilineChecklist = false;
   public weekdaysShorts = moment().localeData().weekdaysShort();
 
   @Output()
@@ -43,7 +44,14 @@ export class NewGoalWizardComponent implements OnInit {
   }
 
   addListItem() {
-    this.goal.checklist.list.push(this.newListItem);
+    if (this.addMultilineChecklist) {
+      this.newListItem.value.split('\n').forEach(listItem => {
+        this.goal.checklist.list.push(new ListItem(listItem, false));
+      });
+    } else {
+      this.goal.checklist.list.push(this.newListItem);
+    }
+
     this.newListItem = ListItem.empty();
   }
 
