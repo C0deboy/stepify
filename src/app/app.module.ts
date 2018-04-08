@@ -20,7 +20,6 @@ import {
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RewardNotificationComponent } from './application/goals/reward-notification/reward-notification.component';
-import { ApplicationComponent } from './application/application.component';
 import { MessagesComponent } from './messages/messages.component';
 import {MessageService} from './messages/message.service';
 import { NavbarComponent } from './application/navbar/navbar.component';
@@ -29,6 +28,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {SmallInputNumberDirective} from './directives/small-input-number.directive';
 import { DailyHabitCalendarComponent } from './application/goal-details/daily-habit-calendar/daily-habit-calendar.component';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
+import { FilterPipe } from './application/goals/pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -41,12 +41,12 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     ActivatableInputDirective,
     AutoHeightDirective,
     RewardNotificationComponent,
-    ApplicationComponent,
     MessagesComponent,
     NavbarComponent,
     NewGoalWizardComponent,
     SmallInputNumberDirective,
-    DailyHabitCalendarComponent
+    DailyHabitCalendarComponent,
+    FilterPipe
   ],
   imports: [
     MatInputModule,

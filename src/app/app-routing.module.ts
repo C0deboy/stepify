@@ -5,12 +5,11 @@ import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {GoalsComponent} from './application/goals/goals.component';
 import {GoalDetailsComponent} from './application/goal-details/goal-details.component';
-import {ApplicationComponent} from './application/application.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login',      component: LoginComponent },
-  { path: 'your-goals',      component: ApplicationComponent },
+  { path: 'your-goals',      component: GoalsComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 

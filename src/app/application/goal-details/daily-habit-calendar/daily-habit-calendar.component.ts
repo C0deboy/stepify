@@ -15,9 +15,6 @@ export class DailyHabitCalendarComponent implements OnChanges {
   public calendar: Array<Array<Moment>> = [];
   public currentMonth = 0;
 
-  constructor() {
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     this.buildCalendar();
   }
@@ -31,7 +28,7 @@ export class DailyHabitCalendarComponent implements OnChanges {
 
     let lastMonth = from.month();
     while (from <= to) {
-      this.checkIfNextMonth(from, lastMonth);
+      this.addNewMonthToCallendarIfNextMonth(from, lastMonth);
       lastMonth = from.month();
 
       if (this.dailyHabit.everyNDays) {
@@ -41,12 +38,16 @@ export class DailyHabitCalendarComponent implements OnChanges {
         if (this.dailyHabit.specificDays.includes(from.day())) {
           this.addToCalendar(from);
         }
-        do {
-          from.add(1, 'days');
-        }
-        while (!this.dailyHabit.specificDays.includes(from.day()));
+        this.skipUnwantedDays(from);
       }
     }
+  }
+
+  private skipUnwantedDays(from) {
+    do {
+      from.add(1, 'days');
+    }
+    while (!this.dailyHabit.specificDays.includes(from.day()));
   }
 
   private addToCalendar(from: Moment) {
@@ -54,7 +55,7 @@ export class DailyHabitCalendarComponent implements OnChanges {
     this.calendar[lastIndex].push(moment(from));
   }
 
-  private checkIfNextMonth(from: Moment, lastMonth: number) {
+  private addNewMonthToCallendarIfNextMonth(from: Moment, lastMonth: number) {
     if (from.month() !== lastMonth) {
       this.calendar.push([]);
     }

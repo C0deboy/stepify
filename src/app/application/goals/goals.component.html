@@ -1,5 +1,7 @@
+<app-navbar (searchEvent)="setSearchText($event)" (newGoalEvent)="setActiveGoal($event)"></app-navbar>
+
 <div class="d-flex flex-wrap">
-  <div class="col-lg-4 col-md-6" *ngFor="let goal of goals">
+  <div class="col-lg-4 col-md-6" *ngFor="let goal of goals | filter : searchText">
     <div class="goal card mt-3">
       <div class="goal-header card-header" data-toggle="modal" data-target="#goal-details"
            (click)="showGoalDetails(goal)">
@@ -27,8 +29,9 @@
 
 <app-reward-notification [level]="rewardLevel"></app-reward-notification>
 
-<app-new-goal-wizard (newGoalEvent)="showAddedGoal($event)"></app-new-goal-wizard>
+<app-new-goal-wizard [goal]="activeGoal" (newGoalEvent)="showAddedGoal($event)"></app-new-goal-wizard>
 
+<app-messages></app-messages>
 
 
 

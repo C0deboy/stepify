@@ -10,64 +10,29 @@
       <div class="modal-body">
 
         <div class="row">
-          <div class="col-6">
-            <ng-container *ngIf="goal.checklist != null">
-              <div class="card" style="width: 18rem;">
+          <div class="col" *ngIf="goal.checklist != null">
+              <div class="card">
                 <div class="card-body checklist">
-                  <input class="card-title form-control" name="listTitle" [(ngModel)]="goal.checklist.name"
+                  <input class="card-title form-control bg-dark text-white" name="listTitle" [(ngModel)]="goal.checklist.name"
                          appActivatableInput/>
                   <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
                     <input type="checkbox" id="goal-{{goal.id}}-step-{{i}}" name="item-checked-{{i}}"
                            [(ngModel)]="item.checked" (change)="checkIfLevelAchieved(item)"/>
-                    <li class="btn-group">
+                    <li class="btn-group w-100">
                       <label [for]="'goal-'+goal.id+'-step-'+i"
                              [ngClass]="(item.checked)?'btn btn-success':'btn btn-light'">
                         <span class="fa fa-check"></span>
-                        <span class="fa fa-square-o"></span>
+                        <span class="fa fa-square-o"></span>
                       </label>
-                      <input class="btn btn-light" name="item-name-{{i}}" [(ngModel)]="item.value" appActivatableInput/>
+                      <input class="btn btn-light w-100 text-left" name="item-name-{{i}}" [(ngModel)]="item.value" appActivatableInput/>
                     </li>
                   </ul>
                 </div>
               </div>
-            </ng-container>
           </div>
 
-          <div class="col-6">
-            <ng-container *ngIf="goal.dailyHabit != null">
-              <app-daily-habit-calendar  *ngIf="goal.dailyHabit != null && withDailyHabit != true" [dailyHabit]="goal.dailyHabit"></app-daily-habit-calendar>
-            </ng-container>
-
-            <mat-slide-toggle class="mb-3" [(ngModel)]="withDailyHabit" name="withDailyHabit" (click)="newDailyHabit()">Dodaj codzienne zadania</mat-slide-toggle>
-            <ng-container *ngIf="withDailyHabit">
-              <div class="card" style="width: 18rem;">
-                <div class="card-body checklist">
-
-                  <mat-form-field>
-                    <input matInput [matDatepicker]="startDate" [(ngModel)]="goal.dailyHabit.from" name="from" placeholder="Od">
-                    <mat-datepicker-toggle matSuffix [for]="startDate" ></mat-datepicker-toggle>
-                    <mat-datepicker #startDate></mat-datepicker>
-                  </mat-form-field>
-
-                  <mat-form-field>
-                    <input matInput [matDatepicker]="endDate" [(ngModel)]="goal.dailyHabit.to" name="to" placeholder="Do">
-                    <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
-                    <mat-datepicker #endDate></mat-datepicker>
-                  </mat-form-field>
-
-                  <mat-slide-toggle class="mb-3" [(ngModel)]="goal.dailyHabit.everyday" name="everyday">Codziennie</mat-slide-toggle>
-                  <ng-container *ngIf="!goal.dailyHabit.everyday" >
-                    <mat-form-field class="ml-3">
-                      <span matPrefix class="pr-1 mr-3">Co</span>
-                      <input matInput type="number" [(ngModel)]="goal.dailyHabit.everyNDays" name="everyNDays" appSmallInputNumber>
-                      <span matSuffix class="ml-2">dni</span>
-                    </mat-form-field>
-                  </ng-container>
-
-                  <button type="button" class="btn btn-success" (click)="addDailyHabit()"><i class="fa fa-plus-square"></i></button>
-                </div>
-              </div>
-            </ng-container>
+          <div class="col-5" *ngIf="goal.dailyHabit != null">
+              <app-daily-habit-calendar [dailyHabit]="goal.dailyHabit"></app-daily-habit-calendar>
           </div>
         </div>
       </div>
@@ -100,8 +65,9 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger mr-auto" (click)="deleteGoal()">Usuń</button>
-        <button type="button" class="btn btn-primary" (click)="updateGoal()">Zapisz zmiany</button>
+        <button type="button" class="btn btn-danger" (click)="deleteGoal()">Usuń</button>
+        <button type="button" class="btn btn-primary mr-auto" data-toggle="modal" data-target="#new-goal-wizard" (click)="editGoal()">Edytuj</button>
+        <button type="button" class="btn btn-primary" (click)="updateGoal()">Zapisz</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
       </div>
     </form>

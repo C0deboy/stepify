@@ -1,7 +1,9 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GoalsService} from './goals.service';
 import {Goal} from './models/Goal';
 import {Level} from './models/Level';
+import {MessageService} from '../../messages/message.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-goals',
@@ -11,10 +13,12 @@ import {Level} from './models/Level';
 export class GoalsComponent implements OnInit {
   public goals: Goal[];
 
+  @Input()
   public activeGoal: Goal = Goal.empty();
   public rewardLevel: Level = Level.empty();
+  searchText: String;
 
-  constructor(private goalsService: GoalsService) { }
+  constructor(private goalsService: GoalsService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.getGoals();
@@ -23,9 +27,16 @@ export class GoalsComponent implements OnInit {
   getGoals() {
     this.goalsService.getGoals().subscribe(
       (goals: Goal[]) => this.goals = goals,
-      error => console.log(error),
-      () => console.log('Goals fetched.')
+      (error: HttpErrorResponse) => {
+        console.log(error);
+        this.messageService.showErrorMessage('Could not fetch goals. Connection error.');
+      },
+          () => console.log('Goals fetched.')
       );
+  }
+
+  setActiveGoal(goal: Goal) {
+    this.activeGoal = goal;
   }
 
   showGoalDetails(goal: Goal) {
@@ -43,5 +54,9 @@ export class GoalsComponent implements OnInit {
 
   showRewardLevel($event: Level) {
     this.rewardLevel = $event;
+  }
+
+  setSearchText($event: String) {
+    this.searchText = $event;
   }
 }

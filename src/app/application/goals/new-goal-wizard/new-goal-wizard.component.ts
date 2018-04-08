@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Goal} from '../models/Goal';
 import {Level} from '../models/Level';
 import {GoalsService} from '../goals.service';
@@ -7,6 +7,8 @@ import {CheckList} from '../models/Checklist';
 import {ListItem} from '../models/ListItem';
 import {GoalsComponent} from '../goals.component';
 import * as moment from 'moment';
+import {DailyHabit} from '../models/daily-habit';
+
 declare var $: any;
 
 moment.locale('pl-PL');
@@ -16,15 +18,16 @@ moment.locale('pl-PL');
   templateUrl: './new-goal-wizard.component.html',
   styleUrls: ['./new-goal-wizard.component.css']
 })
-export class NewGoalWizardComponent implements OnInit {
-  public goal: Goal = Goal.empty();
+export class NewGoalWizardComponent implements OnInit, OnChanges {
+  @Input()
+  public goal: Goal;
   public newLevel: Level = Level.empty();
-  public newChecklist: CheckList = CheckList.empty();
   public newListItem: ListItem = ListItem.empty();
   public withChecklist = false;
   public withDailyHabit = false;
   public addMultilineChecklist = false;
   public weekdaysShorts = moment().localeData().weekdaysShort();
+  public actionButtonText = 'Dodaj cel';
 
   @Output()
   newGoalEvent = new EventEmitter<Goal>();
@@ -35,6 +38,20 @@ export class NewGoalWizardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.goal.checklist = null;
+    this.goal.dailyHabit = null;
+  }
+
+  ngOnChanges() {
+
+      this.withDailyHabit = this.goal.dailyHabit && this.goal.dailyHabit.dailyChecklist.length > 0;
+      this.withChecklist = this.goal.checklist && this.goal.checklist.list.length > 0;
+
+      if (this.goal.id != null) {
+        this.actionButtonText = 'Zapisz';
+      } else {
+        this.actionButtonText = 'Dodaj cel'
+      }
   }
 
   addLevel(level) {
@@ -65,15 +82,24 @@ export class NewGoalWizardComponent implements OnInit {
       this.goal.dailyHabit.dailyChecklist = new Array(this.goal.dailyHabit.getDaysDifference()).fill(0);
     }
 
-    this.goalsService.addGoal(this.goal).subscribe((goal: Goal) => {
-        console.log(goal);
-        this.newGoalEvent.emit(goal);
+    if (this.goal.id != null) {
+      this.goalsService.updateGoal(this.goal).subscribe((goal: Goal) => {
         $('#new-goal-wizard').modal('hide');
-        this.messageService.showSuccessMessage('Twój cel ' + this.goal.name + ' został dodany.');
+        this.messageService.showSuccessMessage('Zapisano.');
         this.goal = Goal.empty();
-      },
-      error2 => console.log(error2)
-    );
+        },
+        error2 => console.log(error2)
+      );
+    } else {
+      this.goalsService.addGoal(this.goal).subscribe((goal: Goal) => {
+          this.newGoalEvent.emit(goal);
+          $('#new-goal-wizard').modal('hide');
+          this.messageService.showSuccessMessage('Twój cel ' + this.goal.name + ' został dodany.');
+          this.goal = Goal.empty();
+        },
+        error2 => console.log(error2)
+      );
+    }
   }
 
   private addSpecificDay(dayNum: number) {
@@ -94,12 +120,39 @@ export class NewGoalWizardComponent implements OnInit {
   }
 
   areSpecificDaysDefined(): boolean {
+    if (this.goal.dailyHabit.specificDays == null) {
+      return false;
+    }
     if (this.goal.dailyHabit.specificDays.length > 0) {
       this.goal.dailyHabit.everyNDays = null;
       this.goal.dailyHabit.everyday = false;
       return true;
     } else {
       return false;
+    }
+  }
+
+  inlcudedDay(i: number) {
+    if (this.goal.dailyHabit.specificDays == null) {
+      return false;
+    } else {
+      return this.goal.dailyHabit.specificDays.includes(i);
+    }
+  }
+
+  toggleChecklist() {
+    if (this.withChecklist) {
+      this.goal.checklist = CheckList.empty();
+    } else {
+      this.goal.checklist = null;
+    }
+  }
+
+  toggleDailyHabit() {
+    if (this.withDailyHabit) {
+      this.goal.dailyHabit = DailyHabit.empty();
+    } else {
+      this.goal.dailyHabit = null;
     }
   }
 }

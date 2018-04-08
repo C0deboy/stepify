@@ -7,6 +7,7 @@ import {ListItem} from '../goals/models/ListItem';
 import {Level} from '../goals/models/Level';
 import {MessageService} from '../../messages/message.service';
 import {DailyHabit} from '../goals/models/daily-habit';
+
 declare var $: any;
 
 @Component({
@@ -28,10 +29,11 @@ export class GoalDetailsComponent {
   public withChecklist = false;
   public withDailyHabit = false;
 
-  constructor(private goalsService: GoalsService, private messageService: MessageService) {}
+  constructor(private goalsService: GoalsService, private messageService: MessageService) {
+  }
 
   showLevelReward(level: Level) {
-    if(level.achieved) {
+    if (level.achieved) {
       this.levelRewardEvent.emit(level);
       $('#rewardModal').modal('show');
 
@@ -72,7 +74,7 @@ export class GoalDetailsComponent {
         $('#goal-details').modal('hide');
         this.deleteGoalEvent.emit(this.goal.id);
       },
-        error2 => console.log(error2)
+      error2 => console.log(error2)
     );
   }
 
@@ -82,5 +84,9 @@ export class GoalDetailsComponent {
 
   addDailyHabit() {
     this.withDailyHabit = false;
+  }
+
+  editGoal() {
+    $('#goal-details').modal('hide');
   }
 }

@@ -9,7 +9,11 @@ export class CheckList {
     this.list = checklist;
   }
 
-  static empty() {
+  static empty(): CheckList {
     return new CheckList('', []);
+  }
+
+  isEmpty(): boolean {
+    return this.list.length > 0;
   }
 }

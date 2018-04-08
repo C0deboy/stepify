@@ -15,7 +15,7 @@ export class DailyHabit {
     this.to = to;
   }
 
-  static empty() {
+  static empty(): DailyHabit {
     return new DailyHabit(moment(), moment());
   }
 
