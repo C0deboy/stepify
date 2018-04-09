@@ -1,27 +1,37 @@
 <app-navbar (searchEvent)="setSearchText($event)" (newGoalEvent)="setActiveGoal($event)"></app-navbar>
 
-<div class="d-flex flex-wrap">
-  <div class="col-lg-4 col-md-6" *ngFor="let goal of goals | filter : searchText">
-    <div class="goal card mt-3">
-      <div class="goal-header card-header" data-toggle="modal" data-target="#goal-details"
-           (click)="showGoalDetails(goal)">
-        <div class="btn input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text" [ngClass]="{'bg-warning' : goal.achieved}"><i class="fa fa-trophy"></i></span>
-          </div>
-          <span class="form-control" readonly>{{ goal.name }}</span>
-        </div>
-      </div>
-    <div class="card-body">
-      <div class="input-group mb-3" *ngFor="let level of goal.levels">
+<div class="d-flex flex-wrap pb-footer" [@flyInOut]="goals | filter : searchText">
+  <div class="col-12">
+    <h2 class="w-100 text-muted mt-3">Twoje cele:</h2>
+    <hr class="w-100">
+  </div>
+
+  <div class="col-xl-3 col-lg-4 col-md-6" [ngClass]="{'achieved' : goal.achieved}" *ngFor="let goal of goals | filter : searchText">
+    <div class="goal card mt-3" data-toggle="modal" data-target="#goal-details" (click)="showGoalDetails(goal)">
+
+      <div class="btn input-group">
         <div class="input-group-prepend">
-          <span class="input-group-text" [ngClass]="{'bg-success' : level.achieved}">Poziom {{level.level}}</span>
+          <span class="input-group-text" [ngClass]="{'bg-warning' : goal.achieved}"><i class="fa fa-trophy"></i></span>
         </div>
-        <input type="text" class="form-control" value="{{ level.name }}" readonly>
+      <span class="form-control" readonly>{{ goal.name }}</span>
+
+      </div>
+      <div class="card-body">
+        <div class="input-group mt-2" *ngFor="let level of goal.levels">
+          <div class="input-group-prepend">
+            <span class="input-group-text" [ngClass]="{'bg-success' : level.achieved}">Poziom {{level.level}}</span>
+          </div>
+          <input type="text" class="form-control" value="{{ level.name }}" readonly>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <div class="col-12">
+    <h2 class="w-100 text-muted mt-3">Zakończone cele:</h2>
+    <hr class="w-100">
+  </div>
+
 </div>
 
 <app-goal-details (deleteGoalEvent)="removeGoal($event)" [goal]="activeGoal"
@@ -32,6 +42,5 @@
 <app-new-goal-wizard [goal]="activeGoal" (newGoalEvent)="showAddedGoal($event)"></app-new-goal-wizard>
 
 <app-messages></app-messages>
-
 
 

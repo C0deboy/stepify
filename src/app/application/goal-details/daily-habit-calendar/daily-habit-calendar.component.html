@@ -1,11 +1,10 @@
-
 <div class="card" style="width: 18rem;">
 
   <div class="card-header d-flex justify-content-between">
-    <button class="btn fa fa-arrow-left"(click)="previousMonth()">
+    <button class="btn fa fa-arrow-left" (click)="previousMonth()" [disabled]="!hasPreviousMonth()">
     </button>
-    {{ calendar[currentMonth][0].format('MMMM')}}
-    <button class="btn fa fa-arrow-right" (click)="nextMonth()">
+    {{ calendar[currentMonth][0].format('MMMM') }}
+    <button class="btn fa fa-arrow-right" (click)="nextMonth()" [disabled]="!hasNextMonth()">
     </button>
   </div>
 
@@ -14,7 +13,7 @@
           [matTooltip]="date.format('dddd, DD MMMM YYYY')" [matTooltipPosition]="'above'">
       <button class="btn btn-circle btn-secondary "
               [ngClass]="{'bg-success btn-outline-success text-white' : checkIfDone(i)}" (click)="toggleDone(i)"
-              [disabled]="checkIfFuture(date)" >
+              [disabled]="checkIfFuture(date)">
       {{ date.format('D') }}
     </button>
     </span>

@@ -1,12 +1,14 @@
-.goal-header:hover {
+
+.goal {
   cursor: pointer;
-  background-color: rgba(4, 115, 184, 0.44);
-  -webkit-transition: all 1s;
-  -moz-transition: all 1s;
-  -ms-transition: all 1s;
-  -o-transition: all 1s;
-  transition: all 1s;
 }
 
+.goal .input-group {
+  padding: 0;
+}
 
+.achieved {
+  order: 1;
+  opacity: .8;
+}
 

@@ -8,7 +8,6 @@ export class FilterPipe implements PipeTransform {
   transform(goals: Goal[], searchText: string): any[] {
     if (!goals) { return []; }
     if (!searchText) { return goals; }
-    console.log(searchText);
     searchText = searchText.toLowerCase();
     return goals.filter( goal => {
       return goal.name.toLowerCase().includes(searchText);

@@ -1,17 +1,35 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GoalsService} from './goals.service';
 import {Goal} from './models/Goal';
 import {Level} from './models/Level';
 import {MessageService} from '../../messages/message.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {animate, query, stagger, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-goals',
   templateUrl: './goals.component.html',
-  styleUrls: ['./goals.component.css']
+  styleUrls: ['./goals.component.css'],
+  animations: [
+    trigger('flyInOut', [
+      transition('* => *', [
+        query(':enter', style({transform: 'translateX(-100%)', opacity: 0}), { optional: true }),
+        query(':enter', [
+          stagger('100ms', [
+            animate('100ms ease-in', style({transform: 'translateX(0)', opacity: 1}))
+          ])], { optional: true }
+        ),
+        query(':leave',
+          stagger('50ms', [
+            animate('100ms ease-out', style({transform: 'translateX(-100%)', opacity: 0}))
+          ]), { optional: true }
+        )
+      ])
+    ])
+  ]
 })
 export class GoalsComponent implements OnInit {
-  public goals: Goal[];
+  public goals: Goal[] = [];
 
   @Input()
   public activeGoal: Goal = Goal.empty();
@@ -31,7 +49,6 @@ export class GoalsComponent implements OnInit {
         console.log(error);
         this.messageService.showErrorMessage('Could not fetch goals. Connection error.');
       },
-          () => console.log('Goals fetched.')
       );
   }
 

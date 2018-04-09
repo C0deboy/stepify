@@ -41,6 +41,18 @@ export class DailyHabitCalendarComponent implements OnChanges {
         this.skipUnwantedDays(from);
       }
     }
+    this.resolveCurrentMonth();
+  }
+
+  private resolveCurrentMonth() {
+    this.currentMonth = 0;
+    let month = this.calendar[this.currentMonth][0].month();
+    let monthsCount = this.calendar.length;
+    while (month !== moment().month() && monthsCount > 1) {
+      this.currentMonth++;
+      month = this.calendar[this.currentMonth][0].month();
+      monthsCount--;
+    }
   }
 
   private skipUnwantedDays(from) {
@@ -80,23 +92,26 @@ export class DailyHabitCalendarComponent implements OnChanges {
   }
 
   previousMonth() {
-    if (this.currentMonth > 0) {
-      this.currentMonth--;
-    }
+    this.currentMonth--;
   }
 
   nextMonth() {
-    if (this.currentMonth < this.calendar.length - 1) {
-      this.currentMonth++;
-    }
+    this.currentMonth++;
   }
 
   checkIfDone(i): boolean {
-    const done = this.dailyHabit.dailyChecklist[this.resolveStartingIndex() + i] === 1;
-    return done;
+    return this.dailyHabit.dailyChecklist[this.resolveStartingIndex() + i] === 1;
   }
 
   checkIfFuture(date: Moment) {
     return date.isAfter();
+  }
+
+  hasPreviousMonth() {
+    return this.currentMonth > 0;
+  }
+
+  hasNextMonth() {
+    return this.currentMonth < this.calendar.length - 1;
   }
 }

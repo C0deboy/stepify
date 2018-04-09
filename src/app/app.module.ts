@@ -29,6 +29,7 @@ import {SmallInputNumberDirective} from './directives/small-input-number.directi
 import { DailyHabitCalendarComponent } from './application/goal-details/daily-habit-calendar/daily-habit-calendar.component';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import { FilterPipe } from './application/goals/pipes/filter.pipe';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { FilterPipe } from './application/goals/pipes/filter.pipe';
     NewGoalWizardComponent,
     SmallInputNumberDirective,
     DailyHabitCalendarComponent,
-    FilterPipe
+    FilterPipe,
+    FooterComponent
   ],
   imports: [
     MatInputModule,
