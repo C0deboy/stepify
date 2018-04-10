@@ -41,7 +41,9 @@ export class GoalsComponent implements OnInit {
   ngOnInit() {
     this.getGoals();
   }
-
+  newGoal() {
+    this.activeGoal = Goal.empty();
+  }
   getGoals() {
     this.goalsService.getGoals().subscribe(
       (goals: Goal[]) => this.goals = goals,
@@ -50,6 +52,10 @@ export class GoalsComponent implements OnInit {
         this.messageService.showErrorMessage('Could not fetch goals. Connection error.');
       },
       );
+  }
+
+  getAwards(goal): String[] {
+    return goal.levels.filter(l => l.reward !== '').map(level => level.reward);
   }
 
   setActiveGoal(goal: Goal) {

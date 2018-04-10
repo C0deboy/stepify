@@ -17,9 +17,4 @@ export class RewardNotificationComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  recieveReward(reward: string) {
-    this.messageServcie.showSuccessMessage(reward + ' has been added to reward list');
-    $('#rewardModal').modal('toggle');
-  }
 }

@@ -43,15 +43,18 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    if (this.goal.dailyHabit) {
+      this.goal.dailyHabit.everyday = false;
+    }
 
-      this.withDailyHabit = this.goal.dailyHabit && this.goal.dailyHabit.dailyChecklist.length > 0;
-      this.withChecklist = this.goal.checklist && this.goal.checklist.list.length > 0;
+    this.withDailyHabit = this.goal.dailyHabit && this.goal.dailyHabit.dailyChecklist.length > 0;
+    this.withChecklist = this.goal.checklist && this.goal.checklist.list.length > 0;
 
-      if (this.goal.id != null) {
-        this.actionButtonText = 'Zapisz';
-      } else {
-        this.actionButtonText = 'Dodaj cel'
-      }
+    if (this.goal.id != null) {
+      this.actionButtonText = 'Zapisz';
+    } else {
+      this.actionButtonText = 'Dodaj cel';
+    }
   }
 
   addLevel(level) {
@@ -84,9 +87,9 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
 
     if (this.goal.id != null) {
       this.goalsService.updateGoal(this.goal).subscribe((goal: Goal) => {
-        $('#new-goal-wizard').modal('hide');
-        this.messageService.showSuccessMessage('Zapisano.');
-        this.goal = Goal.empty();
+          $('#new-goal-wizard').modal('hide');
+          this.messageService.showSuccessMessage('Zapisano.');
+          this.goal = Goal.empty();
         },
         error2 => console.log(error2)
       );

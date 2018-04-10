@@ -49,6 +49,13 @@ input.text-white {
 .full {
   height: calc(100vh - 40px);
 }
+.text-strike {
+  text-decoration: line-through;
+}
+
+.bg-grey {
+  background: #ced4da;
+}
 
 .pb-footer {
   padding-bottom: 60px;
@@ -64,6 +71,7 @@ input.text-white {
   line-height: 1;
   text-shadow: #EDEDED 3px 2px 0;
   position: relative;
+  text-align: center;
 }
 .logo:hover {
   text-decoration: none;

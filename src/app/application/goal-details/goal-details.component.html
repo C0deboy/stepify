@@ -49,12 +49,12 @@
                    [(ngModel)]="level.achieved" (change)="showLevelReward(level)" />
               <div class="input-group-prepend">
                 <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
-                  <span class="btn input-group-text" [ngClass]="{'bg-success' : level.achieved}">
+                  <span class="btn input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">
                     Poziom {{ i + 1 }}
                   </span>
                 </label>
               </div>
-            <input class="form-control" name="level-name-{{i}}" [(ngModel)]="level.name">
+            <input class="form-control" [ngClass]="{'text-strike' : level.achieved}" name="level-name-{{i}}" [(ngModel)]="level.name">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fa fa-trophy"></i></span>
             </div>
