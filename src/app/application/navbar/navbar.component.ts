@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewChecked, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Goal} from '../goals/models/Goal';
 import {LoginService} from '../../login/login.service';
 
@@ -7,19 +7,23 @@ import {LoginService} from '../../login/login.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnChanges {
 
   @Output()
   newGoalEvent = new EventEmitter<Goal>();
 
   searchText: String;
+  currentUser: String;
 
   @Output()
   searchEvent = new EventEmitter<String>();
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService) {
+    this.currentUser = localStorage.getItem('username');
+  }
 
-  ngOnInit() {
+  ngOnChanges() {
+    this.currentUser = localStorage.getItem('username');
   }
 
   newGoal() {

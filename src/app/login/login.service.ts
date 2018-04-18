@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
@@ -7,8 +7,10 @@ import {MessageService} from '../messages/message.service';
 @Injectable()
 export class LoginService {
   private baseURL = 'http://localhost:8080/';
+  public currentUser: string;
 
-  constructor(private router: Router, private httpClient: HttpClient, private messageService: MessageService) {}
+  constructor(private router: Router, private httpClient: HttpClient, private messageService: MessageService) {
+  }
 
   getAccessToken(credentials: { username: string; password: string }) {
     this.clearOldToken();
@@ -24,21 +26,24 @@ export class LoginService {
       })
     };
 
-    this.httpClient.post(this.baseURL + 'oauth/token', params.toString(),  httpOptions)
+    this.httpClient.post(this.baseURL + 'oauth/token', params.toString(), httpOptions)
       .subscribe(
         data => {
-          this.saveToken(data);
+          this.saveToken(data, credentials.username);
           this.router.navigate(['/your-goals']);
           this.messageService.showSuccessMessage('Zalogowano pomyślnie.');
         },
         err => {
           console.log(err);
+
+          localStorage.removeItem('username');
           this.messageService.showErrorMessage('Nieprawidłowy login lub hasło');
         });
   }
 
-  saveToken(token) {
+  saveToken(token, username) {
     localStorage.setItem('access_token', 'Bearer ' + token.access_token);
+    localStorage.setItem('username', username);
   }
 
   logout() {
@@ -49,5 +54,7 @@ export class LoginService {
 
   private clearOldToken() {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('username');
   }
+
 }
