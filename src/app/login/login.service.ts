@@ -8,10 +8,14 @@ import {MessageService} from '../messages/message.service';
 export class LoginService {
   private baseURL = 'http://localhost:8080/';
 
-  constructor(private _router: Router, private httpClient: HttpClient, private messageService: MessageService) {}
+  constructor(private router: Router, private httpClient: HttpClient, private messageService: MessageService) {}
 
   getAccessToken(credentials: { username: string; password: string }) {
-    const params = `username=${credentials.username}&password=${credentials.password}&grant_type=password`;
+    this.clearOldToken();
+    const params = new URLSearchParams();
+    params.append('username', credentials.username);
+    params.append('password', credentials.password);
+    params.append('grant_type', 'password');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -20,10 +24,11 @@ export class LoginService {
       })
     };
 
-    this.httpClient.post(this.baseURL + 'oauth/token', params,  httpOptions)
+    this.httpClient.post(this.baseURL + 'oauth/token', params.toString(),  httpOptions)
       .subscribe(
         data => {
           this.saveToken(data);
+          this.router.navigate(['/your-goals']);
           this.messageService.showSuccessMessage('Zalogowano pomyślnie.');
         },
         err => {
@@ -34,17 +39,15 @@ export class LoginService {
 
   saveToken(token) {
     localStorage.setItem('access_token', 'Bearer ' + token.access_token);
-    this._router.navigate(['/']);
-  }
-
-  checkCredentials() {
-    if (!localStorage.getItem('access_token')) {
-      this._router.navigate(['/login']);
-    }
   }
 
   logout() {
+    this.clearOldToken();
+    this.router.navigate(['/']);
+    this.messageService.showSuccessMessage('Wylogowano.');
+  }
+
+  private clearOldToken() {
     localStorage.removeItem('access_token');
-    this._router.navigate(['/']);
   }
 }
