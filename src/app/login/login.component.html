@@ -14,14 +14,14 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-user"></i></span>
               </div>
-              <input type="text" class="form-control" placeholder="Login" aria-label="Login">
+              <input type="text" class="form-control" [(ngModel)]="credentials.username" name="login" placeholder="Login" aria-label="Login">
             </div>
 
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-lock"></i></span>
               </div>
-              <input type="text" class="form-control" placeholder="Hasło" aria-label="Hasło">
+              <input type="text" class="form-control" [(ngModel)]="credentials.password" name="password" placeholder="Hasło" aria-label="Hasło">
             </div>
 
             <div class="form-check">
@@ -32,7 +32,7 @@
 
             <div class="form-group float-right">
               <div class="col-sm-12 controls">
-                <button id="btn-login" class="btn btn-success">Zaloguj</button>
+                <button id="btn-login" class="btn btn-success" (click)="login()">Zaloguj</button>
               </div>
             </div>
           </form>

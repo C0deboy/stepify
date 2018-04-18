@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Goal} from '../goals/models/Goal';
+import {LoginService} from '../../login/login.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,7 @@ export class NavbarComponent implements OnInit {
   @Output()
   searchEvent = new EventEmitter<String>();
 
-  constructor() { }
+  constructor(private loginService: LoginService) { }
 
   ngOnInit() {
   }
@@ -27,5 +28,9 @@ export class NavbarComponent implements OnInit {
 
   search() {
     this.searchEvent.emit(this.searchText);
+  }
+
+  logout() {
+    this.loginService.logout();
   }
 }

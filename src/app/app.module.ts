@@ -24,12 +24,14 @@ import { MessagesComponent } from './messages/messages.component';
 import {MessageService} from './messages/message.service';
 import { NavbarComponent } from './application/navbar/navbar.component';
 import { NewGoalWizardComponent } from './application/goals/new-goal-wizard/new-goal-wizard.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {SmallInputNumberDirective} from './directives/small-input-number.directive';
 import { DailyHabitCalendarComponent } from './application/goal-details/daily-habit-calendar/daily-habit-calendar.component';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import { FilterPipe } from './application/goals/pipes/filter.pipe';
 import { FooterComponent } from './footer/footer.component';
+import {LoginService} from 'app/login/login.service';
+import {AuthInterceptor} from './login/authInterceptor';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,13 @@ import { FooterComponent } from './footer/footer.component';
     MatMomentDateModule,
     MatTooltipModule
   ],
-  providers: [GoalsService, MessageService, GoalsComponent, {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'}],
+  providers: [GoalsService,
+      MessageService,
+      LoginService,
+      GoalsComponent,
+      {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
+      { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
