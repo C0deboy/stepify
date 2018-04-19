@@ -32,6 +32,7 @@ import { FilterPipe } from './application/goals/pipes/filter.pipe';
 import { FooterComponent } from './footer/footer.component';
 import {LoginService} from 'app/login/login.service';
 import {AuthInterceptor} from './login/authInterceptor';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {AuthInterceptor} from './login/authInterceptor';
     SmallInputNumberDirective,
     DailyHabitCalendarComponent,
     FilterPipe,
-    FooterComponent
+    FooterComponent,
+    RegistrationComponent
   ],
   imports: [
     MatInputModule,

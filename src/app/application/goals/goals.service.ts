@@ -31,7 +31,7 @@ export class GoalsService {
     return this.httpClient.post(this.baseURL + '/goals', goal);
   }
 
-  deleteGoal(id: number) {
-    return this.httpClient.delete(this.baseURL + '/goals/' + id)
+  deleteGoal(id: String) {
+    return this.httpClient.delete(this.baseURL + '/goals/' + id);
   }
 }

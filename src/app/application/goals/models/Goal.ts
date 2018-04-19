@@ -4,7 +4,7 @@ import {CheckList} from './Checklist';
 import {DailyHabit} from './daily-habit';
 
 export class Goal {
-  id: number;
+  id: String;
   name = '';
   levels: Level[] = [];
   checklist: CheckList;

@@ -3,6 +3,8 @@ import {Router} from '@angular/router';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {MessageService} from '../messages/message.service';
+import {Goal} from '../application/goals/models/Goal';
+import {User} from '../registration/user';
 
 @Injectable()
 export class LoginService {
@@ -50,6 +52,10 @@ export class LoginService {
     this.clearOldToken();
     this.router.navigate(['/']);
     this.messageService.showSuccessMessage('Wylogowano.');
+  }
+
+  createNewAccount(user: User) {
+    return this.httpClient.post(this.baseURL + '/users', user);
   }
 
   private clearOldToken() {

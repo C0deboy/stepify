@@ -24,7 +24,7 @@ export class GoalDetailsComponent {
   levelRewardEvent = new EventEmitter<Level>();
 
   @Output()
-  deleteGoalEvent = new EventEmitter<number>();
+  deleteGoalEvent = new EventEmitter<String>();
 
   public withChecklist = false;
   public withDailyHabit = false;
@@ -69,6 +69,8 @@ export class GoalDetailsComponent {
   }
 
   deleteGoal() {
+
+    console.log(this.goal);
     this.goalsService.deleteGoal(this.goal.id).subscribe(value => {
         this.messageService.showSuccessMessage('Cel został usunięty.');
         $('#goal-details').modal('hide');

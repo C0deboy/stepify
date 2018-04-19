@@ -78,7 +78,7 @@ export class GoalsComponent implements OnInit {
     this.goals.push($event);
   }
 
-  removeGoal($event: number) {
+  removeGoal($event: String) {
     const index: number = this.goals.findIndex(e => e.id === $event);
     this.goals.splice(index, 1);
   }
