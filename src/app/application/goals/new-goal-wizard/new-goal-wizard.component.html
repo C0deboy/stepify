@@ -9,11 +9,11 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-lg-6 col-sm-12">
+          <div class="col-lg-7 col-sm-12">
             <mat-slide-toggle class="mb-3" (change)="toggleChecklist()" [(ngModel)]="withChecklist" name="withChecklist">Todo-lista
             </mat-slide-toggle>
-            <ng-container *ngIf="goal.checklist != null">
-              <div class="card" style="width: 18rem;">
+            <ng-container *ngIf="withChecklist">
+              <div class="card">
                 <div class="card-body checklist">
                   <input class="card-title form-control" name="listTitle" placeholder="Nazwa listy"
                          [(ngModel)]="goal.checklist.name"/>
@@ -21,13 +21,15 @@
                   <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
                     <input type="checkbox" id="newgoal-step-{{i}}" name="item-checked-{{i}}"
                            [(ngModel)]="item.checked"/>
-                    <li class="btn-group">
+                    <li class="btn-group w-100">
                       <label [for]="'newgoal-step-'+i"
                              [ngClass]="(item.checked)?'btn btn-success':'btn btn-light'">
                         <span class="fa fa-check"></span>
                         <span class="fa fa-square-o"></span>
                       </label>
-                      <input class="btn btn-light" name="item-name-{{i}}" [(ngModel)]="item.value" appActivatableInput/>
+                      <input class="btn btn-light w-100" name="item-name-{{i}}" [(ngModel)]="item.value" appActivatableInput/>
+                      <button type="button" class="btn btn-danger" (click)="removeListItem(i)"><i
+                        class="fa fa-minus-square"></i></button>
                     </li>
                   </ul>
 
@@ -53,10 +55,10 @@
             </ng-container>
           </div>
 
-          <div class="col-lg-6 col-sm-12">
+          <div class="col-lg-5 col-sm-12">
             <mat-slide-toggle (change)="toggleDailyHabit()" class="mb-3" [(ngModel)]="withDailyHabit" name="withDailyHabit">Codzienne zadania
             </mat-slide-toggle>
-            <ng-container *ngIf="goal.dailyHabit != null">
+            <ng-container *ngIf="withDailyHabit">
               <div class="card" style="width: 18rem;">
                 <div class="card-body checklist">
 
@@ -74,7 +76,7 @@
                     <mat-datepicker #endDate></mat-datepicker>
                   </mat-form-field>
 
-                  <mat-slide-toggle class="mb-3" [(ngModel)]="goal.dailyHabit.everyday" name="everyday">Codziennie
+                  <mat-slide-toggle class="mb-3" [(ngModel)]="goal.dailyHabit.everyday" (change)="toggleEveryday()" name="everyday">Codziennie
                   </mat-slide-toggle>
 
                   <ng-container *ngIf="!goal.dailyHabit.everyday">
@@ -114,6 +116,9 @@
               <span class="input-group-text"><i class="material-icons">🏆</i></span>
             </div>
             <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
+
+            <button type="button" class="btn btn-danger" (click)="removeLevel(i)"><i
+              class="fa fa-minus-square"></i></button>
           </div>
 
           <hr>

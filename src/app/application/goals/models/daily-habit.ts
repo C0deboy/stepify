@@ -1,5 +1,8 @@
 import {Moment} from 'moment';
 import * as moment from 'moment';
+import {Level} from './Level';
+import {CheckList} from './Checklist';
+import {Goal} from './Goal';
 
 export class DailyHabit {
   public everyday;
@@ -27,14 +30,32 @@ export class DailyHabit {
       const from = moment(this.from);
       const to = moment(this.to);
 
+      let errorLimiter = 0
       while (from <= to) {
         if (!this.specificDays.includes(from.day())) {
           diff--;
         }
 
         from.add(1, 'days');
+
+        if (errorLimiter++ > 500) {
+          console.log(this);
+          throw new Error('DailyHabit has corrupted data.');
+        }
+        console.log(errorLimiter);
       }
     }
     return diff;
+  }
+
+  static deserialize(object: any): DailyHabit {
+    if (object === null) {
+      return null;
+    }
+    const dailyHabit = new DailyHabit(moment(object.from), moment(object.to), object.everyday);
+    dailyHabit.specificDays = object.specificDays;
+    dailyHabit.dailyChecklist = object.dailyChecklist;
+    dailyHabit.everyNDays = object.everyNDays;
+    return dailyHabit;
   }
 }

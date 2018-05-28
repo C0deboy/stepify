@@ -56,6 +56,7 @@ export class GoalsComponent implements OnInit {
           this.messageService.showErrorMessage('Zaloguj się!');
           this.router.navigate(['/login']);
         } else {
+          console.log(error);
           this.messageService.showErrorMessage('Nie można połączyć się z serwerem.');
         }
       },

@@ -5,13 +5,13 @@ import {DailyHabit} from './daily-habit';
 
 export class Goal {
   id: String;
-  name = '';
-  levels: Level[] = [];
+  name: String;
+  levels: Level[];
   checklist: CheckList;
   dailyHabit: DailyHabit = DailyHabit.empty();
   achieved = false;
 
-  constructor(name: string, levels: Level[]) {
+  constructor(name: string = '', levels: Level[] = []) {
     this.name = name;
     this.levels = levels;
   }
@@ -22,5 +22,12 @@ export class Goal {
     emptyGoal.checklist = CheckList.empty();
     emptyGoal.dailyHabit = DailyHabit.empty();
     return emptyGoal;
+  }
+
+  static deserialize(object: any): Goal {
+    const goal = new Goal();
+    Object.assign(goal, object);
+    goal.dailyHabit = DailyHabit.deserialize(object.dailyHabit);
+    return goal;
   }
 }

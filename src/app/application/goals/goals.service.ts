@@ -6,6 +6,8 @@ import {Level} from './models/Level';
 import {CheckList} from './models/Checklist';
 import {ListItem} from './models/ListItem';
 import {HttpClient} from '@angular/common/http';
+import {User} from '../../registration/user';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class GoalsService {
@@ -15,12 +17,16 @@ export class GoalsService {
 
   private baseURL = 'http://localhost:8080';
 
-  getGoals(): Observable<any> {
-    return this.httpClient.get(this.baseURL + '/goals');
+  getGoals(): Observable<Goal[]> {
+    return this.httpClient.get(this.baseURL + '/goals').pipe(map((objects: Goal[]) => {
+      return objects.map(object => Goal.deserialize(object));
+    }));
   }
 
-  getGoal(id: number) {
-    return this.httpClient.get(this.baseURL + '/goals/' + id);
+  getGoal(id: number): Observable<Goal> {
+    return this.httpClient.get(this.baseURL + '/goals/' + id).pipe(map(object => {
+      return Goal.deserialize(object);
+    }));
   }
 
   updateGoal(goal: Goal) {

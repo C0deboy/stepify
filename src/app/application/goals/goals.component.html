@@ -11,7 +11,7 @@
 
       <div class="btn input-group">
         <div class="input-group-prepend">
-          <span class="input-group-text" [ngClass]="{'text-warning' : goal.achieved}"><i class="fa fa-trophy"></i></span>
+          <span class="input-group-text" [ngClass]="{'text-success' : goal.achieved}"><i class="fa fa-check"></i></span>
         </div>
       <span class="form-control font-weight-bold" readonly>{{ goal.name }}</span>
 
@@ -27,7 +27,7 @@
           <p class="mt-2">Twoje nagrody:</p>
           <div class="input-group mt-2"  *ngFor="let award of getAwards(goal)">
             <div class="input-group-prepend">
-              <span class="input-group-text text-warning"><i class="fa fa-trophy"></i></span>
+              <span class="input-group-text text-success"><i class="fa fa-check"></i></span>
             </div>
             <input type="text" class="form-control" value="{{ award }}" readonly>
           </div>

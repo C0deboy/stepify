@@ -64,7 +64,7 @@ export class GoalDetailsComponent {
 
   updateGoal() {
     this.goalsService.updateGoal(this.goal).subscribe(value => this.messageService.showSuccessMessage('Zapisano.'),
-      error2 => console.log(error2));
+      error => console.log(error));
 
   }
 
@@ -76,16 +76,8 @@ export class GoalDetailsComponent {
         $('#goal-details').modal('hide');
         this.deleteGoalEvent.emit(this.goal.id);
       },
-      error2 => console.log(error2)
+      error => console.log(error)
     );
-  }
-
-  newDailyHabit() {
-    this.goal.dailyHabit = DailyHabit.empty();
-  }
-
-  addDailyHabit() {
-    this.withDailyHabit = false;
   }
 
   editGoal() {

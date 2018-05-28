@@ -76,6 +76,7 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
   }
 
   addGoal() {
+
     if (!this.withChecklist) {
       this.goal.checklist = null;
     }
@@ -91,7 +92,7 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
           this.messageService.showSuccessMessage('Zapisano.');
           this.goal = Goal.empty();
         },
-        error2 => console.log(error2)
+        error => console.log(error)
       );
     } else {
       this.goalsService.addGoal(this.goal).subscribe((goal: Goal) => {
@@ -100,7 +101,7 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
           this.messageService.showSuccessMessage('Twój cel ' + this.goal.name + ' został dodany.');
           this.goal = Goal.empty();
         },
-        error2 => console.log(error2)
+        error => console.log(error)
       );
     }
   }
@@ -156,6 +157,23 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
       this.goal.dailyHabit = DailyHabit.empty();
     } else {
       this.goal.dailyHabit = null;
+    }
+  }
+
+  removeLevel(index) {
+    this.goal.levels.splice(index, 1);
+    this.goal.levels.forEach((level, i) => level.level = i + 1);
+  }
+
+  removeListItem(i) {
+    this.goal.checklist.list.splice(i, 1);
+  }
+
+  toggleEveryday() {
+    if (this.goal.dailyHabit.everyday) {
+      this.goal.dailyHabit.specificDays = [];
+      this.goal.dailyHabit.everyNDays = 1;
+      console.log(this.goal.dailyHabit);
     }
   }
 }
