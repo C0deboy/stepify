@@ -22,10 +22,10 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
   @Input()
   public goal: Goal;
   public newLevel: Level = Level.empty();
-  public newListItem: ListItem = ListItem.empty();
   public withChecklist = false;
   public withDailyHabit = false;
   public addMultilineChecklist = false;
+  public listItemValue: string;
   public weekdaysShorts = moment().localeData().weekdaysShort();
   public actionButtonText = 'Dodaj cel';
 
@@ -57,22 +57,26 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
     }
   }
 
+  addListItem(value: string) {
+    if (this.addMultilineChecklist) {
+      const values = value.split('\n');
+      this.goal.checklist.addItems(values);
+    } else {
+      this.goal.checklist.addItem(value);
+    }
+
+    this.listItemValue = '';
+  }
+
   addLevel(level) {
     this.newLevel.level = level;
     this.goal.levels.push(this.newLevel);
     this.newLevel = Level.empty();
   }
 
-  addListItem() {
-    if (this.addMultilineChecklist) {
-      this.newListItem.value.split('\n').forEach(listItem => {
-        this.goal.checklist.list.push(new ListItem(listItem, false));
-      });
-    } else {
-      this.goal.checklist.list.push(this.newListItem);
-    }
-
-    this.newListItem = ListItem.empty();
+  removeLevel(index) {
+    this.goal.levels.splice(index, 1);
+    this.goal.levels.forEach((level, i) => level.level = i + 1);
   }
 
   addGoal() {
@@ -160,20 +164,15 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
     }
   }
 
-  removeLevel(index) {
-    this.goal.levels.splice(index, 1);
-    this.goal.levels.forEach((level, i) => level.level = i + 1);
-  }
-
-  removeListItem(i) {
-    this.goal.checklist.list.splice(i, 1);
-  }
-
   toggleEveryday() {
     if (this.goal.dailyHabit.everyday) {
       this.goal.dailyHabit.specificDays = [];
       this.goal.dailyHabit.everyNDays = 1;
       console.log(this.goal.dailyHabit);
     }
+  }
+
+  trackByFn(i) {
+    return i;
   }
 }

@@ -13,6 +13,21 @@ export class CheckList {
     return new CheckList('', []);
   }
 
+  addItem(newListItem: string) {
+    this.list.push(new ListItem(newListItem, false));
+    console.log(this.list);
+  }
+
+  addItems(values: string[]) {
+    values.forEach(newListItem => {
+      this.list.push(new ListItem(newListItem, false));
+    });
+  }
+
+  removeItem(i) {
+    this.list.splice(i, 1);
+  }
+
   isEmpty(): boolean {
     return this.list.length > 0;
   }

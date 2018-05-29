@@ -18,7 +18,7 @@
                   <input class="card-title form-control" name="listTitle" placeholder="Nazwa listy"
                          [(ngModel)]="goal.checklist.name"/>
 
-                  <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
+                  <ul class="form-group" *ngFor="let item of goal.checklist.list; trackBy: trackByFn let i = index;">
                     <input type="checkbox" id="newgoal-step-{{i}}" name="item-checked-{{i}}"
                            [(ngModel)]="item.checked"/>
                     <li class="btn-group w-100">
@@ -28,7 +28,7 @@
                         <span class="fa fa-square-o"></span>
                       </label>
                       <input class="btn btn-light w-100" name="item-name-{{i}}" [(ngModel)]="item.value" appActivatableInput/>
-                      <button type="button" class="btn btn-danger" (click)="removeListItem(i)"><i
+                      <button type="button" class="btn btn-danger" (click)="goal.checklist.removeItem(i)"><i
                         class="fa fa-minus-square"></i></button>
                     </li>
                   </ul>
@@ -36,14 +36,14 @@
                   <div class="input-group mb-3">
                     <ng-container *ngIf="!addMultilineChecklist; else multiline">
                       <input class="form-control" placeholder="Element listy" name="listItem"
-                             [(ngModel)]="newListItem.value" (keyup.enter)="addListItem()"/>
+                             [(ngModel)]="listItemValue" (keyup.enter)="addListItem(listItemValue)"/>
                     </ng-container>
                     <ng-template #multiline>
                       <textarea class="form-control" placeholder="Elementy listy" name="listItem"
-                                [(ngModel)]="newListItem.value"></textarea>
+                                [(ngModel)]="listItemValue"></textarea>
                     </ng-template>
                     <div class="input-group-prepend">
-                      <button type="button" class="btn btn-success" (click)="addListItem()"><i
+                      <button type="button" class="btn btn-success" (click)="addListItem(listItemValue)"><i
                         class="fa fa-plus-square"></i></button>
                     </div>
                   </div>
@@ -107,7 +107,7 @@
 
         <div class="card-body">
 
-          <div class="input-group mb-3" *ngFor="let level of goal.levels; let i = index;">
+          <div class="input-group mb-3" *ngFor="let level of goal.levels; trackBy: trackByFn let i = index;">
             <div class="input-group-prepend">
               <span class="input-group-text" [ngClass]="{'bg-success' : level.achieved}">Poziom {{ level.level }}</span>
             </div>

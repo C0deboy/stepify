@@ -2,6 +2,7 @@ import {logging} from 'selenium-webdriver';
 import {Level} from './Level';
 import {CheckList} from './Checklist';
 import {DailyHabit} from './daily-habit';
+import {ListItem} from './ListItem';
 
 export class Goal {
   id: String;
@@ -28,6 +29,9 @@ export class Goal {
     const goal = new Goal();
     Object.assign(goal, object);
     goal.dailyHabit = DailyHabit.deserialize(object.dailyHabit);
+    if(object.checklist) {
+      goal.checklist = new CheckList(object.checklist.name, object.checklist.list);
+    }
     return goal;
   }
 }
