@@ -1,4 +1,4 @@
-import { AutoHeightDirective } from './auto-height.directive';
+import {AutoHeightDirective} from './auto-height.directive';
 
 describe('AutoHeightDirective', () => {
   it('should create an instance', () => {

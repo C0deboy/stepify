@@ -1,7 +1,4 @@
-import { ActivatableInputDirective } from './activatable-input.directive';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {NewGoalWizardComponent} from '../application/goals/new-goal-wizard/new-goal-wizard.component';
-import {ElementRef} from '@angular/core';
+import {ActivatableInputDirective} from './activatable-input.directive';
 
 describe('ActivatableInputDirective', () => {
   it('should create an instance', () => {

@@ -6,7 +6,8 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private loginService: LoginService) {}
+  constructor(private loginService: LoginService) {
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     // Get the loginService token from the service.

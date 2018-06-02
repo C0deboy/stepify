@@ -13,6 +13,4 @@ export class SmallInputNumberDirective implements AfterViewInit {
   }
 
 
-
-
 }

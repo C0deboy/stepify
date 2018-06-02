@@ -5,7 +5,7 @@ export class Message {
   public text: string;
 
 
-  constructor( text: string, type: MessageType) {
+  constructor(text: string, type: MessageType) {
     this.type = type;
     this.text = text;
   }
