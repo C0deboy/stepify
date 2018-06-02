@@ -11,28 +11,30 @@
 
         <div class="row">
           <div class="col" *ngIf="goal.checklist != null">
-              <div class="card">
-                <div class="card-body checklist">
-                  <input class="card-title form-control bg-dark text-white" name="listTitle" [(ngModel)]="goal.checklist.name"
-                         appActivatableInput/>
-                  <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
-                    <input type="checkbox" id="goal-{{goal.id}}-step-{{i}}" name="item-checked-{{i}}"
-                           [(ngModel)]="item.checked" (change)="checkIfLevelAchieved(item)"/>
-                    <li class="btn-group w-100">
-                      <label [for]="'goal-'+goal.id+'-step-'+i"
-                             [ngClass]="(item.checked)?'btn btn-success':'btn btn-light'">
-                        <span class="fa fa-check"></span>
-                        <span class="fa fa-square-o"></span>
-                      </label>
-                      <input class="btn btn-light w-100 text-left" name="item-name-{{i}}" [(ngModel)]="item.value" appActivatableInput/>
-                    </li>
-                  </ul>
-                </div>
+            <div class="card">
+              <div class="card-body checklist">
+                <input class="card-title form-control bg-dark text-white" name="listTitle"
+                       [(ngModel)]="goal.checklist.name"
+                       appActivatableInput/>
+                <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
+                  <input type="checkbox" id="goal-{{goal.id}}-step-{{i}}" name="item-checked-{{i}}"
+                         [(ngModel)]="item.checked" (change)="checkIfLevelAchieved(item)"/>
+                  <li class="btn-group w-100">
+                    <label [for]="'goal-'+goal.id+'-step-'+i"
+                           [ngClass]="(item.checked)?'btn btn-success':'btn btn-light'">
+                      <span class="fa fa-check"></span>
+                      <span class="fa fa-square-o"></span>
+                    </label>
+                    <input class="btn btn-light w-100 text-left" name="item-name-{{i}}" [(ngModel)]="item.value"
+                           appActivatableInput/>
+                  </li>
+                </ul>
               </div>
+            </div>
           </div>
 
           <div class="col-5" *ngIf="goal.dailyHabit != null">
-              <app-daily-habit-calendar [dailyHabit]="goal.dailyHabit"></app-daily-habit-calendar>
+            <app-daily-habit-calendar [dailyHabit]="goal.dailyHabit"></app-daily-habit-calendar>
           </div>
         </div>
       </div>
@@ -46,17 +48,18 @@
 
           <div class="input-group mb-3" *ngFor="let level of goal.levels; let i = index;">
             <input class="d-none" type="checkbox" id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
-                   [(ngModel)]="level.achieved" (change)="showLevelReward(level)" />
-              <div class="input-group-prepend">
-                <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
+                   [(ngModel)]="level.achieved" (change)="showLevelReward(level)"/>
+            <div class="input-group-prepend">
+              <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
                   <span class="btn input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">
                     Poziom {{ i + 1 }}
                   </span>
-                </label>
-              </div>
-            <input class="form-control" [ngClass]="{'text-strike' : level.achieved}" name="level-name-{{i}}" [(ngModel)]="level.name">
+              </label>
+            </div>
+            <input class="form-control" [ngClass]="{'text-strike' : level.achieved}" name="level-name-{{i}}"
+                   [(ngModel)]="level.name">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fa fa-trophy"></i></span>
+              <span class="input-group-text">🏆</span>
             </div>
             <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
           </div>
@@ -65,12 +68,39 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="deleteGoal()">Usuń</button>
-        <button type="button" class="btn btn-primary mr-auto" data-toggle="modal" data-target="#new-goal-wizard" (click)="editGoal()">Edytuj</button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"
+                data-dismiss="modal">Usuń
+        </button>
+        <button type="button" class="btn btn-primary mr-auto" data-toggle="modal" data-target="#new-goal-wizard"
+                data-dismiss="modal">Edytuj
+        </button>
         <button type="button" class="btn btn-primary" (click)="updateGoal()">Zapisz</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
       </div>
     </form>
+  </div>
+</div>
+
+<div class="modal fade text-dark" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Usuń cel</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Jesteś pewny, że chcesz usunąć cel?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#goal-details"
+                data-dismiss="modal">Zamknij
+        </button>
+        <button type="button" class="btn btn-danger" (click)="deleteGoal()">Usuń</button>
+      </div>
+    </div>
   </div>
 </div>
 

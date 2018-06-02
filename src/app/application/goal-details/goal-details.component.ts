@@ -1,12 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {GoalsService} from '../goals/goals.service';
 import {Goal} from '../goals/models/Goal';
-import {Location} from '@angular/common';
 import {ListItem} from '../goals/models/ListItem';
 import {Level} from '../goals/models/Level';
 import {MessageService} from '../../messages/message.service';
-import {DailyHabit} from '../goals/models/daily-habit';
+import {HttpErrorResponse} from '@angular/common/http';
+import {LoginService} from '../../login/login.service';
 
 declare var $: any;
 
@@ -29,7 +28,7 @@ export class GoalDetailsComponent {
   public withChecklist = false;
   public withDailyHabit = false;
 
-  constructor(private goalsService: GoalsService, private messageService: MessageService) {
+  constructor(private goalsService: GoalsService, private messageService: MessageService, private loginService: LoginService) {
   }
 
   showLevelReward(level: Level) {
@@ -64,23 +63,32 @@ export class GoalDetailsComponent {
 
   updateGoal() {
     this.goalsService.updateGoal(this.goal).subscribe(value => this.messageService.showSuccessMessage('Zapisano.'),
-      error => console.log(error));
+      (error: HttpErrorResponse) => {
+        if (!this.loginService.checkIfAuthenticationFailed(error)) {
+          console.log(error);
+          this.messageService.showErrorMessage('Nie udało się dodać celu.');
+
+          error.error.errors.forEach(fieldError => {
+            this.messageService.showErrorMessage(fieldError.defaultMessage);
+          });
+        }
+      });
 
   }
 
   deleteGoal() {
-
-    console.log(this.goal);
     this.goalsService.deleteGoal(this.goal.id).subscribe(value => {
         this.messageService.showSuccessMessage('Cel został usunięty.');
         $('#goal-details').modal('hide');
+        $('#confirmModal').modal('hide');
         this.deleteGoalEvent.emit(this.goal.id);
       },
-      error => console.log(error)
+      (error: HttpErrorResponse) => {
+        if (!this.loginService.checkIfAuthenticationFailed(error)) {
+          console.log(error);
+          this.messageService.showErrorMessage('Nie udało się usunąć celu.');
+        }
+      }
     );
-  }
-
-  editGoal() {
-    $('#goal-details').modal('hide');
   }
 }

@@ -1,13 +1,14 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Goal} from '../models/Goal';
 import {Level} from '../models/Level';
 import {GoalsService} from '../goals.service';
 import {MessageService} from '../../../messages/message.service';
 import {CheckList} from '../models/Checklist';
-import {ListItem} from '../models/ListItem';
 import {GoalsComponent} from '../goals.component';
 import * as moment from 'moment';
 import {DailyHabit} from '../models/daily-habit';
+import {LoginService} from '../../../login/login.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 declare var $: any;
 
@@ -34,12 +35,18 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
 
   constructor(private goalsService: GoalsService,
               private goalsComponent: GoalsComponent,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private loginService: LoginService,
+              private elementRef: ElementRef) {
   }
 
   ngOnInit() {
     this.goal.checklist = null;
     this.goal.dailyHabit = null;
+
+    $(this.elementRef.nativeElement).on('shown.bs.modal', function () {
+      $(this).find('input').first().focus();
+    });
   }
 
   ngOnChanges() {
@@ -47,8 +54,8 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
       this.goal.dailyHabit.everyday = false;
     }
 
-    this.withDailyHabit = this.goal.dailyHabit && this.goal.dailyHabit.dailyChecklist.length > 0;
-    this.withChecklist = this.goal.checklist && this.goal.checklist.list.length > 0;
+    this.withDailyHabit = this.goal.isDailyHabitDefined();
+    this.withChecklist = this.goal.isCheckListDefined();
 
     if (this.goal.id != null) {
       this.actionButtonText = 'Zapisz';
@@ -68,15 +75,11 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
     this.listItemValue = '';
   }
 
-  addLevel(level) {
-    this.newLevel.level = level;
-    this.goal.levels.push(this.newLevel);
+  addLevel() {
+    this.newLevel.level = this.goal.levels.length + 1;
+    this.goal.addLevel(this.newLevel);
     this.newLevel = Level.empty();
-  }
-
-  removeLevel(index) {
-    this.goal.levels.splice(index, 1);
-    this.goal.levels.forEach((level, i) => level.level = i + 1);
+    $('input[name="levelName"]').focus();
   }
 
   addGoal() {
@@ -87,64 +90,39 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
     if (!this.withDailyHabit) {
       this.goal.dailyHabit = null;
     } else {
-      this.goal.dailyHabit.dailyChecklist = new Array(this.goal.dailyHabit.getDaysDifference()).fill(0);
+      this.goal.dailyHabit.fillDailyChecklist();
     }
 
     if (this.goal.id != null) {
-      this.goalsService.updateGoal(this.goal).subscribe((goal: Goal) => {
-          $('#new-goal-wizard').modal('hide');
-          this.messageService.showSuccessMessage('Zapisano.');
-          this.goal = Goal.empty();
+      this.goalsService.updateGoal(this.goal).subscribe(() => {
+          this.confirmSuccess('Zapisano.');
         },
-        error => console.log(error)
+        (error: HttpErrorResponse) => this.handleAddOrUpdate(error)
       );
     } else {
       this.goalsService.addGoal(this.goal).subscribe((goal: Goal) => {
-          this.newGoalEvent.emit(goal);
-          $('#new-goal-wizard').modal('hide');
-          this.messageService.showSuccessMessage('Twój cel ' + this.goal.name + ' został dodany.');
-          this.goal = Goal.empty();
+          this.newGoalEvent.emit(Goal.deserialize(goal));
+          this.confirmSuccess('Twój cel ' + this.goal.name + ' został dodany.');
         },
-        error => console.log(error)
+        (error: HttpErrorResponse) => this.handleAddOrUpdate(error)
       );
     }
   }
 
-  private addSpecificDay(dayNum: number) {
-    this.goal.dailyHabit.specificDays.push(dayNum);
+  private confirmSuccess(message: string) {
+    $('#new-goal-wizard').modal('hide');
+    this.messageService.showSuccessMessage(message);
+    this.goal = Goal.empty();
   }
 
-  private removeSpecificDay(index: number) {
-    this.goal.dailyHabit.specificDays.splice(index, 1);
-  }
+  private handleAddOrUpdate(error: HttpErrorResponse) {
+    if (!this.loginService.checkIfAuthenticationFailed(error)) {
+      console.log(error);
+      this.messageService.showErrorMessage('Nie udało się dodać celu.');
 
-  toggleSpecificDay(dayNum: number) {
-    const i = this.goal.dailyHabit.specificDays.indexOf(dayNum);
-    if (i === -1) {
-      this.addSpecificDay(dayNum);
-    } else {
-      this.removeSpecificDay(i);
-    }
-  }
-
-  areSpecificDaysDefined(): boolean {
-    if (this.goal.dailyHabit.specificDays == null) {
-      return false;
-    }
-    if (this.goal.dailyHabit.specificDays.length > 0) {
-      this.goal.dailyHabit.everyNDays = null;
-      this.goal.dailyHabit.everyday = false;
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  inlcudedDay(i: number) {
-    if (this.goal.dailyHabit.specificDays == null) {
-      return false;
-    } else {
-      return this.goal.dailyHabit.specificDays.includes(i);
+      error.error.errors.forEach(fieldError => {
+        this.messageService.showErrorMessage(fieldError.defaultMessage);
+      });
     }
   }
 
@@ -168,7 +146,6 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
     if (this.goal.dailyHabit.everyday) {
       this.goal.dailyHabit.specificDays = [];
       this.goal.dailyHabit.everyNDays = 1;
-      console.log(this.goal.dailyHabit);
     }
   }
 

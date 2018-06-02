@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Level} from '../models/Level';
 import {MessageService} from '../../../messages/message.service';
+
 declare var $: any;
 
 @Component({
@@ -13,7 +14,8 @@ export class RewardNotificationComponent implements OnInit {
   @Input()
   public level: Level;
 
-  constructor(private messageServcie: MessageService) { }
+  constructor(private messageServcie: MessageService) {
+  }
 
   ngOnInit() {
   }

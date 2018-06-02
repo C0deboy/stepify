@@ -12,6 +12,6 @@ export class Level {
   }
 
   static empty() {
-    return new Level(0, '' , '');
+    return new Level(0, '', '');
   }
 }

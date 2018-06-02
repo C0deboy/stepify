@@ -1,13 +1,15 @@
-import {AfterViewChecked, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnChanges, OnInit, Output} from '@angular/core';
 import {Goal} from '../goals/models/Goal';
 import {LoginService} from '../../login/login.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnChanges {
+export class NavbarComponent implements OnInit, OnChanges {
 
   @Output()
   newGoalEvent = new EventEmitter<Goal>();
@@ -18,8 +20,18 @@ export class NavbarComponent implements OnChanges {
   @Output()
   searchEvent = new EventEmitter<String>();
 
-  constructor(private loginService: LoginService) {
+  constructor(private loginService: LoginService, private elementRef: ElementRef) {
     this.currentUser = localStorage.getItem('username');
+  }
+
+  ngOnInit(): void {
+    $(this.elementRef.nativeElement).on('show.bs.dropdown', function (e) {
+      $(this).find('.dropdown-menu').first().stop(true, true).slideDown(300);
+    });
+
+    $(this.elementRef.nativeElement).on('hide.bs.dropdown', function (e) {
+      $(this).find('.dropdown-menu').first().stop(true, true).slideUp(200);
+    });
   }
 
   ngOnChanges() {

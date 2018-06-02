@@ -14,14 +14,14 @@
               <span class="input-group-text"><i class="fa fa-user"></i></span>
             </div>
             <input type="text" class="form-control" [(ngModel)]="credentials.username" name="login" placeholder="Login"
-                   aria-label="Login">
+                   aria-label="Login" autofocus>
           </div>
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fa fa-lock"></i></span>
             </div>
-            <input type="text" class="form-control" [(ngModel)]="credentials.password" name="password"
+            <input type="password" class="form-control" [(ngModel)]="credentials.password" name="password"
                    placeholder="Hasło" aria-label="Hasło">
           </div>
 

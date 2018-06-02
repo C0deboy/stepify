@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {DailyHabit} from '../../goals/models/daily-habit';
 import * as moment from 'moment';
 import {Moment} from 'moment';
@@ -46,6 +46,7 @@ export class DailyHabitCalendarComponent implements OnChanges {
 
   private resolveCurrentMonth() {
     this.currentMonth = 0;
+    console.log(this.calendar[this.currentMonth][0]);
     let month = this.calendar[this.currentMonth][0].month();
     let monthsCount = this.calendar.length;
     while (month !== moment().month() && monthsCount > 1) {
@@ -69,7 +70,9 @@ export class DailyHabitCalendarComponent implements OnChanges {
 
   private addNewMonthToCallendarIfNextMonth(from: Moment, lastMonth: number) {
     if (from.month() !== lastMonth) {
-      this.calendar.push([]);
+      if (this.calendar[0].length !== 0) {
+        this.calendar.push([]);
+      }
     }
   }
 

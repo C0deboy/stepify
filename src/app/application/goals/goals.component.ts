@@ -1,11 +1,12 @@
-import {AfterViewChecked, AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {GoalsService} from './goals.service';
 import {Goal} from './models/Goal';
 import {Level} from './models/Level';
 import {MessageService} from '../../messages/message.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {animate, query, stagger, state, style, transition, trigger} from '@angular/animations';
+import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
 import {Router} from '@angular/router';
+import {LoginService} from '../../login/login.service';
 
 @Component({
   selector: 'app-goals',
@@ -14,15 +15,21 @@ import {Router} from '@angular/router';
   animations: [
     trigger('flyInOut', [
       transition('* => *', [
-        query(':enter', style({transform: 'translateX(-100%)', opacity: 0}), {optional: true}),
         query(':enter', [
+          style({transform: 'translateX(-100%)', opacity: 0}),
           stagger('100ms', [
-            animate('100ms ease-in', style({transform: 'translateX(0)', opacity: 1}))
+            animate('100ms ease-in',
+              style({
+                transform: 'translateX(0)', opacity: 1
+              }))
           ])], {optional: true}
         ),
         query(':leave',
           stagger('50ms', [
-            animate('100ms ease-out', style({transform: 'translateX(-100%)', opacity: 0}))
+            animate('100ms ease-out',
+              style({
+                transform: 'translateX(-100%)', opacity: 0
+              }))
           ]), {optional: true}
         )
       ])
@@ -37,7 +44,10 @@ export class GoalsComponent implements OnInit {
   public rewardLevel: Level = Level.empty();
   searchText: String;
 
-  constructor(private goalsService: GoalsService, private messageService: MessageService, private router: Router) {
+  constructor(private goalsService: GoalsService,
+              private messageService: MessageService,
+              private router: Router,
+              private loginService: LoginService) {
   }
 
   ngOnInit() {
@@ -52,10 +62,7 @@ export class GoalsComponent implements OnInit {
     this.goalsService.getGoals().subscribe(
       (goals: Goal[]) => this.goals = goals,
       (error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          this.messageService.showErrorMessage('Zaloguj się!');
-          this.router.navigate(['/login']);
-        } else {
+        if (!this.loginService.checkIfAuthenticationFailed(error)) {
           console.log(error);
           this.messageService.showErrorMessage('Nie można połączyć się z serwerem.');
         }
@@ -63,11 +70,8 @@ export class GoalsComponent implements OnInit {
     );
   }
 
-  getAwards(goal): String[] {
-    return goal.levels.filter(l => l.reward !== '').map(level => level.reward);
-  }
-
   setActiveGoal(goal: Goal) {
+    console.log(goal);
     this.activeGoal = goal;
   }
 

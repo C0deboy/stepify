@@ -1,4 +1,3 @@
-
 export class ListItem {
   value: string;
   checked: boolean;

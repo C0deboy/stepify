@@ -1,8 +1,5 @@
-import {Moment} from 'moment';
 import * as moment from 'moment';
-import {Level} from './Level';
-import {CheckList} from './Checklist';
-import {Goal} from './Goal';
+import {Moment} from 'moment';
 
 export class DailyHabit {
   public everyday;
@@ -12,14 +9,10 @@ export class DailyHabit {
   public specificDays: number[] = [];
   public dailyChecklist: number[] = [];
 
-  constructor(from: Moment, to: Moment, everyday = true ) {
+  constructor(from: Moment, to: Moment, everyday = true) {
     this.everyday = everyday;
     this.from = from;
     this.to = to;
-  }
-
-  static empty(): DailyHabit {
-    return new DailyHabit(moment(), moment());
   }
 
   getDaysDifference(): number {
@@ -30,7 +23,7 @@ export class DailyHabit {
       const from = moment(this.from);
       const to = moment(this.to);
 
-      let errorLimiter = 0
+      let errorLimiter = 0;
       while (from <= to) {
         if (!this.specificDays.includes(from.day())) {
           diff--;
@@ -42,10 +35,51 @@ export class DailyHabit {
           console.log(this);
           throw new Error('DailyHabit has corrupted data.');
         }
-        console.log(errorLimiter);
       }
     }
     return diff;
+  }
+
+  isEmpty() {
+    return this.dailyChecklist.length > 0;
+  }
+
+  fillDailyChecklist() {
+    this.dailyChecklist = new Array(this.getDaysDifference()).fill(0);
+  }
+
+  toggleSpecificDay(dayNum: number) {
+    const i = this.specificDays.indexOf(dayNum);
+    if (i === -1) {
+      this.specificDays.push(dayNum);
+    } else {
+      this.specificDays.splice(i, 1);
+    }
+  }
+
+  includesDay(i: number) {
+    if (this.specificDays == null) {
+      return false;
+    } else {
+      return this.specificDays.includes(i);
+    }
+  }
+
+  areSpecificDaysDefined(): boolean {
+    if (this.specificDays == null) {
+      return false;
+    }
+    if (this.specificDays.length > 0) {
+      this.everyNDays = null;
+      this.everyday = false;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static empty(): DailyHabit {
+    return new DailyHabit(moment(), moment());
   }
 
   static deserialize(object: any): DailyHabit {

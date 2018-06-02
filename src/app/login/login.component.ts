@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {LoginService} from './login.service';
 
 @Component({
@@ -10,10 +10,10 @@ export class LoginComponent {
 
   public credentials = {username: '', password: ''};
 
-  constructor(private service: LoginService) {}
+  constructor(private service: LoginService) {
+  }
 
   login() {
     this.service.getAccessToken(this.credentials);
   }
-
 }

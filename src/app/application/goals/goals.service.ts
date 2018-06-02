@@ -1,12 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Goal} from './models/Goal';
-import {of} from 'rxjs/observable/of';
 import {Observable} from 'rxjs/Observable';
-import {Level} from './models/Level';
-import {CheckList} from './models/Checklist';
-import {ListItem} from './models/ListItem';
 import {HttpClient} from '@angular/common/http';
-import {User} from '../../registration/user';
 import {map} from 'rxjs/operators';
 
 @Injectable()

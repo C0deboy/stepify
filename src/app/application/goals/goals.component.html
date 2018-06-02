@@ -2,18 +2,19 @@
 
 <div class="d-flex flex-wrap pb-footer" [@flyInOut]="goals | filter : searchText">
   <div class="col-12">
-    <h2 class="w-100 text-muted mt-3">Twoje cele:</h2>
+    <h2 class="w-100 mt-3">Twoje cele:</h2>
     <hr class="w-100">
   </div>
 
-  <div class="col-xl-3 col-lg-4 col-md-6" [ngClass]="{'achieved' : goal.achieved}" *ngFor="let goal of goals | filter : searchText">
+  <div class="col-xl-3 col-lg-4 col-md-6" [ngClass]="{'achieved' : goal.achieved}"
+       *ngFor="let goal of goals | filter : searchText">
     <div class="goal card mt-3" data-toggle="modal" data-target="#goal-details" (click)="showGoalDetails(goal)">
 
       <div class="btn input-group">
         <div class="input-group-prepend">
           <span class="input-group-text" [ngClass]="{'text-success' : goal.achieved}"><i class="fa fa-check"></i></span>
         </div>
-      <span class="form-control font-weight-bold" readonly>{{ goal.name }}</span>
+        <span class="form-control font-weight-bold text-truncate" readonly>{{ goal.name }}</span>
 
       </div>
       <div class="card-body">
@@ -21,13 +22,14 @@
           <div class="input-group-prepend">
             <span class="input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">Poziom {{level.level}}</span>
           </div>
-          <input type="text" class="form-control" [ngClass]="{'text-strike' : level.achieved}" value="{{ level.name }}" readonly>
+          <input type="text" class="form-control" [ngClass]="{'text-strike' : level.achieved}" value="{{ level.name }}"
+                 readonly>
         </div>
         <ng-container *ngIf="goal.achieved">
           <p class="mt-2">Twoje nagrody:</p>
-          <div class="input-group mt-2"  *ngFor="let award of getAwards(goal)">
+          <div class="input-group mt-2" *ngFor="let award of goal.getAwards()">
             <div class="input-group-prepend">
-              <span class="input-group-text text-success"><i class="fa fa-check"></i></span>
+              <span class="input-group-text text-success">🏆</span>
             </div>
             <input type="text" class="form-control" value="{{ award }}" readonly>
           </div>
@@ -36,13 +38,13 @@
     </div>
   </div>
 
-  <button class="btn mt-3 ml-3 h-25 p-2 text-muted bg-transparent border-0"
+  <button class="add-goal-btn btn mt-3 ml-3 h-25 p-2 bg-transparent border-0 "
           data-toggle="modal" data-target="#new-goal-wizard" (click)="newGoal()">
     <i class="fa fa-plus fa-4x" data-toggle="tooltip" data-placement="top" title="Dodaj nowy cel"></i>
   </button>
 
   <div class="col-12">
-    <h2 class="w-100 text-muted mt-3">Zakończone cele:</h2>
+    <h2 class="w-100 mt-3">Zakończone cele:</h2>
     <hr class="w-100">
   </div>
 

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NewGoalWizardComponent } from './new-goal-wizard.component';
+import {NewGoalWizardComponent} from './new-goal-wizard.component';
 
 describe('NewGoalWizardComponent', () => {
   let component: NewGoalWizardComponent;
@@ -8,9 +8,9 @@ describe('NewGoalWizardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewGoalWizardComponent ]
+      declarations: [NewGoalWizardComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

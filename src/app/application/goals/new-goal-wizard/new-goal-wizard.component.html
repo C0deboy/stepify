@@ -1,8 +1,8 @@
 <div class="modal fade goal" id="new-goal-wizard" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <form class="modal-content" (submit)="addGoal()" #newGoalForm="ngForm" (keydown.enter)="$event.preventDefault()">
-      <div class="modal-header bg-dark">
-        <input class="modal-title form-control text-white" name="name" placeholder="Twój cel" [(ngModel)]="goal.name"/>
+      <div class="modal-header secondary-bg">
+        <input class="modal-title form-control" name="name" placeholder="Twój cel" [(ngModel)]="goal.name"/>
         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <i class="fa fa-times"></i>
         </button>
@@ -10,13 +10,14 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-lg-7 col-sm-12">
-            <mat-slide-toggle class="mb-3" (change)="toggleChecklist()" [(ngModel)]="withChecklist" name="withChecklist">Todo-lista
+            <mat-slide-toggle class="mb-3" (change)="toggleChecklist()" [(ngModel)]="withChecklist"
+                              name="withChecklist">Todo-lista
             </mat-slide-toggle>
             <ng-container *ngIf="withChecklist">
               <div class="card">
                 <div class="card-body checklist">
                   <input class="card-title form-control" name="listTitle" placeholder="Nazwa listy"
-                         [(ngModel)]="goal.checklist.name"/>
+                         [(ngModel)]="goal.checklist.name" autofocus/>
 
                   <ul class="form-group" *ngFor="let item of goal.checklist.list; trackBy: trackByFn let i = index;">
                     <input type="checkbox" id="newgoal-step-{{i}}" name="item-checked-{{i}}"
@@ -27,7 +28,8 @@
                         <span class="fa fa-check"></span>
                         <span class="fa fa-square-o"></span>
                       </label>
-                      <input class="btn btn-light w-100" name="item-name-{{i}}" [(ngModel)]="item.value" appActivatableInput/>
+                      <input class="btn btn-light w-100" name="item-name-{{i}}" [(ngModel)]="item.value"
+                             appActivatableInput/>
                       <button type="button" class="btn btn-danger" (click)="goal.checklist.removeItem(i)"><i
                         class="fa fa-minus-square"></i></button>
                     </li>
@@ -48,7 +50,8 @@
                     </div>
                   </div>
 
-                  <mat-slide-toggle class="mb-3" [(ngModel)]="addMultilineChecklist" name="addMultilineChecklist">Multiline
+                  <mat-slide-toggle class="mb-3" [(ngModel)]="addMultilineChecklist" name="addMultilineChecklist">
+                    Multiline
                   </mat-slide-toggle>
                 </div>
               </div>
@@ -56,7 +59,8 @@
           </div>
 
           <div class="col-lg-5 col-sm-12">
-            <mat-slide-toggle (change)="toggleDailyHabit()" class="mb-3" [(ngModel)]="withDailyHabit" name="withDailyHabit">Codzienne zadania
+            <mat-slide-toggle (change)="toggleDailyHabit()" class="mb-3" [(ngModel)]="withDailyHabit"
+                              name="withDailyHabit">Codzienne zadania
             </mat-slide-toggle>
             <ng-container *ngIf="withDailyHabit">
               <div class="card" style="width: 18rem;">
@@ -76,20 +80,24 @@
                     <mat-datepicker #endDate></mat-datepicker>
                   </mat-form-field>
 
-                  <mat-slide-toggle class="mb-3" [(ngModel)]="goal.dailyHabit.everyday" (change)="toggleEveryday()" name="everyday">Codziennie
+                  <mat-slide-toggle class="mb-3" [(ngModel)]="goal.dailyHabit.everyday" (change)="toggleEveryday()"
+                                    name="everyday">Codziennie
                   </mat-slide-toggle>
 
                   <ng-container *ngIf="!goal.dailyHabit.everyday">
                     <mat-form-field class="ml-3">
                       <span matPrefix class="pr-1 mr-3">Co</span>
-                      <input matInput type="number" [(ngModel)]="goal.dailyHabit.everyNDays" name="everyNDays"
-                             appSmallInputNumber [disabled]="areSpecificDaysDefined()" >
+                      <input matInput type="number" min="1" max="7" [(ngModel)]="goal.dailyHabit.everyNDays"
+                             name="everyNDays"
+                             appSmallInputNumber [disabled]="goal.dailyHabit.areSpecificDaysDefined()">
                       <span matSuffix class="ml-2">dni</span>
                     </mat-form-field>
                     <div class="d-flex justify-content-between">
                       <label class="flex-column" *ngFor="let day of weekdaysShorts; let i = index" [for]="day + '-day'">
                         {{day}}
-                        <mat-checkbox [checked]="inlcudedDay(i)" (change)="toggleSpecificDay(i)" [aria-labelledby]="day + '-day'" name="specificDay" value="i"></mat-checkbox>
+                        <mat-checkbox [checked]="goal.dailyHabit.includesDay(i)"
+                                      (change)="goal.dailyHabit.toggleSpecificDay(i)"
+                                      [aria-labelledby]="day + '-day'" name="specificDay" value="i"></mat-checkbox>
                       </label>
                     </div>
                   </ng-container>
@@ -113,11 +121,11 @@
             </div>
             <input class="form-control" name="level-name-{{i}}" [(ngModel)]="level.name">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="material-icons">🏆</i></span>
+              <span class="input-group-text">🏆</span>
             </div>
             <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
 
-            <button type="button" class="btn btn-danger" (click)="removeLevel(i)"><i
+            <button type="button" class="btn btn-danger" (click)="goal.removeLevel(i)"><i
               class="fa fa-minus-square"></i></button>
           </div>
 
@@ -127,13 +135,15 @@
             <div class="input-group-prepend">
               <span class="input-group-text">Poziom {{ goal.levels.length + 1 }}</span>
             </div>
-            <input class="form-control" name="levelName" [(ngModel)]="newLevel.name" placeholder="Krok do celu" (keyup.enter)="addLevel(goal.levels.length + 1)">
+            <input class="form-control" name="levelName" [(ngModel)]="newLevel.name" placeholder="Krok do celu"
+                   (keyup.enter)="addLevel()">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="material-icons">🏆</i></span>
+              <span class="input-group-text">🏆</span>
             </div>
-            <input class="form-control" name="levelReward" [(ngModel)]="newLevel.reward" placeholder="Nagroda" (keyup.enter)="addLevel(goal.levels.length + 1)">
+            <input class="form-control" name="levelReward" [(ngModel)]="newLevel.reward" placeholder="Nagroda"
+                   (keyup.enter)="addLevel()">
 
-            <button type="button" class="btn btn-success" (click)="addLevel(goal.levels.length + 1)"><i
+            <button type="button" class="btn btn-success" (click)="addLevel()"><i
               class="fa fa-plus-square"></i></button>
           </div>
 

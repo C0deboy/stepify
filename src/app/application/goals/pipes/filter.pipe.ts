@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {Goal} from '../models/Goal';
 
 @Pipe({
@@ -6,10 +6,14 @@ import {Goal} from '../models/Goal';
 })
 export class FilterPipe implements PipeTransform {
   transform(goals: Goal[], searchText: string): any[] {
-    if (!goals) { return []; }
-    if (!searchText) { return goals; }
+    if (!goals) {
+      return [];
+    }
+    if (!searchText) {
+      return goals;
+    }
     searchText = searchText.toLowerCase();
-    return goals.filter( goal => {
+    return goals.filter(goal => {
       return goal.name.toLowerCase().includes(searchText);
     });
   }

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RewardNotificationComponent } from './reward-notification.component';
+import {RewardNotificationComponent} from './reward-notification.component';
 
 describe('RewardNotificationComponent', () => {
   let component: RewardNotificationComponent;
@@ -8,9 +8,9 @@ describe('RewardNotificationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RewardNotificationComponent ]
+      declarations: [RewardNotificationComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -9,8 +9,25 @@ html {
 
 body {
   position: relative;
-  background: #465159;
   min-height: 100%;
+}
+
+.primary-bg {
+  background: #0173c7;
+  color: white;
+}
+
+.secondary-bg {
+  background: #00406f;
+  color: white;
+}
+
+input.text-white:focus {
+  background-color: #001d26;
+}
+
+input.text-white {
+  background-color: #001d26;
 }
 
 body::-webkit-scrollbar-track,
@@ -26,6 +43,11 @@ body::-webkit-scrollbar,
   background-color: #F5F5F5;
 }
 
+.modal-content {
+  border: none;
+  color: black;
+}
+
 body::-webkit-scrollbar-thumb,
 .modal::-webkit-scrollbar-thumb {
   border-radius: 10px;
@@ -36,14 +58,6 @@ body::-webkit-scrollbar-thumb,
 .disabledInput {
   border-color: transparent;
   background: inherit;
-}
-
-input.text-white:focus {
-  background-color: #001d26;
-}
-
-input.text-white {
-  background-color: #001d26;
 }
 
 .full {

@@ -1,8 +1,6 @@
-import {logging} from 'selenium-webdriver';
 import {Level} from './Level';
 import {CheckList} from './Checklist';
 import {DailyHabit} from './daily-habit';
-import {ListItem} from './ListItem';
 
 export class Goal {
   id: String;
@@ -18,7 +16,7 @@ export class Goal {
   }
 
   static empty() {
-    const emptyGoal = new Goal('',  []);
+    const emptyGoal = new Goal('', []);
     emptyGoal.levels = [];
     emptyGoal.checklist = CheckList.empty();
     emptyGoal.dailyHabit = DailyHabit.empty();
@@ -29,9 +27,30 @@ export class Goal {
     const goal = new Goal();
     Object.assign(goal, object);
     goal.dailyHabit = DailyHabit.deserialize(object.dailyHabit);
-    if(object.checklist) {
+    if (object.checklist) {
       goal.checklist = new CheckList(object.checklist.name, object.checklist.list);
     }
     return goal;
+  }
+
+  getAwards(): String[] {
+    return this.levels.filter(l => l.reward !== '').map(level => level.reward);
+  }
+
+  isDailyHabitDefined() {
+    return this.dailyHabit && this.dailyHabit.isEmpty();
+  }
+
+  isCheckListDefined() {
+    return this.checklist && this.checklist.isEmpty();
+  }
+
+  addLevel(newLevel: Level) {
+    this.levels.push(newLevel);
+  }
+
+  removeLevel(index: number) {
+    this.levels.splice(index, 1);
+    this.levels.forEach((level, i) => level.level = i + 1);
   }
 }
