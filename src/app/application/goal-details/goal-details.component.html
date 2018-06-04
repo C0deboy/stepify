@@ -98,7 +98,7 @@
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#goal-details"
                 data-dismiss="modal">Zamknij
         </button>
-        <button type="button" class="btn btn-danger" (click)="deleteGoal()">Usuń</button>
+        <button type="button" class="btn btn-danger" (click)="deleteGoal()" (keyup.enter)="deleteGoal()">Usuń</button>
       </div>
     </div>
   </div>

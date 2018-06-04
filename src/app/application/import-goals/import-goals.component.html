@@ -1,0 +1,34 @@
+<div class="modal fade" id="import-goal" tabindex="-1" role="dialog" aria-labelledby="import-label">
+  <div class="modal-dialog modal-lg" role="document">
+    <form class="modal-content" #GoalForm="ngForm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="import-label">Zaimportuj cele</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Separator celów</span>
+          </div>
+          <input class="form-control" name="goalDelimiter" [(ngModel)]="goalDelimiter">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Pre separator poziomu</span>
+          </div>
+          <input class="form-control" name="preDelimiter" [(ngModel)]="preDelimiter">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Post separator poziomu</span>
+          </div>
+          <input class="form-control" name="postDelimiter" [(ngModel)]="postDelimiter">
+        </div>
+        <textarea rows="20" class="form-control" placeholder="Skopiuj tutaj swoje cele" name="importData" [(ngModel)]="importData"></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="import()">Importuj</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+      </div>
+    </form>
+  </div>
+</div>

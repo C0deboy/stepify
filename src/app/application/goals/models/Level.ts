@@ -4,7 +4,7 @@ export class Level {
   reward: string;
   achieved: boolean;
 
-  constructor(level: number, name: string, reward: string, achieved: boolean = false) {
+  constructor(level: number, name: string, reward: string = '', achieved: boolean = false) {
     this.name = name;
     this.reward = reward;
     this.level = level;

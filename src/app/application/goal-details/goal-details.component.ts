@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
 import {GoalsService} from '../goals/goals.service';
 import {Goal} from '../goals/models/Goal';
 import {ListItem} from '../goals/models/ListItem';
@@ -90,5 +90,11 @@ export class GoalDetailsComponent {
         }
       }
     );
+  }
+
+  @HostListener('keydown', ['$event']) deleteBtn(event: KeyboardEvent) {
+    if (event.key === 'Delete') {
+      this.deleteGoal();
+    }
   }
 }
