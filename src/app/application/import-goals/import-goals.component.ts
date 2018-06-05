@@ -23,13 +23,17 @@ export class ImportGoalsComponent implements OnInit {
   public levelSuffix = '–';
   public inspiredByPrefix = 'Inspiracja:';
   public inspiredBySuffix = '$';
-  public achievedAtPrefix = '\\[Wykonane ';
+  public achievedAtPrefix = 'Wykonane';
   public achievedAtSuffix = '\\)';
 
   private goalRegEx = new RegExp(this.goalPrefix + '(.*?)' + this.goalSuffix);
   private levelRegEx = new RegExp(this.levelPrefix + '(.*?)' + this.levelSuffix);
   private inspiredByRegEx = new RegExp(this.inspiredByPrefix + '(.*?)' + this.inspiredBySuffix);
-  private achievedRegex = new RegExp(this.achievedAtPrefix + '(.*?)' + this.achievedAtSuffix);
+  private achievedMdRegex = new RegExp('\\[' + this.achievedAtPrefix + '\\s+(\\d.*\\d)]\\((.*?)\\)');
+  private achievedRegex = new RegExp(this.achievedAtPrefix + '[\\s:]*(\\d[.\\-\\\\\\d]{7,8}\\d)');
+
+  public goalsToBeImported: Goal[] = [];
+  private data: string[];
 
   constructor(private messageService: MessageService,
               private loginService: LoginService,
@@ -39,28 +43,38 @@ export class ImportGoalsComponent implements OnInit {
   ngOnInit() {
   }
 
-  import() {
-    const data: string[] = this.importData.trim().split(this.goalDelimiter);
+  checkImport() {
+    this.data = this.importData.trim().split(this.goalDelimiter);
     this.importData = '';
-    let goalsAdded = 0;
 
-    data.forEach((goalString, i) => {
-
+    this.data.forEach((goalString, i) => {
       const goalData: string[] = goalString.split('\n');
       const newGoal = this.createGoalFromData(goalData);
-      console.log(newGoal);
+      this.goalsToBeImported.push(newGoal);
+    });
+  }
+
+  import() {
+    let goalsAdded = 0;
+    this.goalsToBeImported.forEach((newGoal, i) => {
       this.goalsService.addGoal(newGoal).subscribe((goal: Goal) => goalsAdded++,
         (error: HttpErrorResponse) => {
           this.handleAddOrUpdate(error);
-          this.importData += data[i] + this.goalDelimiter;
+          this.importData += this.data[i] + this.goalDelimiter;
+          this.goalsToBeImported.splice(i, 1);
         },
         () => {
-          if (i === data.length - 1) {
+          if (i === this.goalsToBeImported.length - 1) {
             this.messageService.showSuccessMessage('Zaimportowano ' + goalsAdded + ' celów.');
           }
         }
       );
     });
+  }
+
+  clear() {
+    this.data = [];
+    this.goalsToBeImported = [];
   }
 
   private createGoalFromData(goalData: string[]) {
@@ -73,7 +87,7 @@ export class ImportGoalsComponent implements OnInit {
         const goalInspiredBy = line.match(this.inspiredByRegEx);
 
         if (!lookForGoalName(line, this.goalRegEx)) {
-          if (!lookForGoalLevel(line, i, this.levelRegEx, this.achievedRegex)) {
+          if (!lookForGoalLevel(line, i, this.levelRegEx, this.achievedMdRegex, this.achievedRegex)) {
             lookForInspiredBy(line, this.inspiredByRegEx);
           }
         }
@@ -93,32 +107,28 @@ export class ImportGoalsComponent implements OnInit {
       }
     }
 
-    function lookForGoalLevel(line: string, i: number, regex: RegExp, achievedRegex: RegExp): boolean {
+    function lookForGoalLevel(line: string, i: number, regex: RegExp, achievedMdRegex: RegExp, achievedRegex: RegExp): boolean {
       const result = line.match(regex);
       if (result) {
         const data = parseValues(result[1]);
         const level = new Level(i, data.get('name'));
 
-        if (data.has('link')) {
-          level.achievedProof = data.get('link');
-        }
-
-        const achievedResult = line.match(achievedRegex);
-
-        if (achievedResult) {
+        const achievedMdResult = line.match(achievedMdRegex);
+        console.log(achievedMdRegex);
+        console.log(achievedMdResult);
+        if (achievedMdResult) {
           level.achieved = true;
-          const data2 = parseValues(achievedResult[0]);
-          if (data2.has('link')) {
-            level.achievedProof = data2.get('link');
-          }
-          const achievedAt = data2.get('name').match(/\d.*\d/g);
-          if (achievedAt) {
-            level.achievedAt = moment(achievedAt[0].replace(/\./g, '/'));
-            console.log(level.achievedAt);
-            console.log(moment());
+          level.achievedAt = moment(achievedMdResult[1], 'DD.MM.YYYY');
+          level.achievedProof = achievedMdResult[2];
+        } else {
+          const achievedResult = line.match(achievedRegex);
+          console.log(achievedRegex);
+          console.log(achievedResult);
+          if (achievedResult) {
+            level.achieved = true;
+            level.achievedAt = moment(achievedResult[1], 'DD.MM.YYYY');
           }
         }
-
         goal.addLevel(level) ;
         return true;
       } else {
@@ -143,7 +153,6 @@ export class ImportGoalsComponent implements OnInit {
 
     function parseValues(line: string): Map<string, string> {
       const data = new Map();
-
       const mdLinRegex = new RegExp('\\[(.*)]\\((.*)\\)');
       const result = line.match(mdLinRegex);
       if (result) {
@@ -169,7 +178,6 @@ export class ImportGoalsComponent implements OnInit {
   }
 
   @HostListener('paste', ['$event']) pasteAsRichText(event: ClipboardEvent) {
-    console.log(event.clipboardData);
     event.preventDefault();
 
     const pastedText = event.clipboardData.getData('text/html');

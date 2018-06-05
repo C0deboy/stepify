@@ -50,10 +50,11 @@
               <a class="text-success" *ngIf="level.achievedProof; else noProof" href="{{level.achievedProof}}">
                 Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}
               </a>
-              <ng-template #noProof><span class="text-success">Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}</span></ng-template>
+              <ng-template #noProof><span class="text-success">Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}</span>
+              </ng-template>
             </div>
 
-            <div class="input-group mb-3" >
+            <div class="input-group mb-3">
 
               <input class="d-none" type="checkbox" id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
                      [(ngModel)]="level.achieved" (change)="showLevelReward(level)"/>
@@ -76,7 +77,8 @@
 
           <ng-container *ngIf="goal.inspiredBy">
             <span>Inspiracja:</span>
-            <a *ngIf="goal.inspiredByLink; else inspiredByPlainText" href="{{goal.inspiredByLink}}">{{goal.inspiredBy}}</a>
+            <a *ngIf="goal.inspiredByLink; else inspiredByPlainText"
+               href="{{goal.inspiredByLink}}">{{goal.inspiredBy}}</a>
             <ng-template #inspiredByPlainText>{{goal.inspiredBy}}</ng-template>
           </ng-container>
         </div>
