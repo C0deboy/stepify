@@ -6,6 +6,7 @@ import {Level} from '../goals/models/Level';
 import {MessageService} from '../../messages/message.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {LoginService} from '../../login/login.service';
+import * as moment from 'moment';
 
 declare var $: any;
 
@@ -25,14 +26,12 @@ export class GoalDetailsComponent {
   @Output()
   deleteGoalEvent = new EventEmitter<String>();
 
-  public withChecklist = false;
-  public withDailyHabit = false;
-
   constructor(private goalsService: GoalsService, private messageService: MessageService, private loginService: LoginService) {
   }
 
   showLevelReward(level: Level) {
     if (level.achieved) {
+      level.achievedAt = moment();
       this.levelRewardEvent.emit(level);
       $('#rewardModal').modal('show');
 
@@ -41,6 +40,8 @@ export class GoalDetailsComponent {
       }
     } else {
       this.goal.achieved = false;
+      level.achievedAt = null;
+      level.achievedProof = null;
     }
   }
 

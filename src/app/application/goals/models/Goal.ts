@@ -1,6 +1,7 @@
 import {Level} from './Level';
 import {CheckList} from './Checklist';
 import {DailyHabit} from './daily-habit';
+import {Moment} from 'moment';
 
 export class Goal {
   id: String;
@@ -8,7 +9,10 @@ export class Goal {
   levels: Level[];
   checklist: CheckList;
   dailyHabit: DailyHabit;
-  achieved = false;
+  achieved: boolean;
+  inspiredBy: String;
+  inspiredByLink: String;
+
 
   constructor(name: string = '', levels: Level[] = []) {
     this.name = name;
@@ -48,6 +52,7 @@ export class Goal {
     const goal = new Goal();
     Object.assign(goal, object);
     goal.dailyHabit = DailyHabit.deserialize(object.dailyHabit);
+    goal.levels = object.levels.map(level => Level.deserialize(level));
     if (object.checklist) {
       goal.checklist = new CheckList(object.checklist.name, object.checklist.list);
     }

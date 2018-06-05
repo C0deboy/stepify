@@ -45,25 +45,40 @@
         </div>
 
         <div class="card-body">
+          <div *ngFor="let level of goal.levels; let i = index;">
+            <div *ngIf="level.achievedAt">
+              <a class="text-success" *ngIf="level.achievedProof; else noProof" href="{{level.achievedProof}}">
+                Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}
+              </a>
+              <ng-template #noProof><span class="text-success">Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}</span></ng-template>
+            </div>
 
-          <div class="input-group mb-3" *ngFor="let level of goal.levels; let i = index;">
-            <input class="d-none" type="checkbox" id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
-                   [(ngModel)]="level.achieved" (change)="showLevelReward(level)"/>
-            <div class="input-group-prepend">
-              <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
+            <div class="input-group mb-3" >
+
+              <input class="d-none" type="checkbox" id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
+                     [(ngModel)]="level.achieved" (change)="showLevelReward(level)"/>
+              <div class="input-group-prepend">
+                <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
                   <span class="btn input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">
-                    Poziom {{ i + 1 }}
+                    Poziom {{ level.level }}
                   </span>
-              </label>
+                </label>
+              </div>
+              <input class="form-control" [ngClass]="{'text-strike' : level.achieved}" name="level-name-{{i}}"
+                     [(ngModel)]="level.name">
+              <div class="input-group-prepend">
+                <span class="input-group-text">🏆</span>
+              </div>
+              <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
+
             </div>
-            <input class="form-control" [ngClass]="{'text-strike' : level.achieved}" name="level-name-{{i}}"
-                   [(ngModel)]="level.name">
-            <div class="input-group-prepend">
-              <span class="input-group-text">🏆</span>
-            </div>
-            <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
           </div>
 
+          <ng-container *ngIf="goal.inspiredBy">
+            <span>Inspiracja:</span>
+            <a *ngIf="goal.inspiredByLink; else inspiredByPlainText" href="{{goal.inspiredByLink}}">{{goal.inspiredBy}}</a>
+            <ng-template #inspiredByPlainText>{{goal.inspiredBy}}</ng-template>
+          </ng-container>
         </div>
       </div>
 

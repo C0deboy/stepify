@@ -129,8 +129,6 @@
               class="fa fa-minus-square"></i></button>
           </div>
 
-          <hr>
-
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text">Poziom {{ goal.levels.length + 1 }}</span>
@@ -146,14 +144,29 @@
             <button type="button" class="btn btn-success" (click)="addLevel()"><i
               class="fa fa-plus-square"></i></button>
           </div>
-
-
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button class="btn btn-primary">{{actionButtonText}}</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+      <div class="card-header">
+        Co Cię zainspirowało?
+      </div>
+
+      <div class="card-body">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Inspiracja</span>
+          </div>
+          <input class="form-control" name="inspiredBy" [(ngModel)]="goal.inspiredBy" placeholder="Inspiracja">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Link</span>
+          </div>
+          <input class="form-control" name="inspiredByLink" [(ngModel)]="goal.inspiredByLink" placeholder="Link">
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary">{{actionButtonText}}</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+        </div>
       </div>
     </form>
   </div>

@@ -9,14 +9,23 @@
         </button>
       </div>
       <div class="modal-body bg-dark text-white text-center">
-        Osiągnąłeś poziom {{ level.level }} : {{ level.name }}!<br>
-        Nagroda:
+        <h5>Osiągnąłeś poziom {{ level.level }} : {{ level.name }}!<br>
+          Nagroda:</h5>
 
         <div class="input-group mt-3 justify-content-center">
           <div class="input-group-prepend">
-            <span class="input-group-text"><i class="material-icons">🏆</i></span>
+            <span class="input-group-text">🏆</span>
           </div>
-          <span class="input-group-text"><i class="material-icons">{{ level.reward }}</i></span>
+          <span class="input-group-text">{{ level.reward }}</span>
+        </div>
+
+        <p>Masz na to dowód? Podaj link:</p>
+
+        <div class="input-group mt-3 justify-content-center">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Link</span>
+          </div>
+          <input class="form-control" name="achievedProof" [(ngModel)]="level.achievedProof">
         </div>
       </div>
       <div class="modal-footer bg-dark text-white">

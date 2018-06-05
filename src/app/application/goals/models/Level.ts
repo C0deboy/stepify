@@ -1,8 +1,16 @@
+import {Moment} from 'moment';
+import {CheckList} from './Checklist';
+import {DailyHabit} from './daily-habit';
+import {Goal} from './Goal';
+import * as moment from 'moment';
+
 export class Level {
   level: number;
   name: string;
   reward: string;
   achieved: boolean;
+  achievedAt: Moment;
+  achievedProof: String;
 
   constructor(level: number, name: string, reward: string = '', achieved: boolean = false) {
     this.name = name;
@@ -13,5 +21,14 @@ export class Level {
 
   static empty() {
     return new Level(0, '', '');
+  }
+
+  static deserialize(object: any): Level {
+    const level = this.empty();
+    Object.assign(level, object);
+    if (object.achievedAt) {
+      level.achievedAt = moment(object.achievedAt);
+    }
+    return level;
   }
 }

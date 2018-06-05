@@ -8,19 +8,36 @@
         </button>
       </div>
       <div class="modal-body">
+        <h5>Ustawienia formatu:</h5>
         <div class="input-group mb-3">
+          <span class="mr-auto ml-auto"></span>
           <div class="input-group-prepend">
-            <span class="input-group-text">Separator celów</span>
+            <input style="width: 70px" class="form-control" placeholder="prefix" name="goalPrefix" [(ngModel)]="goalPrefix">
           </div>
-          <input class="form-control" name="goalDelimiter" [(ngModel)]="goalDelimiter">
+          <span class="input-group-text">Nazwa celu</span>
           <div class="input-group-prepend">
-            <span class="input-group-text">Pre separator poziomu</span>
+            <input style="width: 70px" class="form-control" placeholder="suffix" name="goalSuffix" [(ngModel)]="goalSuffix">
           </div>
-          <input class="form-control" name="preDelimiter" [(ngModel)]="preDelimiter">
+          <span class="mr-auto ml-auto"></span>
           <div class="input-group-prepend">
-            <span class="input-group-text">Post separator poziomu</span>
+            <input style="width: 70px"  class="form-control" placeholder="prefix" name="levelPrefix" [(ngModel)]="levelPrefix">
           </div>
-          <input class="form-control" name="postDelimiter" [(ngModel)]="postDelimiter">
+          <span class="input-group-text">Nazwa Poziomu</span>
+          <div class="input-group-prepend">
+            <input style="width: 70px"  class="form-control" placeholder="suffix" name="levelSuffix" [(ngModel)]="levelSuffix">
+          </div>
+          <span class="mr-auto ml-auto"></span>
+        </div>
+        <div class="input-group mb-3">
+          <span class="mr-auto ml-auto"></span>
+          <div class="input-group-prepend">
+            <input style="width: 70px" class="form-control" placeholder="prefix" name="inspiredByPrefix" [(ngModel)]="inspiredByPrefix">
+          </div>
+          <span class="input-group-text">Inspiracja</span>
+          <div class="input-group-prepend">
+            <input style="width: 70px" class="form-control" placeholder="suffix" name="inspiredBySuffix" [(ngModel)]="inspiredBySuffix">
+          </div>
+          <span class="mr-auto ml-auto"></span>
         </div>
         <textarea rows="20" class="form-control" placeholder="Skopiuj tutaj swoje cele" name="importData" [(ngModel)]="importData"></textarea>
       </div>
