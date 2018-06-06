@@ -7,6 +7,7 @@ import {MessageService} from '../../messages/message.service';
 import {LoginService} from '../../login/login.service';
 import TurndownService from 'turndown';
 import * as moment from 'moment';
+import {MdRegex} from './md-regex';
 
 @Component({
   selector: 'app-import-goals',
@@ -17,20 +18,19 @@ export class ImportGoalsComponent implements OnInit {
 
   public importData = '';
   public goalDelimiter = '\n\n';
-  public goalPrefix = '\\*\\*';
-  public goalSuffix = '\\*\\*';
+  public goalPrefix = '**';
+  public goalSuffix = '**';
   public levelPrefix = ':';
   public levelSuffix = '–';
   public inspiredByPrefix = 'Inspiracja:';
-  public inspiredBySuffix = '$';
+  public inspiredBySuffix = '';
   public achievedAtPrefix = 'Wykonane';
-  public achievedAtSuffix = '\\)';
+  public achievedAtSuffix = '';
 
-  private goalRegEx = new RegExp(this.goalPrefix + '(.*?)' + this.goalSuffix);
-  private levelRegEx = new RegExp(this.levelPrefix + '(.*?)' + this.levelSuffix);
-  private inspiredByRegEx = new RegExp(this.inspiredByPrefix + '(.*?)' + this.inspiredBySuffix);
-  private achievedMdRegex = new RegExp('\\[' + this.achievedAtPrefix + '\\s+(\\d.*\\d)]\\((.*?)\\)');
-  private achievedRegex = new RegExp(this.achievedAtPrefix + '[\\s:]*(\\d[.\\-\\\\\\d]{7,8}\\d)');
+  private goalRegEx = new MdRegex(this.goalPrefix, this.goalSuffix);
+  private levelRegEx = new MdRegex(this.levelPrefix, this.levelSuffix, '.*?\\)?');
+  private inspiredByRegEx = new MdRegex(this.inspiredByPrefix, this.inspiredBySuffix);
+  private achievedRegex = new MdRegex(this.achievedAtPrefix, this.achievedAtSuffix, '\\d[.\\-\\\d]{7,8}\\d');
 
   public goalsToBeImported: Goal[] = [];
   private data: string[];
@@ -55,17 +55,23 @@ export class ImportGoalsComponent implements OnInit {
   }
 
   import() {
+    const totalGoals = this.goalsToBeImported.length - 1;
     let goalsAdded = 0;
+    let goalsFailed = 0;
     this.goalsToBeImported.forEach((newGoal, i) => {
       this.goalsService.addGoal(newGoal).subscribe((goal: Goal) => goalsAdded++,
         (error: HttpErrorResponse) => {
-          this.handleAddOrUpdate(error);
+          console.log(error);
+          goalsFailed++;
           this.importData += this.data[i] + this.goalDelimiter;
-          this.goalsToBeImported.splice(i, 1);
         },
         () => {
-          if (i === this.goalsToBeImported.length - 1) {
+          if (i === totalGoals) {
+            this.clear();
             this.messageService.showSuccessMessage('Zaimportowano ' + goalsAdded + ' celów.');
+            if (goalsFailed > 0) {
+              this.messageService.showErrorMessage('Nie udało się zaimportować ' + goalsFailed + ' celów.');
+            }
           }
         }
       );
@@ -73,7 +79,6 @@ export class ImportGoalsComponent implements OnInit {
   }
 
   clear() {
-    this.data = [];
     this.goalsToBeImported = [];
   }
 
@@ -82,12 +87,8 @@ export class ImportGoalsComponent implements OnInit {
 
     goalData.forEach((line, i) => {
       if (line && line !== '') {
-
-        const goalLevel = line.match(this.levelRegEx);
-        const goalInspiredBy = line.match(this.inspiredByRegEx);
-
         if (!lookForGoalName(line, this.goalRegEx)) {
-          if (!lookForGoalLevel(line, i, this.levelRegEx, this.achievedMdRegex, this.achievedRegex)) {
+          if (!lookForGoalLevel(line, i, this.levelRegEx, this.achievedRegex)) {
             lookForInspiredBy(line, this.inspiredByRegEx);
           }
         }
@@ -95,85 +96,68 @@ export class ImportGoalsComponent implements OnInit {
     });
     return goal;
 
-    function lookForGoalName(line: string, regex): boolean {
-      const goalName = line.match(regex);
+    function lookForGoalName(line: string, regex: MdRegex): boolean {
+      const goalName = line.match(regex.get());
       if (goalName) {
-        const data = parseValues(goalName[1]);
-
-        goal.name = data.get('name');
+        goal.name = goalName[1];
         return true;
       } else {
         return false;
       }
     }
 
-    function lookForGoalLevel(line: string, i: number, regex: RegExp, achievedMdRegex: RegExp, achievedRegex: RegExp): boolean {
-      const result = line.match(regex);
-      if (result) {
-        const data = parseValues(result[1]);
-        const level = new Level(i, data.get('name'));
+    function lookForGoalLevel(line: string, i: number, regex: MdRegex, achievedRegex: MdRegex): boolean {
+      const result = line.match(regex.get());
 
-        const achievedMdResult = line.match(achievedMdRegex);
-        console.log(achievedMdRegex);
-        console.log(achievedMdResult);
+      if (result) {
+        const level = new Level(i, result[1]);
+        lookForAchivedInfo(level);
+        goal.addLevel(level);
+        return true;
+      } else {
+        const resultMdLink = line.match(regex.getForMdLink());
+        if (resultMdLink) {
+          const level = new Level(i, result[1]);
+          lookForAchivedInfo(level);
+          goal.addLevel(level);
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      function lookForAchivedInfo(level) {
+        const achievedMdResult = line.match(achievedRegex.getForMdLink());
+        const formats = ['DD-MM-YYYY', 'YYYY-MM-DD'];
         if (achievedMdResult) {
           level.achieved = true;
-          level.achievedAt = moment(achievedMdResult[1], 'DD.MM.YYYY');
+          level.achievedAt = moment(achievedMdResult[1], formats);
           level.achievedProof = achievedMdResult[2];
         } else {
-          const achievedResult = line.match(achievedRegex);
-          console.log(achievedRegex);
-          console.log(achievedResult);
+          const achievedResult = line.match(achievedRegex.get());
           if (achievedResult) {
             level.achieved = true;
-            level.achievedAt = moment(achievedResult[1], 'DD.MM.YYYY');
+            level.achievedAt = moment(achievedResult[1], formats);
           }
         }
-        goal.addLevel(level) ;
-        return true;
-      } else {
-        return false;
       }
     }
 
-    function lookForInspiredBy(line: string, regex): boolean {
-      const result = line.match(regex);
-      if (result) {
-        const data = parseValues(result[1]);
-
-        if (data.has('link')) {
-          goal.inspiredByLink = data.get('link');
+    function lookForInspiredBy(line: string, regex: MdRegex): boolean {
+      const resultMdLink = line.match(regex.getForMdLink());
+      if (resultMdLink) {
+        goal.inspiredBy = resultMdLink[1];
+        goal.inspiredByLink = resultMdLink[2];
+        return true;
+      } else {
+        const result = line.match(regex.get());
+        if (result) {
+          goal.inspiredBy = result[1];
+          return true;
+        } else {
+          return false;
         }
-        goal.inspiredBy = data.get('name');
-        return true;
-      } else {
-        return false;
       }
-    }
-
-    function parseValues(line: string): Map<string, string> {
-      const data = new Map();
-      const mdLinRegex = new RegExp('\\[(.*)]\\((.*)\\)');
-      const result = line.match(mdLinRegex);
-      if (result) {
-        data.set('name', result[1]);
-        data.set('link', result[2]);
-      } else {
-        data.set('name', line.trim());
-      }
-
-      return data;
-    }
-  }
-
-  private handleAddOrUpdate(error: HttpErrorResponse) {
-    if (!this.loginService.checkIfAuthenticationFailed(error)) {
-      console.log(error);
-      this.messageService.showErrorMessage('Nie udało się dodać celu.');
-
-      error.error.errors.forEach(fieldError => {
-        this.messageService.showErrorMessage(fieldError.defaultMessage);
-      });
     }
   }
 

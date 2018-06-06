@@ -52,10 +52,10 @@
           </div>
         </div>
 
-        <textarea rows="20" class="form-control" placeholder="Skopiuj tutaj swoje cele" name="importData" [(ngModel)]="importData"></textarea>
+        <textarea rows="15" class="form-control" placeholder="Skopiuj tutaj swoje cele" name="importData" [(ngModel)]="importData"></textarea>
       </div>
 
-      <div class="card d-block col-12 p-0"  *ngFor="let goal of goalsToBeImported">
+      <div class="col-12 p-0"  *ngFor="let goal of goalsToBeImported; let j = index;">
         <div class="col-12" [ngClass]="{'achieved' : goal.achieved}">
           <div class="goal card mt-3">
 
@@ -63,11 +63,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" [ngClass]="{'text-success' : goal.achieved}"><i class="fa fa-check"></i></span>
               </div>
-              <span class="form-control font-weight-bold text-truncate" readonly>{{ goal.name }}</span>
-
-            </div>
-            <div class="card-header">
-              Poziomy dla twojego celu:
+              <input class="form-control font-weight-bold" name="goal-name-{{j}}" [(ngModel)]="goal.name"/>
             </div>
 
             <div class="card-body">
@@ -82,22 +78,22 @@
 
                 <div class="input-group mb-3">
 
-                  <input class="d-none" type="checkbox" id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
+                  <input class="d-none" type="checkbox" id="goal-{{goal.id}}-level-{{j+'-'+i}}" name="level-done-{{j+'-'+i}}"
                          [(ngModel)]="level.achieved"/>
                   <div class="input-group-prepend">
-                    <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
+                    <label for="goal-{{goal.id}}-level-{{j+'-'+i}}" class="m-0">
                   <span class="btn input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">
                     Poziom {{ level.level }}
                   </span>
                     </label>
                   </div>
-                  <input class="form-control" [ngClass]="{'text-strike' : level.achieved}" name="level-name-{{i}}"
+                  <input class="form-control" [ngClass]="{'text-strike' : level.achieved}" name="level-name-{{j+'-'+i}}"
                          [(ngModel)]="level.name">
                 </div>
               </div>
 
               <ng-container *ngIf="goal.inspiredBy">
-                <span>Inspiracja:</span>
+                <span>Inspiracja: </span>
                 <a *ngIf="goal.inspiredByLink; else inspiredByPlainText"
                    href="{{goal.inspiredByLink}}">{{goal.inspiredBy}}</a>
                 <ng-template #inspiredByPlainText>{{goal.inspiredBy}}</ng-template>
@@ -109,7 +105,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="clear()">Wyczyść</button>
-        <button type="button" class="btn btn-primary" (click)="import()">Imporuj cele</button>
+        <button *ngIf="goalsToBeImported.length > 0" type="button" class="btn btn-primary" (click)="import()">Imporuj cele</button>
         <button type="button" class="btn btn-primary" (click)="checkImport()">Sprawdź</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
       </div>

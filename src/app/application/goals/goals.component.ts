@@ -17,7 +17,7 @@ import {LoginService} from '../../login/login.service';
       transition('* => *', [
         query(':enter', [
           style({transform: 'translateX(-100%)', opacity: 0}),
-          stagger('100ms', [
+          stagger('50ms', [
             animate('100ms ease-in',
               style({
                 transform: 'translateX(0)', opacity: 1
@@ -25,12 +25,7 @@ import {LoginService} from '../../login/login.service';
           ])], {optional: true}
         ),
         query(':leave',
-          stagger('50ms', [
-            animate('100ms ease-out',
-              style({
-                transform: 'translateX(-100%)', opacity: 0
-              }))
-          ]), {optional: true}
+          style({display: 'none'}), {optional: true}
         )
       ])
     ])
