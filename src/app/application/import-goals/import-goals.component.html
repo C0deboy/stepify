@@ -75,6 +75,9 @@
                   <ng-template #noProof><span class="text-success">Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}</span>
                   </ng-template>
                 </div>
+                <div *ngIf="level.toBeDoneAt">
+                  Cel zaplanowany na: {{level.toBeDoneAt}}
+                </div>
 
                 <div class="input-group mb-3">
 

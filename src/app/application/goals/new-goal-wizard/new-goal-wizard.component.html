@@ -129,6 +129,13 @@
               class="fa fa-minus-square"></i></button>
           </div>
 
+          <mat-form-field>
+            <input [matDatepicker]="toBeDoneAtDP" (dateChange)="pickDate($event)" (ngModel)="toBeDoneAt" hidden/>
+            <input matInput [(ngModel)]="newLevel.toBeDoneAt" name="from"
+                   placeholder="Cel na:">
+            <mat-datepicker-toggle matSuffix [for]="toBeDoneAtDP"></mat-datepicker-toggle>
+            <mat-datepicker #toBeDoneAtDP startView="multi-year" (opened)="addFinishBtn(toBeDoneAtDP)" (yearSelected)="chosenYearHandler($event)" (monthSelected)="chosenMonthHandler($event)"></mat-datepicker>
+          </mat-form-field>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text">Poziom {{ goal.levels.length + 1 }}</span>
@@ -140,7 +147,6 @@
             </div>
             <input class="form-control" name="levelReward" [(ngModel)]="newLevel.reward" placeholder="Nagroda"
                    (keyup.enter)="addLevel()">
-
             <button type="button" class="btn btn-success" (click)="addLevel()"><i
               class="fa fa-plus-square"></i></button>
           </div>

@@ -9,17 +9,19 @@ import * as moment from 'moment';
 import {DailyHabit} from '../models/daily-habit';
 import {LoginService} from '../../../login/login.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {MatDatepicker, MatDatepickerInputEvent} from '@angular/material';
+import {Moment} from 'moment';
 
 declare var $: any;
 
 moment.locale('pl-PL');
 
 @Component({
-  selector: 'app-new-goal-wizard',
-  templateUrl: './new-goal-wizard.component.html',
-  styleUrls: ['./new-goal-wizard.component.css']
-})
-export class NewGoalWizardComponent implements OnInit, OnChanges {
+    selector: 'app-new-goal-wizard',
+    templateUrl: './new-goal-wizard.component.html',
+    styleUrls: ['./new-goal-wizard.component.css']
+  })
+  export class NewGoalWizardComponent implements OnInit, OnChanges {
   @Input()
   public goal: Goal;
   public newLevel: Level = Level.empty();
@@ -29,6 +31,7 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
   public listItemValue: string;
   public weekdaysShorts = moment().localeData().weekdaysShort();
   public actionButtonText = 'Dodaj cel';
+  public toBeDoneAt: Moment;
 
   @Output()
   newGoalEvent = new EventEmitter<Goal>();
@@ -151,5 +154,27 @@ export class NewGoalWizardComponent implements OnInit, OnChanges {
 
   trackByFn(i) {
     return i;
+  }
+
+  chosenMonthHandler(date: Moment) {
+    this.newLevel.toBeDoneAt = date.format('MM.YYYY');
+  }
+
+  addFinishBtn(datepicker: MatDatepicker<Moment>) {
+    const btn = document.createElement('btn');
+    btn.innerText = 'OK';
+    btn.classList.add('btn', 'btn-sm', 'm-2', 'btn-success', 'float-right');
+    btn.addEventListener('click', () => {
+      datepicker.close();
+    });
+    document.querySelector('.mat-calendar').appendChild(btn);
+  }
+
+  chosenYearHandler(date: Moment) {
+    this.newLevel.toBeDoneAt = date.format('YYYY');
+  }
+
+  pickDate(date: MatDatepickerInputEvent<Moment>) {
+    this.newLevel.toBeDoneAt = date.value.format('MM.DD.YYYY');
   }
 }

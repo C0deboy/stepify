@@ -26,11 +26,14 @@ export class ImportGoalsComponent implements OnInit {
   public inspiredBySuffix = '';
   public achievedAtPrefix = 'Wykonane';
   public achievedAtSuffix = '';
+  public toBeDoneAtPrefix = 'Cel:';
+  public toBeDoneAtSuffix = '';
 
   private goalRegEx = new MdRegex(this.goalPrefix, this.goalSuffix);
   private levelRegEx = new MdRegex(this.levelPrefix, this.levelSuffix, '.*?\\)?');
   private inspiredByRegEx = new MdRegex(this.inspiredByPrefix, this.inspiredBySuffix);
   private achievedRegex = new MdRegex(this.achievedAtPrefix, this.achievedAtSuffix, '\\d[.\\-\\\d]{7,8}\\d');
+  private toBeDoneAtdRegex = new MdRegex(this.toBeDoneAtPrefix, this.toBeDoneAtSuffix, '\\d[.\\-\\\d]{2,8}\\d');
 
   public goalsToBeImported: Goal[] = [];
   private data: string[];
@@ -88,7 +91,7 @@ export class ImportGoalsComponent implements OnInit {
     goalData.forEach((line, i) => {
       if (line && line !== '') {
         if (!lookForGoalName(line, this.goalRegEx)) {
-          if (!lookForGoalLevel(line, i, this.levelRegEx, this.achievedRegex)) {
+          if (!lookForGoalLevel(line, i, this.levelRegEx, this.achievedRegex, this.toBeDoneAtdRegex)) {
             lookForInspiredBy(line, this.inspiredByRegEx);
           }
         }
@@ -106,12 +109,21 @@ export class ImportGoalsComponent implements OnInit {
       }
     }
 
-    function lookForGoalLevel(line: string, i: number, regex: MdRegex, achievedRegex: MdRegex): boolean {
+    function lookForGoalLevel(line: string, i: number, regex: MdRegex, achievedRegex: MdRegex, toBeDoneAtdRegex: MdRegex): boolean {
       const result = line.match(regex.get());
+
+      function lookForToBeDoneDate(level: Level) {
+        const dateResult = line.match(toBeDoneAtdRegex.get());
+
+        if (dateResult) {
+          level.toBeDoneAt = dateResult[1];
+        }
+      }
 
       if (result) {
         const level = new Level(i, result[1]);
         lookForAchivedInfo(level);
+        lookForToBeDoneDate(level);
         goal.addLevel(level);
         return true;
       } else {

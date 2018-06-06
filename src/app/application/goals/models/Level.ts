@@ -11,6 +11,7 @@ export class Level {
   achieved: boolean;
   achievedAt: Moment;
   achievedProof: String;
+  toBeDoneAt: string;
 
   constructor(level: number, name: string, reward: string = '', achieved: boolean = false) {
     this.name = name;
