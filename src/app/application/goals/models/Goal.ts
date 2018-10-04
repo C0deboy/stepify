@@ -12,6 +12,7 @@ export class Goal {
   achieved: boolean;
   inspiredBy: String;
   inspiredByLink: String;
+  order: number;
 
 
   constructor(name: string = '', levels: Level[] = []) {

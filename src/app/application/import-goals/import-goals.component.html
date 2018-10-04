@@ -3,7 +3,7 @@
     <form class="modal-content" #GoalForm="ngForm">
       <div class="modal-header">
         <h5 class="modal-title" id="import-label">Zaimportuj cele</h5>
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <i class="fa fa-times"></i>
         </button>
       </div>
@@ -68,16 +68,16 @@
 
             <div class="card-body">
               <div *ngFor="let level of goal.levels; let i = index;">
-                <div *ngIf="level.achievedAt">
-                  <a class="text-success" *ngIf="level.achievedProof; else noProof" href="{{level.achievedProof}}">
+                <span *ngIf="level.achievedAt">
+                  <a class="badge badge-success" *ngIf="level.achievedProof; else noProof" href="{{level.achievedProof}}">
                     Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}
                   </a>
-                  <ng-template #noProof><span class="text-success">Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}</span>
+                  <ng-template #noProof><span class="badge badge-success">Wykonane {{level.achievedAt.format('DD.MM.YYYY')}}</span>
                   </ng-template>
-                </div>
-                <div *ngIf="level.toBeDoneAt">
-                  Cel zaplanowany na: {{level.toBeDoneAt}}
-                </div>
+                </span>
+                      <span *ngIf="level.toBeDoneAt">
+                  <span class="badge badge-secondary">Cel: {{level.toBeDoneAt}}</span>
+                </span>
 
                 <div class="input-group mb-3">
 

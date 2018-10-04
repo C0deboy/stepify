@@ -5,13 +5,12 @@ export class MdRegex {
 
   constructor(prefix: string, suffix: string = '', nameRegex = '.*?') {
     this.prefix = this.escape(prefix);
-    console.log(this.prefix);
     this.nameRegex = nameRegex;
     this.suffix = this.escape(suffix);
   }
 
   getForMdLink() {
-    return new RegExp('\\[?' + this.prefix + '[\\s:]*\\[?(' + this.nameRegex + ')' + this.suffix + '\\]\\((.*?)\\)');
+    return new RegExp('\\[?' + this.prefix + '[\\s:]*\\[?(' + this.nameRegex + ')\\]\\((.*?)\\)' + this.suffix);
   }
 
   get() {

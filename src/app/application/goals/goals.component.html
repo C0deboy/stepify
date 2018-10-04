@@ -1,15 +1,20 @@
 <app-navbar (searchEvent)="setSearchText($event)" (newGoalEvent)="setActiveGoal($event)"></app-navbar>
 
-<div class="d-flex flex-wrap pb-footer" [@flyInOut]="goals | filter : searchText">
+<div class="goals d-flex flex-wrap pb-footer" [@flyInOut]="goals | filter : searchText">
+
   <div class="col-12">
     <h2 class="w-100 mt-3">Twoje cele:</h2>
     <hr class="w-100">
+    <mat-slide-toggle class="pull-right" [(ngModel)]="displayAsList"
+                      name="displayAsList">Lista
+    </mat-slide-toggle>
   </div>
 
-  <div class="col-xl-3 col-lg-4 col-md-6" [ngClass]="{'achieved' : goal.achieved}"
-       *ngFor="let goal of goals | filter : searchText">
-    <div class="goal card mt-3" data-toggle="modal" data-target="#goal-details" (click)="showGoalDetails(goal)">
+  <div class="goal-wrapper pb-3" [ngClass]="{'achieved' : goal.achieved, 'col-12' : displayAsList, 'col-xl-4 col-lg-6 col-md-6' : !displayAsList}"
+       *ngFor="let goal of goals | filter : searchText; let i = index;">
 
+    <div class="goal card mt-3" id="goal-{{i}}" data-toggle="modal" data-target="#goal-details" draggable="true"
+         (click)="showGoalDetails(goal)" (dragstart)="pickUpGoal(goal, i)" (drop)="reorderGoal(i)">
       <div class="btn input-group">
         <div class="input-group-prepend">
           <span class="input-group-text" [ngClass]="{'text-success' : goal.achieved}"><i class="fa fa-check"></i></span>
@@ -18,24 +23,31 @@
 
       </div>
       <div class="card-body">
-        <div class="input-group mt-2" *ngFor="let level of goal.levels">
-          <div class="input-group-prepend">
-            <span class="input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">Poziom {{level.level}}</span>
-          </div>
-          <input type="text" class="form-control" [ngClass]="{'text-strike' : level.achieved}" value="{{ level.name }}"
-                 readonly>
-        </div>
-        <ng-container *ngIf="goal.achieved">
-          <p class="mt-2">Twoje nagrody:</p>
-          <div class="input-group mt-2" *ngFor="let award of goal.getAwards()">
+        <div *ngFor="let level of goal.levels">
+          <span *ngIf="level.achievedAt; else tobeDoneAt" data-toggle="tooltip" title="Planowano na: {{level.toBeDoneAt}}">
+            <a class="badge badge-success" *ngIf="level.achievedProof; else noProof" href="{{level.achievedProof}}">
+              Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}
+            </a>
+            <ng-template #noProof><span class="badge badge-success">Wykonane {{level.achievedAt.format('DD.MM.YYYY')}}</span>
+            </ng-template>
+          </span>
+          <ng-template #tobeDoneAt>
+            <span *ngIf="level.toBeDoneAt" class="badge badge-secondary">Cel: {{level.toBeDoneAt}}</span>
+          </ng-template>
+          <div class="input-group mb-2">
             <div class="input-group-prepend">
-              <span class="input-group-text text-success">🏆</span>
+              <span class="input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">Poziom {{level.level}}</span>
             </div>
-            <input type="text" class="form-control" value="{{ award }}" readonly>
+            <input type="text" class="form-control" [ngClass]="{'text-strike' : level.achieved}" value="{{ level.name }}"
+                   readonly>
+            <div class="input-group-append">
+              <span class="input-group-text text-success" data-toggle="tooltip" title="{{ level.reward }}">🏆</span>
+            </div>
           </div>
-        </ng-container>
+        </div>
       </div>
     </div>
+
   </div>
 
   <button class="add-goal-btn btn mt-3 ml-3 h-25 p-2 bg-transparent border-0 "
@@ -50,12 +62,12 @@
 
 </div>
 
-<app-goal-details (deleteGoalEvent)="removeGoal($event)" [goal]="activeGoal"
-                  (levelRewardEvent)="showRewardLevel($event)"></app-goal-details>
+<app-goal-details (deleteGoalEvent)="removeGoal($event)" [goal]="activeGoal" [lastGoal]="goals[goals.length - 1]"
+                  (levelRewardEvent)="showRewardLevel($event)"  (editGoalEvent)="setActiveGoal($event)"></app-goal-details>
 
 <app-reward-notification [level]="rewardLevel"></app-reward-notification>
 
 <app-new-goal-wizard [goal]="activeGoal" (newGoalEvent)="showAddedGoal($event)"></app-new-goal-wizard>
 
-<app-import-goals></app-import-goals>
+<app-import-goals (newGoalEvent)="showAddedGoal($event)"></app-import-goals>
 

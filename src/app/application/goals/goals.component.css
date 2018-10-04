@@ -4,6 +4,9 @@
 
 .goal {
   cursor: pointer;
+  max-width: 500px;
+  margin: auto;
+  box-shadow: 0 2px 4px 0 #333333;
 }
 
 .goal .input-group {
@@ -13,4 +16,14 @@
 .achieved {
   order: 1;
 }
+
+@media (min-width: 768px) {
+  .goals {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+}
+.goal * {pointer-events: none;}
+.goal *[data-toggle="tooltip"] {pointer-events: auto;}
+
 

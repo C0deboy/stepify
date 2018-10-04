@@ -33,3 +33,11 @@ ul.form-group {
 .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
   display: none;
 }
+
+::ng-deep .goal .mat-form-field-wrapper {
+  padding-bottom: 5px;
+}
+
+::ng-deep .goal .mat-form-field-wrapper .mat-form-field-underline {
+  bottom: 10px;
+}

@@ -114,24 +114,39 @@
         </div>
 
         <div class="card-body">
-
-          <div class="input-group mb-3" *ngFor="let level of goal.levels; trackBy: trackByFn let i = index;">
-            <div class="input-group-prepend">
-              <span class="input-group-text" [ngClass]="{'bg-success' : level.achieved}">Poziom {{ level.level }}</span>
+          <div *ngFor="let level of goal.levels; trackBy: trackByFn let i = index;">
+            <mat-form-field class="mr-4">
+              <input matInput [(ngModel)]="level.toBeDoneAt" name="level-toBeDoneAt{{i}}"
+                     placeholder="Cel na:">
+            </mat-form-field>
+            <div class="d-inline-block float-right" *ngIf="level.achieved">
+              <mat-form-field class="mr-2">
+                <input matInput [matDatepicker]="i" [(ngModel)]="level.achievedAt" name="achievedAt{{i}}"
+                       placeholder="Wykonane:">
+                <mat-datepicker-toggle matSuffix [for]="i"></mat-datepicker-toggle>
+                <mat-datepicker #i ></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput [(ngModel)]="level.achievedProof" name="achievedProof{{i}}" placeholder="Link:">
+              </mat-form-field>
             </div>
-            <input class="form-control" name="level-name-{{i}}" [(ngModel)]="level.name">
-            <div class="input-group-prepend">
-              <span class="input-group-text">🏆</span>
-            </div>
-            <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" [ngClass]="{'bg-success' : level.achieved}">Poziom {{ level.level }}</span>
+              </div>
+              <input class="form-control" name="level-name-{{i}}" [(ngModel)]="level.name">
+              <div class="input-group-prepend">
+                <span class="input-group-text">🏆</span>
+              </div>
+              <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
 
-            <button type="button" class="btn btn-danger" (click)="goal.removeLevel(i)"><i
-              class="fa fa-minus-square"></i></button>
+              <button type="button" class="btn btn-danger" (click)="goal.removeLevel(i)"><i
+                class="fa fa-minus-square"></i></button>
+            </div>
           </div>
-
           <mat-form-field>
             <input [matDatepicker]="toBeDoneAtDP" (dateChange)="pickDate($event)" (ngModel)="toBeDoneAt" hidden/>
-            <input matInput [(ngModel)]="newLevel.toBeDoneAt" name="from"
+            <input matInput [(ngModel)]="newLevel.toBeDoneAt" name="newLevel-toBeDoneAt"
                    placeholder="Cel na:">
             <mat-datepicker-toggle matSuffix [for]="toBeDoneAtDP"></mat-datepicker-toggle>
             <mat-datepicker #toBeDoneAtDP startView="multi-year" (opened)="addFinishBtn(toBeDoneAtDP)" (yearSelected)="chosenYearHandler($event)" (monthSelected)="chosenMonthHandler($event)"></mat-datepicker>

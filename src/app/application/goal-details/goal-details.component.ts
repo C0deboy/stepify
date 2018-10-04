@@ -20,11 +20,17 @@ export class GoalDetailsComponent {
   @Input()
   public goal: Goal;
 
+  @Input()
+  public lastGoal: Goal;
+
   @Output()
   levelRewardEvent = new EventEmitter<Level>();
 
   @Output()
   deleteGoalEvent = new EventEmitter<String>();
+
+  @Output()
+  editGoalEvent = new EventEmitter<Goal>();
 
   constructor(private goalsService: GoalsService, private messageService: MessageService, private loginService: LoginService) {
   }
@@ -37,7 +43,9 @@ export class GoalDetailsComponent {
 
       if (this.goal.levels.indexOf(level) === this.goal.levels.length - 1) {
         this.goal.achieved = true;
+        this.goal.order = this.lastGoal.order + 10;
       }
+
     } else {
       this.goal.achieved = false;
       level.achievedAt = null;
@@ -60,6 +68,10 @@ export class GoalDetailsComponent {
         break;
       }
     }
+  }
+
+  editGoal() {
+    this.editGoalEvent.emit(this.goal);
   }
 
   updateGoal() {

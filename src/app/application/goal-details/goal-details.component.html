@@ -1,7 +1,7 @@
 <div class="modal fade goal" id="goal-details" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <form class="modal-content" #GoalForm="ngForm">
-      <div class="modal-header bg-dark">
+      <div class="modal-header secondary-bg">
         <input class="modal-title form-control text-white" name="name" [(ngModel)]="goal.name" appActivatableInput/>
         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <i class="fa fa-times"></i>
@@ -41,16 +41,16 @@
 
       <div class="card-body">
         <div *ngFor="let level of goal.levels; let i = index;">
-          <div *ngIf="level.achievedAt">
-            <a class="text-success" *ngIf="level.achievedProof; else noProof" href="{{level.achievedProof}}">
+          <span *ngIf="level.achievedAt">
+            <a class="badge badge-success" *ngIf="level.achievedProof; else noProof" href="{{level.achievedProof}}">
               Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}
             </a>
-            <ng-template #noProof><span class="text-success">Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}</span>
+            <ng-template #noProof><span class="badge badge-success">Wykonane {{level.achievedAt.format('DD.MM.YYYY')}}</span>
             </ng-template>
-          </div>
-          <div *ngIf="level.toBeDoneAt">
-            Cel zaplanowany na: {{level.toBeDoneAt}}
-          </div>
+          </span>
+          <span *ngIf="level.toBeDoneAt">
+            <span class="badge badge-secondary">Cel: {{level.toBeDoneAt}}</span>
+          </span>
 
           <div class="input-group mb-3">
 
@@ -74,7 +74,7 @@
         </div>
 
         <ng-container *ngIf="goal.inspiredBy">
-          <span>Inspiracja:</span>
+          <span>Inspiracja: </span>
           <a *ngIf="goal.inspiredByLink; else inspiredByPlainText"
              href="{{goal.inspiredByLink}}">{{goal.inspiredBy}}</a>
           <ng-template #inspiredByPlainText>{{goal.inspiredBy}}</ng-template>
@@ -86,9 +86,9 @@
                 data-dismiss="modal">Usuń
         </button>
         <button type="button" class="btn btn-primary mr-auto" data-toggle="modal" data-target="#new-goal-wizard"
-                data-dismiss="modal">Edytuj
+                data-dismiss="modal" (click)="editGoal()">Edytuj
         </button>
-        <button type="button" class="btn btn-primary" (click)="updateGoal()">Zapisz</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateGoal()">Zapisz</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
       </div>
     </form>

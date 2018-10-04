@@ -46,7 +46,6 @@ export class DailyHabitCalendarComponent implements OnChanges {
 
   private resolveCurrentMonth() {
     this.currentMonth = 0;
-    console.log(this.calendar[this.currentMonth][0]);
     let month = this.calendar[this.currentMonth][0].month();
     let monthsCount = this.calendar.length;
     while (month !== moment().month() && monthsCount > 1) {

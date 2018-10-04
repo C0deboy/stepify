@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start-server": "cmd /c \"java -jar ../three-levels-server/build/libs/trzy-poziomy-1.0.0.jar\"",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",

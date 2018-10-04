@@ -18,8 +18,16 @@ body {
 }
 
 .secondary-bg {
-  background: #00406f;
+  background: #00213a;
   color: white;
+}
+
+.toBeDoneAt {
+
+}
+
+.color-achieved {
+  background: green;
 }
 
 input.text-white:focus {
@@ -105,5 +113,12 @@ body::-webkit-scrollbar-thumb,
   z-index: -5;
   display: block;
   text-shadow: none;
+}
+
+.goal .badge,
+.input-group-text,
+.card,
+.form-control {
+  border-radius: .10rem;
 }
 

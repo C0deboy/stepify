@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
 import {Goal} from '../goals/models/Goal';
 import {Level} from '../goals/models/Level';
 import {GoalsService} from '../goals/goals.service';
@@ -16,6 +16,7 @@ import {MdRegex} from './md-regex';
 })
 export class ImportGoalsComponent implements OnInit {
 
+  public goalsToBeImported: Goal[] = [];
   public importData = '';
   public goalDelimiter = '\n\n';
   public goalPrefix = '**';
@@ -30,13 +31,16 @@ export class ImportGoalsComponent implements OnInit {
   public toBeDoneAtSuffix = '';
 
   private goalRegEx = new MdRegex(this.goalPrefix, this.goalSuffix);
-  private levelRegEx = new MdRegex(this.levelPrefix, this.levelSuffix, '.*?\\)?');
+  private levelRegEx = new MdRegex(this.levelPrefix, this.levelSuffix);
   private inspiredByRegEx = new MdRegex(this.inspiredByPrefix, this.inspiredBySuffix);
   private achievedRegex = new MdRegex(this.achievedAtPrefix, this.achievedAtSuffix, '\\d[.\\-\\\d]{7,8}\\d');
   private toBeDoneAtdRegex = new MdRegex(this.toBeDoneAtPrefix, this.toBeDoneAtSuffix, '\\d[.\\-\\\d]{2,8}\\d');
 
-  public goalsToBeImported: Goal[] = [];
+
   private data: string[];
+
+  @Output()
+  newGoalEvent = new EventEmitter<Goal>();
 
   constructor(private messageService: MessageService,
               private loginService: LoginService,
@@ -62,7 +66,10 @@ export class ImportGoalsComponent implements OnInit {
     let goalsAdded = 0;
     let goalsFailed = 0;
     this.goalsToBeImported.forEach((newGoal, i) => {
-      this.goalsService.addGoal(newGoal).subscribe((goal: Goal) => goalsAdded++,
+      this.goalsService.addGoal(newGoal).subscribe((goal: Goal) => {
+          goalsAdded++;
+          this.newGoalEvent.emit(Goal.deserialize(goal));
+        },
         (error: HttpErrorResponse) => {
           console.log(error);
           goalsFailed++;
@@ -102,7 +109,7 @@ export class ImportGoalsComponent implements OnInit {
     function lookForGoalName(line: string, regex: MdRegex): boolean {
       const goalName = line.match(regex.get());
       if (goalName) {
-        goal.name = goalName[1];
+        goal.name = goalName[1].trim();
         return true;
       } else {
         return false;
@@ -110,27 +117,20 @@ export class ImportGoalsComponent implements OnInit {
     }
 
     function lookForGoalLevel(line: string, i: number, regex: MdRegex, achievedRegex: MdRegex, toBeDoneAtdRegex: MdRegex): boolean {
-      const result = line.match(regex.get());
+      const resultMdLink = line.match(regex.getForMdLink());
 
-      function lookForToBeDoneDate(level: Level) {
-        const dateResult = line.match(toBeDoneAtdRegex.get());
-
-        if (dateResult) {
-          level.toBeDoneAt = dateResult[1];
-        }
-      }
-
-      if (result) {
-        const level = new Level(i, result[1]);
+      if (resultMdLink) {
+        const level = new Level(i, resultMdLink[1].trim());
         lookForAchivedInfo(level);
         lookForToBeDoneDate(level);
         goal.addLevel(level);
         return true;
       } else {
-        const resultMdLink = line.match(regex.getForMdLink());
-        if (resultMdLink) {
-          const level = new Level(i, result[1]);
+        const result = line.match(regex.get());
+        if (result) {
+          const level = new Level(i, result[1].trim());
           lookForAchivedInfo(level);
+          lookForToBeDoneDate(level);
           goal.addLevel(level);
           return true;
         } else {
@@ -143,14 +143,23 @@ export class ImportGoalsComponent implements OnInit {
         const formats = ['DD-MM-YYYY', 'YYYY-MM-DD'];
         if (achievedMdResult) {
           level.achieved = true;
-          level.achievedAt = moment(achievedMdResult[1], formats);
-          level.achievedProof = achievedMdResult[2];
+          level.achievedAt = moment(achievedMdResult[1].trim(), formats);
+          level.achievedProof = achievedMdResult[2].trim();
         } else {
           const achievedResult = line.match(achievedRegex.get());
           if (achievedResult) {
             level.achieved = true;
-            level.achievedAt = moment(achievedResult[1], formats);
+            level.achievedAt = moment(achievedResult[1].trim(), formats);
           }
+        }
+      }
+
+      function lookForToBeDoneDate(level: Level) {
+        const dateResult = line.match(toBeDoneAtdRegex.get());
+
+        if (dateResult) {
+          console.log(dateResult[1].trim());
+          level.toBeDoneAt = dateResult[1].trim();
         }
       }
     }
@@ -158,13 +167,13 @@ export class ImportGoalsComponent implements OnInit {
     function lookForInspiredBy(line: string, regex: MdRegex): boolean {
       const resultMdLink = line.match(regex.getForMdLink());
       if (resultMdLink) {
-        goal.inspiredBy = resultMdLink[1];
-        goal.inspiredByLink = resultMdLink[2];
+        goal.inspiredBy = resultMdLink[1].trim();
+        goal.inspiredByLink = resultMdLink[2].trim();
         return true;
       } else {
         const result = line.match(regex.get());
         if (result) {
-          goal.inspiredBy = result[1];
+          goal.inspiredBy = result[1].trim();
           return true;
         } else {
           return false;
