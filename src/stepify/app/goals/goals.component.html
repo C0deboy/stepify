@@ -1,0 +1,79 @@
+<stepify-navbar (searchEvent)="setSearchText($event)" (newGoalEvent)="setActiveGoal($event)"></stepify-navbar>
+
+<div class="goals d-flex flex-wrap pb-footer" [@flyInOut]="goals | filter : searchText">
+
+  <div class="col-12">
+    <h2 class="w-100 mt-3">Twoje cele:</h2>
+    <hr class="w-100">
+    <mat-slide-toggle class="pull-right" [(ngModel)]="displayAsList"
+                      name="displayAsList">Lista
+    </mat-slide-toggle>
+  </div>
+
+  <div class="goal-wrapper pb-3" [ngClass]="{'achieved' : goal.achieved, 'col-12' : displayAsList, 'col-xl-4 col-lg-6 col-md-6' : !displayAsList}"
+       *ngFor="let goal of goals | filter : searchText; let i = index;">
+
+    <div class="goal card mt-3" id="goal-{{i}}" data-toggle="modal" data-target="#goal-details" draggable="true"
+         (click)="showGoalDetails(goal, $event)" (dragstart)="pickUpGoal(goal, i)" (drop)="reorderGoal(i)">
+      <div class="btn input-group">
+        <div class="input-group-prepend" *ngIf="goal.achieved">
+          <span class="input-group-text"><i class="text-success fa fa-check"></i></span>
+        </div>
+        <span class="form-control font-weight-bold text-truncate" readonly>{{ goal.name }}</span>
+
+      </div>
+      <div class="card-body">
+        <div *ngFor="let level of goal.levels; let i = index;">
+          <span *ngIf="level.achievedAt; else tobeDoneAt" data-toggle="tooltip" title="Planowano na: {{level.toBeDoneAt}}">
+            <a class="badge badge-success" *ngIf="level.achievedProof; else noProof" href="{{level.achievedProof}}">
+              Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}
+            </a>
+            <ng-template #noProof><span class="badge badge-success">Wykonane {{level.achievedAt.format('DD.MM.YYYY')}}</span>
+            </ng-template>
+          </span>
+          <ng-template #tobeDoneAt>
+            <span *ngIf="level.toBeDoneAt" class="badge badge-secondary">Cel: {{level.toBeDoneAt}}</span>
+          </ng-template>
+          <div class="input-group mb-2" (click)="$event.stopPropagation()">
+            <input class="d-none" type="checkbox" id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
+                   [(ngModel)]="level.achieved" (change)="goalDetails.showLevelReward(level)"/>
+            <div class="mark-as-done-btn input-group-prepend">
+              <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
+                <span class="btn input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">
+                  <span class="levelText">Poziom {{ level.level }}</span>
+                </span>
+              </label>
+            </div>
+            <input type="text" class="form-control" [ngClass]="{'text-strike' : level.achieved}" value="{{ level.name }}"
+                   readonly>
+            <div class="input-group-append">
+              <span class="input-group-text text-success" data-toggle="tooltip" title="{{ level.reward }}">🏆</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="add-goal-btn btn mt-3 ml-3 h-25 p-2 bg-transparent border-0 "
+          data-toggle="modal" data-target="#new-goal-wizard" (click)="newGoal()">
+    <i class="fa fa-plus fa-4x" data-toggle="tooltip" data-placement="top" title="Dodaj nowy cel"></i>
+  </button>
+
+  <div class="col-12">
+    <h2 class="w-100 mt-3">Zakończone cele:</h2>
+    <hr class="w-100">
+  </div>
+
+</div>
+
+<stepify-goal-details #goalDetails (deleteGoalEvent)="removeGoal($event)" [goal]="activeGoal" [lastGoal]="goals[goals.length - 1]"
+                  (levelRewardEvent)="showRewardLevel($event)"  (editGoalEvent)="setActiveGoal($event)"></stepify-goal-details>
+
+<stepify-reward-notification [level]="rewardLevel"></stepify-reward-notification>
+
+<stepify-new-goal-wizard [lastGoalOrder]="getLastGoalOrder()" [goal]="activeGoal" (newGoalEvent)="showAddedGoal($event)"></stepify-new-goal-wizard>
+
+<stepify-import-goals (newGoalEvent)="showAddedGoal($event)"></stepify-import-goals>
+

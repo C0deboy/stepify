@@ -119,13 +119,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      "stepify",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "app",
+      "stepify",
       "kebab-case"
     ],
     "no-output-on-prefix": true,

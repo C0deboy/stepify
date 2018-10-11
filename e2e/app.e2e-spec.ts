@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('three-levels App', () => {
+describe('stepify App', () => {
   let page: AppPage;
 
   beforeEach(() => {

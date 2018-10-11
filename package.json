@@ -1,11 +1,11 @@
 {
-  "name": "three-levels",
+  "name": "stepify",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start-server": "cmd /c \"java -jar ../three-levels-server/build/libs/trzy-poziomy-1.0.0.jar\"",
+    "start-server": "cmd /c \"java -jar ../stepify-server/build/libs/stepify-1.0.0.jar\"",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -61,11 +61,11 @@
   "main": "karma.conf.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/C0deboy/three-levels.git"
+    "url": "git+https://github.com/C0deboy/stepify.git"
   },
   "author": "",
   "bugs": {
-    "url": "https://github.com/C0deboy/three-levels/issues"
+    "url": "https://github.com/C0deboy/stepify/issues"
   },
-  "homepage": "https://github.com/C0deboy/three-levels#readme"
+  "homepage": "https://github.com/C0deboy/stepify#readme"
 }
