@@ -39,6 +39,7 @@ import {LoginService} from 'app/login/login.service';
 import {AuthInterceptor} from './login/authInterceptor';
 import {RegistrationComponent} from './registration/registration.component';
 import { ImportGoalsComponent } from './application/import-goals/import-goals.component';
+import {APP_BASE_HREF, HashLocationStrategy, LocationStrategy} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,11 @@ import { ImportGoalsComponent } from './application/import-goals/import-goals.co
     LoginService,
     GoalsComponent,
     {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    // ### to run app locally
+    { provide: APP_BASE_HREF, useValue: '/' },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    // ###
   ],
   bootstrap: [AppComponent]
 })

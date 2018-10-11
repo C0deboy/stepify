@@ -9,6 +9,10 @@
   box-shadow: 0 2px 4px 0 #333333;
 }
 
+.col-12 .goal {
+  max-width: 700px;
+}
+
 .goal .input-group {
   padding: 0;
 }
@@ -23,7 +27,12 @@
     padding-right: 10%;
   }
 }
-.goal * {pointer-events: none;}
-.goal *[data-toggle="tooltip"] {pointer-events: auto;}
+.goal * {
+  pointer-events: none;
+}
 
-
+.goal *[data-toggle="tooltip"],
+.goal .mark-as-done-btn,
+.goal .mark-as-done-btn span {
+  pointer-events: auto;
+}

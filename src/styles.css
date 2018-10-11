@@ -101,7 +101,7 @@ body::-webkit-scrollbar-thumb,
 }
 
 .logo:after {
-  content:"Trzy poziomy";
+  content:"Stepify";
   position: absolute;
   left: 8px;
   top: 8px;
@@ -120,5 +120,27 @@ body::-webkit-scrollbar-thumb,
 .card,
 .form-control {
   border-radius: .10rem;
+}
+
+.mark-as-done-btn:hover .levelText {
+  visibility: hidden;
+}
+
+.mark-as-done-btn:hover .btn:not(.border-success) span::before {
+  font-family: FontAwesome, serif;
+  position: absolute;
+  content: "\f00c";
+  transform: translateX(150%);
+  visibility: visible;
+  color: green;
+}
+
+.mark-as-done-btn:hover .btn.border-success span::before {
+  font-family: FontAwesome, serif;
+  position: absolute;
+  content: "\f00d";
+  transform: translateX(200%);
+  visibility: visible;
+  color: red;
 }
 

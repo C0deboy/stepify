@@ -14,16 +14,16 @@
        *ngFor="let goal of goals | filter : searchText; let i = index;">
 
     <div class="goal card mt-3" id="goal-{{i}}" data-toggle="modal" data-target="#goal-details" draggable="true"
-         (click)="showGoalDetails(goal)" (dragstart)="pickUpGoal(goal, i)" (drop)="reorderGoal(i)">
+         (click)="showGoalDetails(goal, $event)" (dragstart)="pickUpGoal(goal, i)" (drop)="reorderGoal(i)">
       <div class="btn input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text" [ngClass]="{'text-success' : goal.achieved}"><i class="fa fa-check"></i></span>
+        <div class="input-group-prepend" *ngIf="goal.achieved">
+          <span class="input-group-text"><i class="text-success fa fa-check"></i></span>
         </div>
         <span class="form-control font-weight-bold text-truncate" readonly>{{ goal.name }}</span>
 
       </div>
       <div class="card-body">
-        <div *ngFor="let level of goal.levels">
+        <div *ngFor="let level of goal.levels; let i = index;">
           <span *ngIf="level.achievedAt; else tobeDoneAt" data-toggle="tooltip" title="Planowano na: {{level.toBeDoneAt}}">
             <a class="badge badge-success" *ngIf="level.achievedProof; else noProof" href="{{level.achievedProof}}">
               Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}
@@ -34,9 +34,15 @@
           <ng-template #tobeDoneAt>
             <span *ngIf="level.toBeDoneAt" class="badge badge-secondary">Cel: {{level.toBeDoneAt}}</span>
           </ng-template>
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <span class="input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">Poziom {{level.level}}</span>
+          <div class="input-group mb-2" (click)="$event.stopPropagation()">
+            <input class="d-none" type="checkbox" id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
+                   [(ngModel)]="level.achieved" (change)="goalDetails.showLevelReward(level)"/>
+            <div class="mark-as-done-btn input-group-prepend">
+              <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
+                <span class="btn input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">
+                  <span class="levelText">Poziom {{ level.level }}</span>
+                </span>
+              </label>
             </div>
             <input type="text" class="form-control" [ngClass]="{'text-strike' : level.achieved}" value="{{ level.name }}"
                    readonly>
@@ -62,12 +68,12 @@
 
 </div>
 
-<app-goal-details (deleteGoalEvent)="removeGoal($event)" [goal]="activeGoal" [lastGoal]="goals[goals.length - 1]"
+<app-goal-details #goalDetails (deleteGoalEvent)="removeGoal($event)" [goal]="activeGoal" [lastGoal]="goals[goals.length - 1]"
                   (levelRewardEvent)="showRewardLevel($event)"  (editGoalEvent)="setActiveGoal($event)"></app-goal-details>
 
 <app-reward-notification [level]="rewardLevel"></app-reward-notification>
 
-<app-new-goal-wizard [goal]="activeGoal" (newGoalEvent)="showAddedGoal($event)"></app-new-goal-wizard>
+<app-new-goal-wizard [lastGoalOrder]="goals[goals.length - 1].order" [goal]="activeGoal" (newGoalEvent)="showAddedGoal($event)"></app-new-goal-wizard>
 
 <app-import-goals (newGoalEvent)="showAddedGoal($event)"></app-import-goals>
 

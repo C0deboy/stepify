@@ -7,6 +7,8 @@ import {MessageService} from '../../messages/message.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {LoginService} from '../../login/login.service';
 import * as moment from 'moment';
+import {e} from '@angular/core/src/render3';
+import {Properties} from '../../properties';
 
 declare var $: any;
 
@@ -43,7 +45,7 @@ export class GoalDetailsComponent {
 
       if (this.goal.levels.indexOf(level) === this.goal.levels.length - 1) {
         this.goal.achieved = true;
-        this.goal.order = this.lastGoal.order + 10;
+        this.goal.order = this.lastGoal.order + Properties.GOAL_ORDER_DIFF;
       }
 
     } else {

@@ -7,6 +7,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
 import {Router} from '@angular/router';
 import {LoginService} from '../../login/login.service';
+import {GoalDetailsComponent} from '../goal-details/goal-details.component';
+import {Properties} from '../../properties';
 
 @Component({
   selector: 'app-goals',
@@ -114,7 +116,7 @@ export class GoalsComponent implements OnInit {
       return;
     }
 
-    const previousOrder = previousGoal !== undefined ? previousGoal.order : thisGoal.order - 10;
+    const previousOrder = previousGoal !== undefined ? previousGoal.order : thisGoal.order - Properties.GOAL_ORDER_DIFF;
     const nextOrder = thisGoal.order;
 
     this.pickedUpGoal.order = (previousOrder + nextOrder) / 2;
@@ -155,11 +157,6 @@ export class GoalsComponent implements OnInit {
       } else if (this.pickedUpGoalIndex > targetIndex) {
         target.parentElement.style.borderLeft = 20 + 'px solid rgba(0, 0, 0, .1)';
       }
-    }
-
-    else if (target.classList.contains('goals')) {
-      target.parentElement.style.borderLeft = 'none';
-      target.parentElement.style.borderRight = 'none';
     }
   }
 

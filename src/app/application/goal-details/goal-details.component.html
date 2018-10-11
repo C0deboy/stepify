@@ -56,10 +56,10 @@
 
             <input class="d-none" type="checkbox" id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
                    [(ngModel)]="level.achieved" (change)="showLevelReward(level)"/>
-            <div class="input-group-prepend">
+            <div class="mark-as-done-btn input-group-prepend">
               <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
                 <span class="btn input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">
-                  Poziom {{ level.level }}
+                  <span class="levelText">Poziom {{ level.level }}</span>
                 </span>
               </label>
             </div>

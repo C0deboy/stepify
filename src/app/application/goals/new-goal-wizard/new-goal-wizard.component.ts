@@ -11,6 +11,7 @@ import {LoginService} from '../../../login/login.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {MatDatepicker, MatDatepickerInputEvent} from '@angular/material';
 import {Moment} from 'moment';
+import {Properties} from '../../../properties';
 
 declare var $: any;
 
@@ -24,6 +25,9 @@ moment.locale('pl-PL');
   export class NewGoalWizardComponent implements OnInit, OnChanges {
   @Input()
   public goal: Goal;
+  @Input()
+  public lastGoalOrder;
+
   public newLevel: Level = Level.empty();
   public withChecklist = false;
   public withDailyHabit = false;
@@ -103,6 +107,7 @@ moment.locale('pl-PL');
         (error: HttpErrorResponse) => this.handleAddOrUpdate(error)
       );
     } else {
+      this.goal.order = this.lastGoalOrder + Properties.GOAL_ORDER_DIFF;
       this.goalsService.addGoal(this.goal).subscribe((goal: Goal) => {
           this.newGoalEvent.emit(Goal.deserialize(goal));
           this.confirmSuccess('Twój cel ' + this.goal.name + ' został dodany.');

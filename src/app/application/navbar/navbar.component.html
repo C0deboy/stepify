@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark secondary-bg">
-  <a class="navbar-brand" routerLink="/your-goals">Trzy poziomy</a>
+  <a class="navbar-brand" routerLink="/your-goals">Stepify</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -8,18 +8,20 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/"><i class="fa fa-home"></i></a>
+        <a class="nav-link" routerLink="/"><i class="fa fa-home fa-lg"></i></a>
       </li>
       <li class="nav-item">
-        <button class="btn secondary-bg" data-toggle="modal" data-target="#new-goal-wizard" (click)="newGoal()">Nowy cel <i class="fa fa-plus"></i>
+        <button class="btn btn-outline-light" data-toggle="modal" data-target="#new-goal-wizard" (click)="newGoal()">Nowy cel <i class="fa fa-plus"></i>
         </button>
       </li>
+      <li class="nav-item">
+        <form class="form-inline mr-auto" role="search" (submit)="search()">
+          <input class="form-control" [(ngModel)]="searchText" type="search" placeholder="Szukaj" name="search"
+                 aria-label="Search">
+          <button class="btn btn-outline-light " type="submit">Szukaj</button>
+        </form>
+      </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0 mr-auto" role="search" (submit)="search()">
-      <input class="form-control mr-sm-2" [(ngModel)]="searchText" type="search" placeholder="Szukaj" name="search"
-             aria-label="Search">
-      <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Szukaj</button>
-    </form>
   </div>
 
   <div class="navbar-nav ml-auto" *ngIf="currentUser != null">

@@ -3,10 +3,10 @@ import {Router} from '@angular/router';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {MessageService} from '../messages/message.service';
 import {User} from '../registration/user';
+import {Properties} from '../properties';
 
 @Injectable()
 export class LoginService {
-  private baseURL = 'http://localhost:8080/';
   public currentUser: string;
 
   constructor(private router: Router, private httpClient: HttpClient, private messageService: MessageService) {
@@ -26,7 +26,7 @@ export class LoginService {
       })
     };
 
-    this.httpClient.post(this.baseURL + 'oauth/token', params.toString(), httpOptions)
+    this.httpClient.post(Properties.SERVER_BASE_URL + '/oauth/token', params.toString(), httpOptions)
       .subscribe(
         data => {
           this.saveToken(data, credentials.username);
@@ -71,7 +71,7 @@ export class LoginService {
   }
 
   createNewAccount(user: User) {
-    return this.httpClient.post(this.baseURL + '/users', user);
+    return this.httpClient.post(Properties.SERVER_BASE_URL + '/users', user);
   }
 
   private clearOldToken() {
