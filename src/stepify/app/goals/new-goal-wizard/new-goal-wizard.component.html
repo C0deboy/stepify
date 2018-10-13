@@ -132,7 +132,7 @@
             </div>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text" [ngClass]="{'bg-success' : level.achieved}">Poziom {{ level.level }}</span>
+                <span class="input-group-text" [ngClass]="{'border-success' : level.achieved}">Poziom {{ level.level }}</span>
               </div>
               <input class="form-control" name="level-name-{{i}}" [(ngModel)]="level.name">
               <div class="input-group-prepend">

@@ -53,15 +53,16 @@
           </span>
 
           <div class="input-group mb-3">
+            <label class="mark-as-done-btn input-group-text">
+              <mat-checkbox id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
+                            [(ngModel)]="level.achieved" (change)="showLevelReward(level)">
 
-            <input class="d-none" type="checkbox" id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
-                   [(ngModel)]="level.achieved" (change)="showLevelReward(level)"/>
-            <div class="mark-as-done-btn input-group-prepend">
-              <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
-                <span class="btn input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">
-                  <span class="levelText">Poziom {{ level.level }}</span>
-                </span>
-              </label>
+              </mat-checkbox>
+            </label>
+            <div class="input-group-prepend">
+              <span class="btn input-group-text">
+                <span class="levelText">Poziom {{ level.level }}</span>
+              </span>
             </div>
             <input class="form-control" [ngClass]="{'text-strike' : level.achieved}" name="level-name-{{i}}"
                    [(ngModel)]="level.name">

@@ -122,25 +122,3 @@ body::-webkit-scrollbar-thumb,
   border-radius: .10rem;
 }
 
-.mark-as-done-btn:hover .levelText {
-  visibility: hidden;
-}
-
-.mark-as-done-btn:hover .btn:not(.border-success) span::before {
-  font-family: FontAwesome, serif;
-  position: absolute;
-  content: "\f00c";
-  transform: translateX(150%);
-  visibility: visible;
-  color: green;
-}
-
-.mark-as-done-btn:hover .btn.border-success span::before {
-  font-family: FontAwesome, serif;
-  position: absolute;
-  content: "\f00d";
-  transform: translateX(200%);
-  visibility: visible;
-  color: red;
-}
-

@@ -1,0 +1,13 @@
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// **Be sure that you only ever include this mixin once!**
+@include mat-core();
+
+// Define the theme.
+$green-color:  mat-palette($mat-green, 500);
+$green-theme:   mat-light-theme($green-color, $green-color);
+
+@include mat-checkbox-theme($green-theme);

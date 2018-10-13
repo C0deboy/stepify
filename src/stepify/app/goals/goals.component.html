@@ -34,16 +34,14 @@
           <ng-template #tobeDoneAt>
             <span *ngIf="level.toBeDoneAt" class="badge badge-secondary">Cel: {{level.toBeDoneAt}}</span>
           </ng-template>
+
           <div class="input-group mb-2" (click)="$event.stopPropagation()">
-            <input class="d-none" type="checkbox" id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
-                   [(ngModel)]="level.achieved" (change)="goalDetails.showLevelReward(level)"/>
-            <div class="mark-as-done-btn input-group-prepend">
-              <label for="goal-{{goal.id}}-level-{{i}}" class="m-0">
-                <span class="btn input-group-text" [ngClass]="{'text-success border-success' : level.achieved}">
-                  <span class="levelText">Poziom {{ level.level }}</span>
-                </span>
-              </label>
-            </div>
+            <label class="mark-as-done-btn input-group-text">
+              <mat-checkbox id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
+                            [(ngModel)]="level.achieved" (change)="goalDetails.showLevelReward(level)">
+
+              </mat-checkbox>
+            </label>
             <input type="text" class="form-control" [ngClass]="{'text-strike' : level.achieved}" value="{{ level.name }}"
                    readonly>
             <div class="input-group-append">
