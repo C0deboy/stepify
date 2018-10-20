@@ -38,7 +38,7 @@
           <div class="input-group mb-2" (click)="$event.stopPropagation()">
             <label class="mark-as-done-btn input-group-text">
               <mat-checkbox id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
-                            [(ngModel)]="level.achieved" (change)="goalDetails.showLevelReward(level)">
+                            [(ngModel)]="level.achieved" (change)="goalDetails.showLevelReward(level); goalDetails.updateGoal(goal);">
 
               </mat-checkbox>
             </label>

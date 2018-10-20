@@ -76,8 +76,8 @@ export class GoalDetailsComponent {
     this.editGoalEvent.emit(this.goal);
   }
 
-  updateGoal() {
-    this.goalsService.updateGoal(this.goal).subscribe(value => this.messageService.showSuccessMessage('Zapisano.'),
+  updateGoal(goal: Goal) {
+    this.goalsService.updateGoal(goal).subscribe(value => this.messageService.showSuccessMessage('Zapisano.'),
       (error: HttpErrorResponse) => {
         if (!this.loginService.checkIfAuthenticationFailed(error)) {
           console.log(error);

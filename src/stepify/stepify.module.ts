@@ -83,10 +83,6 @@ import {APP_BASE_HREF, HashLocationStrategy, LocationStrategy} from '@angular/co
     GoalsComponent,
     {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    // ### to run app locally
-    { provide: APP_BASE_HREF, useValue: '/' },
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
-    // ###
   ],
   bootstrap: [StepifyComponent]
 })

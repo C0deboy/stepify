@@ -11,7 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "dist/static",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -22,7 +22,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/assets/custom-material-components.scss"
+              "src/styles/custom-material-components.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

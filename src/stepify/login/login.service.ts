@@ -26,7 +26,7 @@ export class LoginService {
       })
     };
 
-    this.httpClient.post(Properties.SERVER_BASE_URL + '/oauth/token', params.toString(), httpOptions)
+    this.httpClient.post('/oauth/token', params.toString(), httpOptions)
       .subscribe(
         data => {
           this.saveToken(data, credentials.username);
@@ -71,7 +71,7 @@ export class LoginService {
   }
 
   createNewAccount(user: User) {
-    return this.httpClient.post(Properties.SERVER_BASE_URL + '/users', user);
+    return this.httpClient.post(Properties.REST_BASE_URL + '/users', user);
   }
 
   private clearOldToken() {

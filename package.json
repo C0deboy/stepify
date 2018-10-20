@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "start-local": "ng serve --host 0.0.0.0 --proxy-config proxy.conf.json",
     "start-server": "cmd /c \"java -jar ../stepify-server/build/libs/stepify-1.0.0.jar\"",
     "build": "ng build --prod",
     "test": "ng test",

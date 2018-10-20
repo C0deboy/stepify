@@ -127,13 +127,13 @@ export class GoalsComponent implements OnInit {
 
     this.pickedUpGoal.order = (previousOrder + nextOrder) / 2;
 
-    this.updateGoal();
+    this.updateGoalPosition();
 
     this.goals.splice(this.pickedUpGoalIndex, 1);
     this.goals.splice(index, 0, this.pickedUpGoal);
   }
 
-  private updateGoal() {
+  private updateGoalPosition() {
     this.goalsService.updateGoal(this.pickedUpGoal).subscribe(value => this.messageService.showSuccessMessage('Zmieniono pozycję.'),
       (error: HttpErrorResponse) => {
         if (!this.loginService.checkIfAuthenticationFailed(error)) {
