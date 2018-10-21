@@ -19,30 +19,19 @@ ul.form-group {
   z-index: 1080 !important;
 }
 
-.form-group input[type="checkbox"] {
-  display: none;
-}
-
-.form-group input[type="checkbox"] + .btn-group > label span {
-  width: 20px;
-}
-
-.form-group input[type="checkbox"] + .btn-group > label span:first-child {
-  display: none;
-}
-
-.form-group input[type="checkbox"] + .btn-group > label span:last-child {
-  display: inline-block;
-}
-
-.form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
-  display: inline-block;
-}
-
-.form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
-  display: none;
-}
-
 /deep/ mat-checkbox  {
   height: 20px;
+}
+
+.levels {
+  display: flex;
+  margin-bottom: 1rem;
+
+  .input-group:last-child {
+    flex: 1 2 auto;
+  }
+
+  @media (max-width: 768px) {
+    display: block;
+  }
 }

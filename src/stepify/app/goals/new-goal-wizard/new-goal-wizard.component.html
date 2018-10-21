@@ -130,18 +130,22 @@
                 <input matInput [(ngModel)]="level.achievedProof" name="achievedProof{{i}}" placeholder="Link:">
               </mat-form-field>
             </div>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" [ngClass]="{'border-success' : level.achieved}">Poziom {{ level.level }}</span>
+            <div class="levels">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" [ngClass]="{'border-success' : level.achieved}">Poziom {{ level.level }}</span>
+                </div>
+                <input class="form-control" name="level-name-{{i}}" [(ngModel)]="level.name">
               </div>
-              <input class="form-control" name="level-name-{{i}}" [(ngModel)]="level.name">
-              <div class="input-group-prepend">
-                <span class="input-group-text">🏆</span>
-              </div>
-              <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">🏆</span>
+                </div>
+                <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
 
-              <button type="button" class="btn btn-danger" (click)="goal.removeLevel(i)"><i
-                class="fa fa-minus-square"></i></button>
+                <button type="button" class="btn btn-danger" (click)="goal.removeLevel(i)"><i
+                  class="fa fa-minus-square"></i></button>
+              </div>
             </div>
           </div>
           <mat-form-field>
@@ -151,19 +155,23 @@
             <mat-datepicker-toggle matSuffix [for]="toBeDoneAtDP"></mat-datepicker-toggle>
             <mat-datepicker #toBeDoneAtDP startView="multi-year" (opened)="addFinishBtn(toBeDoneAtDP)" (yearSelected)="chosenYearHandler($event)" (monthSelected)="chosenMonthHandler($event)"></mat-datepicker>
           </mat-form-field>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Poziom {{ goal.levels.length + 1 }}</span>
+          <div class="levels">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Poziom {{ goal.levels.length + 1 }}</span>
+              </div>
+              <input class="form-control" name="levelName" [(ngModel)]="newLevel.name" placeholder="Krok do celu"
+                     (keyup.enter)="addLevel()">
             </div>
-            <input class="form-control" name="levelName" [(ngModel)]="newLevel.name" placeholder="Krok do celu"
-                   (keyup.enter)="addLevel()">
-            <div class="input-group-prepend">
-              <span class="input-group-text">🏆</span>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">🏆</span>
+              </div>
+              <input class="form-control" name="levelReward" [(ngModel)]="newLevel.reward" placeholder="Nagroda"
+                     (keyup.enter)="addLevel()">
+              <button type="button" class="btn btn-success" (click)="addLevel()"><i
+                class="fa fa-plus-square"></i></button>
             </div>
-            <input class="form-control" name="levelReward" [(ngModel)]="newLevel.reward" placeholder="Nagroda"
-                   (keyup.enter)="addLevel()">
-            <button type="button" class="btn btn-success" (click)="addLevel()"><i
-              class="fa fa-plus-square"></i></button>
           </div>
         </div>
       </div>

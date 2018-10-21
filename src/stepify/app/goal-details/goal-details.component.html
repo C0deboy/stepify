@@ -52,25 +52,28 @@
             <span class="badge badge-secondary">Cel: {{level.toBeDoneAt}}</span>
           </span>
 
-          <div class="input-group mb-3">
-            <label class="mark-as-done-btn input-group-text">
-              <mat-checkbox id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
-                            [(ngModel)]="level.achieved" (change)="showLevelReward(level)">
+          <div class="levels">
+            <div class="input-group">
+              <label class="mark-as-done-btn input-group-text">
+                <mat-checkbox id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
+                              [(ngModel)]="level.achieved" (change)="showLevelReward(level)">
 
-              </mat-checkbox>
-            </label>
-            <div class="input-group-prepend">
+                </mat-checkbox>
+              </label>
+              <div class="input-group-prepend">
               <span class="btn input-group-text">
                 <span class="levelText">Poziom {{ level.level }}</span>
               </span>
+              </div>
+              <input class="form-control" [ngClass]="{'text-strike' : level.achieved}" name="level-name-{{i}}"
+                     [(ngModel)]="level.name">
             </div>
-            <input class="form-control" [ngClass]="{'text-strike' : level.achieved}" name="level-name-{{i}}"
-                   [(ngModel)]="level.name">
-            <div class="input-group-prepend">
-              <span class="input-group-text">🏆</span>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">🏆</span>
+              </div>
+              <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
             </div>
-            <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
-
           </div>
         </div>
 

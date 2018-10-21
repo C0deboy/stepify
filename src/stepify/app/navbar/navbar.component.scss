@@ -3,6 +3,32 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  border-color: #00213a;
+  border-left-width: 2px;
+  border-bottom-width: 2px;
+  position: absolute;
+}
+
+.navbar {
+  justify-content: start;
+
+  .navbar-toggler {
+    margin-left: auto;
+  }
+
+  .form-inline {
+    flex-flow: row;
+  }
+}
+
+.collapse.show {
+  .nav-item {
+    margin: 5px 0;
+  }
+}
+
+.nav-link {
+  color: inherit;
 }
 
 .navbar-nav li,

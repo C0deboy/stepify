@@ -10,34 +10,23 @@ ul.form-group {
   overflow: auto !important;
 }
 
-.form-group input[type="checkbox"] {
-  display: none;
-}
-
-.form-group input[type="checkbox"] + .btn-group > label span {
-  width: 20px;
-}
-
-.form-group input[type="checkbox"] + .btn-group > label span:first-child {
-  display: none;
-}
-
-.form-group input[type="checkbox"] + .btn-group > label span:last-child {
-  display: inline-block;
-}
-
-.form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
-  display: inline-block;
-}
-
-.form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
-  display: none;
-}
-
 ::ng-deep .goal .mat-form-field-wrapper {
   padding-bottom: 5px;
 }
 
 ::ng-deep .goal .mat-form-field-wrapper .mat-form-field-underline {
   bottom: 10px;
+}
+
+.levels {
+  display: flex;
+  margin-bottom: 1rem;
+
+  .input-group:last-child {
+    flex: 1 2 auto;
+  }
+
+  @media (max-width: 768px) {
+    display: block;
+  }
 }
