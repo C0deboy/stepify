@@ -7,7 +7,6 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
 import {Router} from '@angular/router';
 import {LoginService} from '../../login/login.service';
-import {GoalDetailsComponent} from '../goal-details/goal-details.component';
 import {Properties} from '../../properties';
 
 @Component({

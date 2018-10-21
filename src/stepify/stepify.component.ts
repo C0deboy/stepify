@@ -6,5 +6,4 @@ import {Component} from '@angular/core';
   styleUrls: ['./stepify.component.scss']
 })
 export class StepifyComponent {
-  title = 'stepify';
 }

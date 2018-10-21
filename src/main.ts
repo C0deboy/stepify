@@ -14,6 +14,3 @@ if (environment.production) {
 platformBrowserDynamic().bootstrapModule(StepifyModule)
   .catch(err => console.log(err));
 
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip();
-});

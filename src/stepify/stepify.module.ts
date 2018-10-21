@@ -38,8 +38,8 @@ import {FooterComponent} from './footer/footer.component';
 import {LoginService} from 'stepify/login/login.service';
 import {AuthInterceptor} from './login/authInterceptor';
 import {RegistrationComponent} from './registration/registration.component';
-import { ImportGoalsComponent } from './app/import-goals/import-goals.component';
-import {APP_BASE_HREF, HashLocationStrategy, LocationStrategy} from '@angular/common';
+import {ImportGoalsComponent} from './app/import-goals/import-goals.component';
+import {TooltipDirective} from './directives/tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -60,7 +60,8 @@ import {APP_BASE_HREF, HashLocationStrategy, LocationStrategy} from '@angular/co
     FilterPipe,
     FooterComponent,
     RegistrationComponent,
-    ImportGoalsComponent
+    ImportGoalsComponent,
+    TooltipDirective
   ],
   imports: [
     MatInputModule,
