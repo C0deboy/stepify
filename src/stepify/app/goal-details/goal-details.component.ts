@@ -79,14 +79,7 @@ export class GoalDetailsComponent {
   updateGoal(goal: Goal) {
     this.goalsService.updateGoal(goal).subscribe(value => this.messageService.showSuccessMessage('Zapisano.'),
       (error: HttpErrorResponse) => {
-        if (!this.loginService.checkIfAuthenticationFailed(error)) {
-          console.log(error);
-          this.messageService.showErrorMessage('Nie udało się dodać celu.');
-
-          error.error.errors.forEach(fieldError => {
-            this.messageService.showErrorMessage(fieldError.defaultMessage);
-          });
-        }
+        this.messageService.showMessageBasedOnError(error, 'Nie udało się dodać celu.');
       });
 
   }
@@ -99,10 +92,7 @@ export class GoalDetailsComponent {
         this.deleteGoalEvent.emit(this.goal.id);
       },
       (error: HttpErrorResponse) => {
-        if (!this.loginService.checkIfAuthenticationFailed(error)) {
-          console.log(error);
-          this.messageService.showErrorMessage('Nie udało się usunąć celu.');
-        }
+        this.messageService.showMessageBasedOnError(error, 'Nie udało się usunąć celu.');
       }
     );
   }

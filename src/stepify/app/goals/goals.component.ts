@@ -60,12 +60,7 @@ export class GoalsComponent implements OnInit {
   getGoals() {
     this.goalsService.getGoals().subscribe(
       (goals: Goal[]) => this.goals = goals,
-      (error: HttpErrorResponse) => {
-        if (!this.loginService.checkIfAuthenticationFailed(error)) {
-          console.log(error);
-          this.messageService.showErrorMessage('Nie można połączyć się z serwerem.');
-        }
-      },
+      (error: HttpErrorResponse) => this.messageService.showMessageBasedOnError(error),
     );
   }
 
@@ -133,17 +128,11 @@ export class GoalsComponent implements OnInit {
   }
 
   private updateGoalPosition() {
-    this.goalsService.updateGoal(this.pickedUpGoal).subscribe(value => this.messageService.showSuccessMessage('Zmieniono pozycję.'),
-      (error: HttpErrorResponse) => {
-        if (!this.loginService.checkIfAuthenticationFailed(error)) {
-          console.log(error);
-          this.messageService.showErrorMessage('Nie udało się zmienić pozycji.');
-
-          error.error.errors.forEach(fieldError => {
-            this.messageService.showErrorMessage(fieldError.defaultMessage);
-          });
-        }
-      });
+    this.goalsService.updateGoal(this.pickedUpGoal).subscribe(value =>
+        this.messageService.showSuccessMessage('Zmieniono pozycję.'),
+      (error: HttpErrorResponse) =>
+        this.messageService.showMessageBasedOnError(error, 'Nie udało się zmienić pozycji.')
+      );
 
   }
 

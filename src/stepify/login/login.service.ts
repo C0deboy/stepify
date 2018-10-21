@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {MessageService} from '../messages/message.service';
 import {User} from '../registration/user';
 import {Properties} from '../properties';
@@ -33,35 +33,14 @@ export class LoginService {
           this.router.navigate(['/your-goals']);
           this.messageService.showSuccessMessage('Zalogowano pomyślnie.');
         },
-        err => {
-          console.log(err);
-
-          localStorage.removeItem('username');
-          this.messageService.showErrorMessage('Nieprawidłowy login lub hasło');
+        error => {
+          this.messageService.showMessageBasedOnError(error);
         });
   }
 
   saveToken(token, username) {
     localStorage.setItem('access_token', 'Bearer ' + token.access_token);
     localStorage.setItem('username', username);
-  }
-
-  checkIfAuthenticationFailed(error: HttpErrorResponse) {
-    function removeModalBackdropIfExists() {
-      const modalBackdrop = document.querySelector('.modal-backdrop');
-      if (modalBackdrop) {
-        modalBackdrop.parentElement.removeChild(modalBackdrop);
-      }
-    }
-
-    if (error.status === 401) {
-      this.messageService.showErrorMessage('Zaloguj się!');
-      removeModalBackdropIfExists();
-      this.router.navigate(['/login']);
-      return true;
-    } else {
-      return false;
-    }
   }
 
   logout() {
@@ -78,5 +57,4 @@ export class LoginService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('username');
   }
-
 }

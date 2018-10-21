@@ -104,7 +104,7 @@ moment.locale('pl-PL');
       this.goalsService.updateGoal(this.goal).subscribe(() => {
           this.confirmSuccess('Zapisano.');
         },
-        (error: HttpErrorResponse) => this.handleAddOrUpdate(error)
+        (error: HttpErrorResponse) => this.messageService.showMessageBasedOnError(error, 'Nie udało się zapisać celu.')
       );
     } else {
       this.goal.order = this.lastGoalOrder + Properties.GOAL_ORDER_DIFF;
@@ -112,7 +112,7 @@ moment.locale('pl-PL');
           this.newGoalEvent.emit(Goal.deserialize(goal));
           this.confirmSuccess('Twój cel ' + this.goal.name + ' został dodany.');
         },
-        (error: HttpErrorResponse) => this.handleAddOrUpdate(error)
+        (error: HttpErrorResponse) => this.messageService.showMessageBasedOnError(error, 'Nie udało się dodać celu.')
       );
     }
   }
@@ -121,17 +121,6 @@ moment.locale('pl-PL');
     $('#new-goal-wizard').modal('hide');
     this.messageService.showSuccessMessage(message);
     this.goal = Goal.empty();
-  }
-
-  private handleAddOrUpdate(error: HttpErrorResponse) {
-    if (!this.loginService.checkIfAuthenticationFailed(error)) {
-      console.log(error);
-      this.messageService.showErrorMessage('Nie udało się dodać celu.');
-
-      error.error.errors.forEach(fieldError => {
-        this.messageService.showErrorMessage(fieldError.defaultMessage);
-      });
-    }
   }
 
   toggleChecklist() {
