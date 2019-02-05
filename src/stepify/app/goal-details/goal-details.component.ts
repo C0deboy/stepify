@@ -5,9 +5,7 @@ import {ListItem} from '../goals/models/ListItem';
 import {Level} from '../goals/models/Level';
 import {MessageService} from '../../messages/message.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {LoginService} from '../../login/login.service';
 import * as moment from 'moment';
-import {e} from '@angular/core/src/render3';
 import {Properties} from '../../properties';
 
 declare var $: any;
@@ -34,7 +32,7 @@ export class GoalDetailsComponent {
   @Output()
   editGoalEvent = new EventEmitter<Goal>();
 
-  constructor(private goalsService: GoalsService, private messageService: MessageService, private loginService: LoginService) {
+  constructor(private goalsService: GoalsService, private messageService: MessageService) {
   }
 
   showLevelReward(level: Level) {

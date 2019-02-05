@@ -20,12 +20,11 @@ export class ActivatableInputDirective {
   private disable(element) {
     element.spellcheck = false;
     element.readonly = true;
-    element.classList.add('disabledInput');
   }
 
   private enable(element) {
     element.readonly = false;
-    element.classList.remove('disabledInput');
+    element.spellcheck = true;
   }
 
 }

@@ -20,16 +20,15 @@
                          [(ngModel)]="goal.checklist.name" autofocus/>
 
                   <ul class="form-group" *ngFor="let item of goal.checklist.list; trackBy: trackByFn let i = index;">
-                    <input type="checkbox" id="newgoal-step-{{i}}" name="item-checked-{{i}}"
-                           [(ngModel)]="item.checked"/>
                     <li class="btn-group w-100">
-                      <label [for]="'newgoal-step-'+i"
-                             [ngClass]="(item.checked)?'btn btn-success':'btn btn-light'">
-                        <span class="fa fa-check"></span>
-                        <span class="fa fa-square-o"></span>
+                      <label class="mark-as-done-btn input-group-text">
+                        <mat-checkbox id="newgoal-step-{{i}}" name="item-checked-{{i}}"
+                                      [(ngModel)]="item.checked">
+
+                        </mat-checkbox>
                       </label>
                       <input class="btn btn-light w-100" name="item-name-{{i}}" [(ngModel)]="item.value"
-                             appActivatableInput/>
+                             stepifyActivatableInput/>
                       <button type="button" class="btn btn-danger" (click)="goal.checklist.removeItem(i)"><i
                         class="fa fa-minus-square"></i></button>
                     </li>
@@ -89,7 +88,7 @@
                       <span matPrefix class="pr-1 mr-3">Co</span>
                       <input matInput type="number" min="1" max="7" [(ngModel)]="goal.dailyHabit.everyNDays"
                              name="everyNDays"
-                             appSmallInputNumber [disabled]="goal.dailyHabit.areSpecificDaysDefined()">
+                             stepifySmallInputNumber [disabled]="goal.dailyHabit.areSpecificDaysDefined()">
                       <span matSuffix class="ml-2">dni</span>
                     </mat-form-field>
                     <div class="d-flex justify-content-between">
