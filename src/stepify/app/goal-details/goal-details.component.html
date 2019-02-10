@@ -16,8 +16,8 @@
                 <input class="card-title form-control bg-dark text-white" name="listTitle"
                        [(ngModel)]="goal.checklist.name"
                        stepifyActivatableInput/>
-                <ul class="form-group" *ngFor="let item of goal.checklist.list; let i = index">
-                  <li class="btn-group w-100">
+                <ul class="form-group">
+                  <li class="btn-group w-100" *ngFor="let item of goal.checklist.list; let i = index">
                     <label class="mark-as-done-btn input-group-text">
                       <mat-checkbox id="goal-{{goal.id}}-step-{{i}}" name="item-checked-{{i}}"
                                   [(ngModel)]="item.checked" (change)="checkIfLevelAchieved(item)">
@@ -29,6 +29,7 @@
                   </li>
                 </ul>
               </div>
+              <div #checklistProgress class="checklist-progress primary-bg">{{getChecklistProgress(goal.checklist)}}%</div>
             </div>
           </div>
 

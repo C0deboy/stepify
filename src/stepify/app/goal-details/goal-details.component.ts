@@ -1,4 +1,16 @@
-import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {GoalsService} from '../goals/goals.service';
 import {Goal} from '../goals/models/Goal';
 import {ListItem} from '../goals/models/ListItem';
@@ -7,6 +19,8 @@ import {MessageService} from '../../messages/message.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import * as moment from 'moment';
 import {Properties} from '../../properties';
+import {CheckList} from '../goals/models/Checklist';
+import {elementAt} from 'rxjs/operators';
 
 declare var $: any;
 
@@ -15,7 +29,9 @@ declare var $: any;
   templateUrl: './goal-details.component.html',
   styleUrls: ['./goal-details.component.scss']
 })
-export class GoalDetailsComponent {
+export class GoalDetailsComponent implements AfterViewInit{
+  @ViewChild('checklistProgress')
+  checklistProgress: ElementRef;
 
   @Input()
   public goal: Goal;
@@ -32,7 +48,21 @@ export class GoalDetailsComponent {
   @Output()
   editGoalEvent = new EventEmitter<Goal>();
 
-  constructor(private goalsService: GoalsService, private messageService: MessageService) {
+  constructor(private goalsService: GoalsService, private messageService: MessageService) {}
+
+  ngAfterViewInit(): void {
+    $('#goal-details').on('shown.bs.modal', (event) => {
+      const progressEl = this.checklistProgress.nativeElement;
+      const elements = progressEl.parentElement.querySelectorAll('.checklist .mat-checkbox-checked');
+      if (elements.length !== 0) {
+        const list =  progressEl.parentElement.querySelector('.checklist ul');
+        console.log(list);
+        list.focus();
+        const element = elements[elements.length - 1];
+        console.log(element);
+        element.scrollIntoView({behavior: 'smooth'});
+      }
+    });
   }
 
   showLevelReward(level: Level) {
@@ -99,5 +129,15 @@ export class GoalDetailsComponent {
     if (event.key === 'Delete') {
       this.deleteGoal();
     }
+  }
+
+  getChecklistProgress(checklist: CheckList): number {
+    const allItems = checklist.list.length;
+    const doneItems = checklist.list.filter(item => item.checked).length;
+    const percent = Math.round(doneItems * 100 / allItems);
+    if (this.checklistProgress !== undefined) {
+      this.checklistProgress.nativeElement.style.width = percent + '%';
+    }
+    return percent;
   }
 }
