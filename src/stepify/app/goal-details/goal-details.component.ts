@@ -48,6 +48,9 @@ export class GoalDetailsComponent implements AfterViewInit{
   @Output()
   editGoalEvent = new EventEmitter<Goal>();
 
+  private doneItems = 0;
+  private allItems = 0;
+
   constructor(private goalsService: GoalsService, private messageService: MessageService) {}
 
   ngAfterViewInit(): void {
@@ -132,11 +135,11 @@ export class GoalDetailsComponent implements AfterViewInit{
   }
 
   getChecklistProgress(checklist: CheckList): number {
-    const allItems = checklist.list.length;
-    const doneItems = checklist.list.filter(item => item.checked).length;
-    const percent = Math.round(doneItems * 100 / allItems);
+    this.allItems = checklist.list.length;
+    this.doneItems = checklist.list.filter(item => item.checked).length;
+    const percent = Math.round(this.doneItems * 100 / this.allItems);
     if (this.checklistProgress !== undefined) {
-      this.checklistProgress.nativeElement.style.width = percent + '%';
+      this.checklistProgress.nativeElement.querySelector('.progress-indicator').style.width = percent + '%';
     }
     return percent;
   }
