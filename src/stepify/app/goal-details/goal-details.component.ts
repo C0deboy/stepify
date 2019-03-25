@@ -143,4 +143,10 @@ export class GoalDetailsComponent implements AfterViewInit{
     }
     return percent;
   }
+
+  closeGoal() {
+    this.goal.achieved = true;
+    this.messageService.showInfoMessage('Cel został zakończony.');
+    this.updateGoal(this.goal);
+  }
 }
