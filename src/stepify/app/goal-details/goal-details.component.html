@@ -3,7 +3,7 @@
     <form class="modal-content" #GoalForm="ngForm">
       <div class="modal-header secondary-bg">
         <input class="modal-title form-control text-white" name="name" [(ngModel)]="goal.name" stepifyActivatableInput/>
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close-btn text-white" mat-icon-button data-dismiss="modal" aria-label="Close">
           <i class="fa fa-times"></i>
         </button>
       </div>
@@ -90,17 +90,17 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"
+        <button type="button" mat-button color="warn" data-toggle="modal" data-target="#confirmModal"
                 data-dismiss="modal">Usuń
         </button>
-        <button type="button" class="btn btn-primary mr-auto" data-toggle="modal" data-target="#new-goal-wizard"
+        <button type="button" class="mr-auto" mat-button data-toggle="modal" data-target="#new-goal-wizard"
                 data-dismiss="modal" (click)="editGoal()">Edytuj
         </button>
-        <button type="button" class="btn btn-primary mr-auto" data-dismiss="modal" (click)="closeGoal()">
+        <button type="button" class="mr-auto" mat-button data-dismiss="modal" (click)="closeGoal()">
           {{this.goal.achieved ? "Wznów" : "Zakończ"}}
         </button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateGoal(goal)">Zapisz</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+        <button type="button" mat-button data-dismiss="modal" (click)="updateGoal(goal)">Zapisz</button>
+        <button type="button" mat-button color="primary" data-dismiss="modal">Zamknij</button>
       </div>
     </form>
   </div>
@@ -112,7 +112,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Usuń cel</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" mat-button data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -120,10 +120,10 @@
         Jesteś pewny, że chcesz usunąć cel?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#goal-details"
+        <button type="button" class="btn btn-secondary" mat-button data-toggle="modal" data-target="#goal-details"
                 data-dismiss="modal">Zamknij
         </button>
-        <button type="button" class="btn btn-danger" (click)="deleteGoal()" (keyup.enter)="deleteGoal()">Usuń</button>
+        <button type="button" class="btn btn-danger" mat-button (click)="deleteGoal()" (keyup.enter)="deleteGoal()">Usuń</button>
       </div>
     </div>
   </div>

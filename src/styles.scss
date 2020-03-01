@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~bootstrap/scss/bootstrap";
 @import "~font-awesome/css/font-awesome.min.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
@@ -117,4 +117,17 @@ input.text-white {
 .form-control {
   border-radius: .10rem;
 }
+.mat-success {
+  background-color: $success;
+  color: #fff;
+}
+
+.rounded-right-only {
+  border-radius: 0 $border-radius $border-radius 0;
+}
+
+.rounded-left-only {
+  border-radius: $border-radius 0 0 $border-radius;
+}
+
 

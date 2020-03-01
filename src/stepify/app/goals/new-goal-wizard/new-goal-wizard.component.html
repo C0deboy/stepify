@@ -20,7 +20,8 @@
                          [(ngModel)]="goal.checklist.name" autofocus/>
 
                   <ul class="form-group">
-                    <li class="btn-group w-100"  *ngFor="let item of goal.checklist.list; trackBy: trackByFn let i = index;">
+                    <li class="btn-group w-100"
+                        *ngFor="let item of goal.checklist.list; trackBy: trackByFn let i = index;">
                       <label class="mark-as-done-btn input-group-text">
                         <mat-checkbox id="newgoal-step-{{i}}" name="item-checked-{{i}}"
                                       [(ngModel)]="item.checked">
@@ -43,10 +44,9 @@
                       <textarea class="form-control" placeholder="Elementy listy" name="listItem"
                                 [(ngModel)]="listItemValue"></textarea>
                     </ng-template>
-                    <div class="input-group-prepend">
-                      <button type="button" class="btn btn-success" (click)="addListItem(listItemValue)"><i
-                        class="fa fa-plus-square"></i></button>
-                    </div>
+                    <button type="button" class="btn btn-success rounded-right-only" (click)="addListItem(listItemValue)">
+                      <i class="fa fa-plus-square"></i>
+                    </button>
                   </div>
 
                   <mat-slide-toggle class="mb-3" [(ngModel)]="addMultilineChecklist" name="addMultilineChecklist">
@@ -123,7 +123,7 @@
                 <input matInput [matDatepicker]="i" [(ngModel)]="level.achievedAt" name="achievedAt{{i}}"
                        placeholder="Wykonane:">
                 <mat-datepicker-toggle matSuffix [for]="i"></mat-datepicker-toggle>
-                <mat-datepicker #i ></mat-datepicker>
+                <mat-datepicker #i></mat-datepicker>
               </mat-form-field>
               <mat-form-field>
                 <input matInput [(ngModel)]="level.achievedProof" name="achievedProof{{i}}" placeholder="Link:">
@@ -132,7 +132,8 @@
             <div class="levels">
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text" [ngClass]="{'border-success' : level.achieved}">Poziom {{ level.level }}</span>
+                  <span class="input-group-text"
+                        [ngClass]="{'border-success' : level.achieved}">Poziom {{ level.level }}</span>
                 </div>
                 <input class="form-control" name="level-name-{{i}}" [(ngModel)]="level.name">
               </div>
@@ -142,8 +143,9 @@
                 </div>
                 <input class="form-control" name="level-reward-{{i}}" [(ngModel)]="level.reward">
 
-                <button type="button" class="btn btn-danger" (click)="goal.removeLevel(i)"><i
-                  class="fa fa-minus-square"></i></button>
+                <button type="button" class="btn btn-danger rounded-right-only" (click)="goal.removeLevel(i)">
+                  <i class="fa fa-minus-square"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -152,7 +154,10 @@
             <input matInput [(ngModel)]="newLevel.toBeDoneAt" name="newLevel-toBeDoneAt"
                    placeholder="Cel na:">
             <mat-datepicker-toggle matSuffix [for]="toBeDoneAtDP"></mat-datepicker-toggle>
-            <mat-datepicker #toBeDoneAtDP startView="multi-year" (opened)="addFinishBtn(toBeDoneAtDP)" (yearSelected)="chosenYearHandler($event)" (monthSelected)="chosenMonthHandler($event)"></mat-datepicker>
+            <mat-datepicker #toBeDoneAtDP startView="multi-year" (opened)="addFinishBtn(toBeDoneAtDP)"
+                            (yearSelected)="chosenYearHandler($event)"
+                            (monthSelected)="chosenMonthHandler($event)">
+            </mat-datepicker>
           </mat-form-field>
           <div class="levels">
             <div class="input-group">
@@ -168,8 +173,9 @@
               </div>
               <input class="form-control" name="levelReward" [(ngModel)]="newLevel.reward" placeholder="Nagroda"
                      (keyup.enter)="addLevel()">
-              <button type="button" class="btn btn-success" (click)="addLevel()"><i
-                class="fa fa-plus-square"></i></button>
+              <button type="button" class="btn btn-success rounded-right-only" (click)="addLevel()">
+                <i class="fa fa-plus-square"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -190,11 +196,11 @@
           </div>
           <input class="form-control" name="inspiredByLink" [(ngModel)]="goal.inspiredByLink" placeholder="Link">
         </div>
+      </div>
 
-        <div class="modal-footer">
-          <button class="btn btn-primary">{{actionButtonText}}</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-        </div>
+      <div class="modal-footer">
+        <button mat-button>{{actionButtonText}}</button>
+        <button type="button" mat-button data-dismiss="modal">Zamknij</button>
       </div>
     </form>
   </div>

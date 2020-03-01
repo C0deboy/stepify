@@ -11,15 +11,16 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <button class="btn btn-outline-light" data-toggle="modal" data-target="#new-goal-wizard" (click)="newGoal()">Nowy cel <i class="fa fa-plus"></i>
+        <button class="btn btn-light btn-sm" data-toggle="modal" data-target="#new-goal-wizard" (click)="newGoal()">
+          Nowy cel <i class="ml-2 fa fa-plus"></i>
         </button>
       </li>
       <li class="nav-item">
-        <form class="form-inline mr-auto" role="search" (submit)="search()">
-          <input class="form-control" [(ngModel)]="searchText" type="search" placeholder="Szukaj" name="search"
-                 aria-label="Search">
-          <button class="btn btn-outline-light " type="submit">Szukaj</button>
-        </form>
+        <div class="input-group">
+          <input class="form-control form-control-sm" [(ngModel)]="searchText" type="search" placeholder="Szukaj" name="search"
+                 aria-label="Search" (search)="search()">
+          <button class="btn btn-light btn-sm rounded-right-only" (click)="search()">Szukaj</button>
+        </div>
       </li>
     </ul>
   </div>
@@ -33,7 +34,7 @@
       </button>
       <button class="btn dropdown-item" (click)="logout()">Wyloguj</button>
       <div class="dropdown-divider"></div>
-      <button class="btn dropdown-item"  data-toggle="modal" data-target="#import-goal">Importuj cele</button>
+      <button class="btn dropdown-item" data-toggle="modal" data-target="#import-goal">Importuj cele</button>
     </div>
   </div>
 </nav>
