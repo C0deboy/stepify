@@ -40,6 +40,9 @@ moment.locale('pl-PL');
   @Output()
   newGoalEvent = new EventEmitter<Goal>();
 
+  @Output()
+  updatedGoalEvent = new EventEmitter<Goal>();
+
   constructor(private goalsService: GoalsService,
               private goalsComponent: GoalsComponent,
               private messageService: MessageService,
@@ -101,8 +104,9 @@ moment.locale('pl-PL');
     }
 
     if (this.goal.id != null) {
-      this.goalsService.updateGoal(this.goal).subscribe(() => {
-          this.confirmSuccess('Zapisano.');
+      this.goalsService.updateGoal(this.goal).subscribe((updatedGoal) => {
+          this.messageService.showSuccessMessage('Zaktualizowano.');
+          this.updatedGoalEvent.emit(updatedGoal);
         },
         (error: HttpErrorResponse) => this.messageService.showMessageBasedOnError(error, 'Nie udało się zapisać celu.')
       );

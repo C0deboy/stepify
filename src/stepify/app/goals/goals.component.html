@@ -10,11 +10,12 @@
     </mat-slide-toggle>
   </div>
 
-  <div class="goal-wrapper pb-3" [ngClass]="{'achieved' : goal.achieved, 'col-12' : displayAsList, 'col-xl-4 col-lg-6 col-md-6' : !displayAsList}"
+  <div class="goal-wrapper pb-3"
+       [ngClass]="{'achieved' : goal.achieved, 'col-12' : displayAsList, 'col-xl-4 col-lg-6 col-md-6' : !displayAsList}"
        *ngFor="let goal of goals | filter : searchText; let i = index;">
 
     <div class="goal card mt-3" id="goal-{{i}}" data-toggle="modal" data-target="#goal-details" draggable="true"
-         (click)="showGoalDetails(goal, $event)" (dragstart)="pickUpGoal(goal, i)" (drop)="reorderGoal(i)">
+         (click)="showGoalDetails(goal)" (dragstart)="pickUpGoal(goal, i)" (drop)="reorderGoal(i)">
       <div class="btn input-group">
         <div class="input-group-prepend" *ngIf="goal.achieved">
           <span class="input-group-text"><i class="text-success fa fa-check"></i></span>
@@ -28,7 +29,8 @@
             <a class="badge badge-success" *ngIf="level.achievedProof; else noProof" href="{{level.achievedProof}}">
               Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}
             </a>
-            <ng-template #noProof><span class="badge badge-success">Wykonane {{level.achievedAt.format('DD.MM.YYYY')}}</span>
+            <ng-template #noProof><span
+              class="badge badge-success">Wykonane {{level.achievedAt.format('DD.MM.YYYY')}}</span>
             </ng-template>
           </span>
           <ng-template #tobeDoneAt>
@@ -38,14 +40,17 @@
           <div class="input-group mb-2" (click)="$event.stopPropagation()">
             <label class="mark-as-done-btn input-group-text">
               <mat-checkbox id="goal-{{goal.id}}-level-{{i}}" name="level-done-{{i}}"
-                            [(ngModel)]="level.achieved" (change)="goalDetails.showLevelReward(level); goalDetails.updateGoal(goal);">
+                            [(ngModel)]="level.achieved"
+                            (change)="goalDetails.showLevelReward(level); goalDetails.updateGoal(goal);">
 
               </mat-checkbox>
             </label>
-            <input type="text" class="form-control" [ngClass]="{'text-strike' : level.achieved}" value="{{ level.name }}"
+            <input type="text" class="form-control" [ngClass]="{'text-strike' : level.achieved}"
+                   value="{{ level.name }}"
                    readonly>
             <div class="input-group-append">
-              <span class="input-group-text text-success" stepifyTooltip [title]="level.reward != '' ? level.reward : 'Nie przypisano'">🏆</span>
+              <span class="input-group-text text-success" stepifyTooltip
+                    [title]="level.reward != '' ? level.reward : 'Nie przypisano'">🏆</span>
             </div>
           </div>
         </div>
@@ -66,12 +71,16 @@
 
 </div>
 
-<stepify-goal-details #goalDetails (deleteGoalEvent)="removeGoal($event)" [goal]="activeGoal" [lastGoal]="goals[goals.length - 1]"
-                  (levelRewardEvent)="showRewardLevel($event)"  (editGoalEvent)="setActiveGoal($event)"></stepify-goal-details>
+<stepify-goal-details #goalDetails (deleteGoalEvent)="removeGoal($event)" [goal]="activeGoal"
+                      [lastGoal]="goals[goals.length - 1]" (levelRewardEvent)="showRewardLevel($event)"
+                      (editGoalEvent)="setActiveGoal($event)" (updatedGoalEvent)="findAndUpdate($event)">
+</stepify-goal-details>
 
 <stepify-reward-notification [level]="rewardLevel"></stepify-reward-notification>
 
-<stepify-new-goal-wizard [lastGoalOrder]="getLastGoalOrder()" [goal]="activeGoal" (newGoalEvent)="showAddedGoal($event)"></stepify-new-goal-wizard>
+<stepify-new-goal-wizard [lastGoalOrder]="getLastGoalOrder()" [goal]="activeGoal" (newGoalEvent)="showAddedGoal($event)"
+                         (updatedGoalEvent)="findAndUpdate($event)">
+</stepify-new-goal-wizard>
 
 <stepify-import-goals (newGoalEvent)="showAddedGoal($event)"></stepify-import-goals>
 

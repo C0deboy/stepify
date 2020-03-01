@@ -1,5 +1,22 @@
-.checklist label {
-  margin: 0;
+.checklist {
+
+  ul {
+    max-height: 32vh;
+    overflow-y: auto;
+
+    li {
+      margin: 5px 0;
+    }
+  }
+
+  textarea {
+    resize: none;
+    overflow-y: hidden;
+  }
+
+  label {
+    margin: 0;
+  }
 }
 
 ul.form-group {

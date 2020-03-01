@@ -1,16 +1,4 @@
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild} from '@angular/core';
 import {GoalsService} from '../goals/goals.service';
 import {Goal} from '../goals/models/Goal';
 import {ListItem} from '../goals/models/ListItem';
@@ -20,7 +8,6 @@ import {HttpErrorResponse} from '@angular/common/http';
 import * as moment from 'moment';
 import {Properties} from '../../properties';
 import {CheckList} from '../goals/models/Checklist';
-import {elementAt} from 'rxjs/operators';
 
 declare var $: any;
 
@@ -29,7 +16,7 @@ declare var $: any;
   templateUrl: './goal-details.component.html',
   styleUrls: ['./goal-details.component.scss']
 })
-export class GoalDetailsComponent implements AfterViewInit{
+export class GoalDetailsComponent implements AfterViewInit {
   @ViewChild('checklistProgress')
   checklistProgress: ElementRef;
 
@@ -48,22 +35,27 @@ export class GoalDetailsComponent implements AfterViewInit{
   @Output()
   editGoalEvent = new EventEmitter<Goal>();
 
+  @Output()
+  updatedGoalEvent = new EventEmitter<Goal>();
+
   private doneItems = 0;
   private allItems = 0;
 
-  constructor(private goalsService: GoalsService, private messageService: MessageService) {}
+  constructor(private goalsService: GoalsService, private messageService: MessageService) {
+  }
 
   ngAfterViewInit(): void {
     $('#goal-details').on('shown.bs.modal', (event) => {
-      const progressEl = this.checklistProgress.nativeElement;
-      const elements = progressEl.parentElement.querySelectorAll('.checklist .mat-checkbox-checked');
-      if (elements.length !== 0) {
-        const list =  progressEl.parentElement.querySelector('.checklist ul');
-        console.log(list);
-        list.focus();
-        const element = elements[elements.length - 1];
-        console.log(element);
-        element.scrollIntoView({behavior: 'smooth'});
+      if (this.checklistProgress) {
+        const progressEl = this.checklistProgress.nativeElement;
+        const elements = progressEl.parentElement.querySelectorAll('.checklist .mat-checkbox-checked');
+        if (elements.length !== 0) {
+          const list = progressEl.parentElement.querySelector('.checklist ul');
+          list.focus();
+          const element = elements[elements.length - 1];
+          console.log(element);
+          element.scrollIntoView({behavior: 'smooth'});
+        }
       }
     });
   }
@@ -108,11 +100,13 @@ export class GoalDetailsComponent implements AfterViewInit{
   }
 
   updateGoal(goal: Goal) {
-    this.goalsService.updateGoal(goal).subscribe(value => this.messageService.showSuccessMessage('Zapisano.'),
+    this.goalsService.updateGoal(goal).subscribe(updatedGoal => {
+        this.messageService.showSuccessMessage('Zaktualizowano.');
+        this.updatedGoalEvent.emit(updatedGoal);
+      },
       (error: HttpErrorResponse) => {
         this.messageService.showMessageBasedOnError(error, 'Nie udało się dodać celu.');
       });
-
   }
 
   deleteGoal() {
@@ -145,8 +139,14 @@ export class GoalDetailsComponent implements AfterViewInit{
   }
 
   closeGoal() {
-    this.goal.achieved = true;
-    this.messageService.showInfoMessage('Cel został zakończony.');
+    if (this.goal.achieved) {
+      this.goal.achieved = false;
+      this.messageService.showInfoMessage('Cel został wznowiony.');
+    } else {
+      this.goal.achieved = true;
+      this.messageService.showInfoMessage('Cel został zakończony.');
+    }
+
     this.updateGoal(this.goal);
   }
 }

@@ -19,8 +19,8 @@
                   <input class="card-title form-control" name="listTitle" placeholder="Nazwa listy"
                          [(ngModel)]="goal.checklist.name" autofocus/>
 
-                  <ul class="form-group" *ngFor="let item of goal.checklist.list; trackBy: trackByFn let i = index;">
-                    <li class="btn-group w-100">
+                  <ul class="form-group">
+                    <li class="btn-group w-100"  *ngFor="let item of goal.checklist.list; trackBy: trackByFn let i = index;">
                       <label class="mark-as-done-btn input-group-text">
                         <mat-checkbox id="newgoal-step-{{i}}" name="item-checked-{{i}}"
                                       [(ngModel)]="item.checked">

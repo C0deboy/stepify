@@ -20,7 +20,7 @@
                   <li class="btn-group w-100" *ngFor="let item of goal.checklist.list; let i = index">
                     <label class="mark-as-done-btn input-group-text">
                       <mat-checkbox id="goal-{{goal.id}}-step-{{i}}" name="item-checked-{{i}}"
-                                  [(ngModel)]="item.checked" (change)="checkIfLevelAchieved(item)">
+                                    [(ngModel)]="item.checked" (change)="checkIfLevelAchieved(item)">
 
                       </mat-checkbox>
                     </label>
@@ -30,7 +30,8 @@
                 </ul>
               </div>
               <div #checklistProgress class="checklist-progress">
-                <div class="progress-indicator primary-bg">{{getChecklistProgress(goal.checklist)}}%</div>{{doneItems}}/{{allItems}}
+                <div class="progress-indicator primary-bg">{{getChecklistProgress(goal.checklist)}}%</div>
+                {{doneItems}}/{{allItems}}
               </div>
             </div>
           </div>
@@ -47,7 +48,8 @@
             <a class="badge badge-success" *ngIf="level.achievedProof; else noProof" href="{{level.achievedProof}}">
               Wykonane {{level.achievedAt.format('DD-MM-YYYY')}}
             </a>
-            <ng-template #noProof><span class="badge badge-success">Wykonane {{level.achievedAt.format('DD.MM.YYYY')}}</span>
+            <ng-template #noProof><span
+              class="badge badge-success">Wykonane {{level.achievedAt.format('DD.MM.YYYY')}}</span>
             </ng-template>
           </span>
           <span *ngIf="level.toBeDoneAt">
@@ -94,7 +96,9 @@
         <button type="button" class="btn btn-primary mr-auto" data-toggle="modal" data-target="#new-goal-wizard"
                 data-dismiss="modal" (click)="editGoal()">Edytuj
         </button>
-        <button type="button" class="btn btn-primary mr-auto" data-dismiss="modal" (click)="closeGoal()">Zakończ</button>
+        <button type="button" class="btn btn-primary mr-auto" data-dismiss="modal" (click)="closeGoal()">
+          {{this.goal.achieved ? "Wznów" : "Zakończ"}}
+        </button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateGoal(goal)">Zapisz</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
       </div>

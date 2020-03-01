@@ -132,7 +132,7 @@ export class GoalsComponent implements OnInit {
         this.messageService.showSuccessMessage('Zmieniono pozycję.'),
       (error: HttpErrorResponse) =>
         this.messageService.showMessageBasedOnError(error, 'Nie udało się zmienić pozycji.')
-      );
+    );
 
   }
 
@@ -157,8 +157,15 @@ export class GoalsComponent implements OnInit {
   @HostListener('dragleave', ['$event.target'])
   onDragLeave(target) {
     if (target.classList.contains('goal')) {
-        target.parentElement.style.borderLeft = 'none';
-        target.parentElement.style.borderRight = 'none';
+      target.parentElement.style.borderLeft = 'none';
+      target.parentElement.style.borderRight = 'none';
+    }
+  }
+
+  findAndUpdate(updatedGoal: Goal) {
+    const index = this.goals.findIndex(goal => goal.id === updatedGoal.id);
+    if (index !== -1) {
+      this.goals[index] = updatedGoal;
     }
   }
 }

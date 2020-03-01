@@ -23,8 +23,10 @@ export class GoalsService {
     }));
   }
 
-  updateGoal(goal: Goal) {
-    return this.httpClient.put(Properties.REST_BASE_URL + '/goals', goal);
+  updateGoal(goal: Goal): Observable<Goal> {
+    return this.httpClient.put<Goal>(Properties.REST_BASE_URL + '/goals', goal).pipe(map(object => {
+      return Goal.deserialize(object);
+    }));
   }
 
   addGoal(goal: Goal) {
