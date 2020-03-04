@@ -38,6 +38,10 @@
 
           <div class="col-5" *ngIf="goal.dailyHabit != null">
             <stepify-daily-habit-calendar [dailyHabit]="goal.dailyHabit"></stepify-daily-habit-calendar>
+            <div #dailyHabitProgress class="checklist-progress" style="width: 18rem;">
+              <div class="progress-indicator primary-bg">{{getDailyHabitProgress(goal.dailyHabit)}}%</div>
+              {{doneDailyHabitItems}}/{{allDailyHabitItems}}
+            </div>
           </div>
         </div>
       </div>

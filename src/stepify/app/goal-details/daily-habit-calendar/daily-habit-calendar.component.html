@@ -11,8 +11,12 @@
   <div class="card-body">
     <span *ngFor="let date of calendar[currentMonth]; let i = index"
           [matTooltip]="date.format('dddd, DD MMMM YYYY')" [matTooltipPosition]="'above'">
-      <button class="btn btn-circle btn-secondary "
-              [ngClass]="{'btn-outline-success font-weight-bold' : checkIfDone(i)}" (click)="toggleDone(i)"
+      <button class="btn btn-circle btn-secondary"
+              [ngClass]="{
+              'btn-success font-weight-bold' : checkIfDone(i),
+              'btn-danger font-weight-bold' : checkIfFailed(i, date)
+              }"
+              (click)="toggleDone(i)"
               [disabled]="checkIfFuture(date)">
       {{ date.format('D') }}
     </button>

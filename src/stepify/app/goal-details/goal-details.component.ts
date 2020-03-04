@@ -8,6 +8,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import * as moment from 'moment';
 import {Properties} from '../../properties';
 import {CheckList} from '../goals/models/Checklist';
+import {DailyHabit} from '../goals/models/daily-habit';
 
 declare var $: any;
 
@@ -19,6 +20,9 @@ declare var $: any;
 export class GoalDetailsComponent implements AfterViewInit {
   @ViewChild('checklistProgress')
   checklistProgress: ElementRef;
+
+  @ViewChild('dailyHabitProgress')
+  dailyHabitProgress: ElementRef;
 
   @Input()
   public goal: Goal;
@@ -40,6 +44,8 @@ export class GoalDetailsComponent implements AfterViewInit {
 
   private doneItems = 0;
   private allItems = 0;
+  private doneDailyHabitItems = 0;
+  private allDailyHabitItems = 0;
 
   constructor(private goalsService: GoalsService, private messageService: MessageService) {
   }
@@ -134,6 +140,16 @@ export class GoalDetailsComponent implements AfterViewInit {
     const percent = Math.round(this.doneItems * 100 / this.allItems);
     if (this.checklistProgress !== undefined) {
       this.checklistProgress.nativeElement.querySelector('.progress-indicator').style.width = percent + '%';
+    }
+    return percent;
+  }
+
+  getDailyHabitProgress(dailyHabit: DailyHabit) {
+    this.allDailyHabitItems = dailyHabit.dailyChecklist.length;
+    this.doneDailyHabitItems = dailyHabit.dailyChecklist.filter(item => item === 1).length;
+    const percent = Math.round(this.doneDailyHabitItems * 100 / this.allDailyHabitItems);
+    if (this.dailyHabitProgress !== undefined) {
+      this.dailyHabitProgress.nativeElement.querySelector('.progress-indicator').style.width = percent + '%';
     }
     return percent;
   }

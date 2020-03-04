@@ -116,4 +116,8 @@ export class DailyHabitCalendarComponent implements OnChanges {
   hasNextMonth() {
     return this.currentMonth < this.calendar.length - 1;
   }
+
+  checkIfFailed(i: number, date: moment.Moment) {
+    return !this.checkIfFuture(date) && !this.checkIfDone(i);
+  }
 }
